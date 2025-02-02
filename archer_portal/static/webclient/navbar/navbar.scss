@@ -1,0 +1,19 @@
+// = Main Navbar
+
+.o_main_navbar {
+  background-color: #272465;
+  border-bottom: 1px solid #008cbd;
+}
+.o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button.btn-primary.disabled {
+  background-color: #272465;
+  color: #fff;
+}
+
+.o_loading_indicator.o_loading > span {
+  background-color: #272465;
+  color: white;
+  padding: 4px;
+}
+.o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button.btn-primary.disabled:after, .o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button.btn-primary.disabled:before {
+  border-left-color: #272465;
+}

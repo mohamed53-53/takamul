@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_hr_custom.edit_holiday_status_form_inherit" model="ir.ui.view">
+            <field name="name">archer_hr_custom.edit_holiday_status_form_inherit</field>
+            <field name="model">hr.leave.type</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="leave_type_ids" widget="many2many_tags"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="archer_hr_custom.view_hr_employee_leave_type_tree" model="ir.ui.view">
+            <field name="name">archer_hr_custom.view_hr_employee_leave_type_tree</field>
+            <field name="model">hr.employee.leave.type</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="archer_hr_custom.view_hr_employee_leave_type_action">
+            <field name="name">Leave Types</field>
+            <field name="res_model">hr.employee.leave.type</field>
+            <field name="view_mode">tree</field>
+
+        </record>
+        <menuitem name="Leaves Type" id="archer_hr_custom.view_hr_employee_leave_type_menuitem" parent="hr_holidays.menu_hr_holidays_configuration"
+                  action="archer_hr_custom.view_hr_employee_leave_type_action"/>
+
+    </data>
+</odoo>

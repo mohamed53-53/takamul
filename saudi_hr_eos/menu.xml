@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Employee Eos Menu -->
+    <menuitem id="menu_eos_label" name="Disengaged" sequence="4" parent="hr.menu_hr_root"/>
+    <menuitem action="eos_all" id="menu_eos_all" name="EOS" parent="menu_eos_label"/>
+    <menuitem action="termination_all" id="menu_termination_all" name="Termination" parent="menu_eos_label"/>
+</odoo>

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_archer_freelancer_archer_freelance_application,archer_freelancer_employee.archer_freelance_application,model_archer_freelance_application,base.group_user,1,1,1,1
+access_archer_freelancer_archer_freelance_workordern,archer_freelancer_employee.archer_freelanceworkorder,model_archer_freelance_workorder,base.group_user,1,1,1,1

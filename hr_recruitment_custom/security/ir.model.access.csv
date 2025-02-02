@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_contract_type,contract.type,model_contract_type,,1,1,1,1
+access_access_salary_breakdown,salary.breakdown,model_salary_breakdown,hr_recruitment_custom.access_salary_breakdown,1,1,1,1
+access_salary_breakdown_line,salary.breakdown.line,model_salary_breakdown_line,,1,1,1,1
+
+

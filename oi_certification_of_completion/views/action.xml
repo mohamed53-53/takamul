@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record id="action_account_coc" model="ir.actions.act_window">
+		<field name="name">Certificate of Completion</field>
+		<field name="res_model">account.coc</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<record id="action_account_coc_create_bill" model="ir.actions.server">
+		<field name="name">Create Bill</field>
+		<field name="model_id" ref="model_account_coc" />
+		<field name="binding_model_id" ref="model_account_coc" />
+		<field name="state">code</field>
+		<field name="code">action = records.action_create_invoice()</field>
+	</record>
+
+
+</odoo>

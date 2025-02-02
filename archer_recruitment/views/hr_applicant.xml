@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_applicant_view_inherit" model="ir.ui.view">
+            <field name="name">hr.applicant.view.inherit</field>
+            <field name="model">hr.applicant</field>
+            <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='create_employee_from_applicant']" position="after">
+                    <button name="action_send_employee_profile" type="object" string="Send To Employee"
+                            class="oe_highlight"
+                            attrs="{'invisible':['|',('data_state','!=','draft'),('app_state','=','direct_data')]}"/>
+                    <button name="action_approve" type="object" string="Validate" class="oe_highlight"
+                            attrs="{'invisible':['|','&amp;',('data_state','!=','revision'),('data_state','!=','draft'),('app_state','!=','direct_data')]}"/>
+                    <button name="action_return_employee" type="object" string="Return To Employee" class="oe_highlight"
+                            attrs="{'invisible':[('data_state','!=','revision')]}"/>
+                </xpath>
+                <xpath expr="//button[@name='create_employee_from_applicant']" position="attributes">
+                    <attribute name="attrs">{'invisible':[('data_state','!=','approve')]}</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='archive_applicant']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='kanban_state']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='stage_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='email_cc']" position="before">
+                    <field name="contract_start_date" attrs="{'readonly':[('from_app','=',True)]}" force_save="1"
+                           required="1"/>
+                    <field name="contract_duration" attrs="{'readonly':[('from_app','=',True)]}" force_save="1"
+                           required="1"/>
+                    <field name="contract_end_date"  required="1" force_save="1"
+                           readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='email_cc']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='categ_ids']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='priority']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='medium_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='source_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <field name="from_app" invisible="1"/>
+                    <field name="app_state" invisible="1"/>
+                    <field name="data_state" widget="statusbar"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('from_app','=',True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_name']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('from_app','=',True)]}</attribute>
+                    <attribute name="string">English Name</attribute>
+                    <attribute name="required">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='job_id']" position="after">
+                    <field name="grade_id"
+                           attrs="{'readonly':['|',('data_state','not in',['draft']),('from_app','=',True)]}"/>
+                </xpath>
+
+                <xpath expr="//label[@for='partner_name']" position="attributes">
+                    <attribute name="string">English Name</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_name']" position="after">
+
+                    <label for="name_ar" string="Arabic Name"/>
+                    <field name="name_ar" attrs="{'readonly':[('from_app','=',True)]}"/>
+                    <label for="civil_id" string="ID"/>
+                    <field name="civil_id" attrs="{'required':[('app_state','==','direct_data')],'readonly':[('from_app','=',True)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='type_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('from_app','=',True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='job_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('data_state','not in',['draft']),('from_app','=',True)]}
+                    </attribute>
+                </xpath>
+                <xpath expr="//field[@name='email_from']" position="attributes">
+                    <attribute name="required">1</attribute>
+                    <attribute name="attrs">{'readonly':['|',('data_state','not in',['draft']),('from_app','=',True)]}
+                    </attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_phone']" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('data_state','not in',['draft']),('from_app','=',True)]}
+                    </attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_mobile']" position="attributes">
+                    <attribute name="required">1</attribute>
+                    <attribute name="attrs">{'readonly':['|',('data_state','not in',['draft']),('from_app','=',True)]}
+                    </attribute>
+                </xpath>
+                <xpath expr="//field[@name='salary_expected_extra']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='salary_expected']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='salary_proposed_extra']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='salary_proposed']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='department_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('data_state','not in',['draft']),('from_app','=',True)]}
+                    </attribute>
+                </xpath>
+                <xpath expr="//notebook" position="before">
+                    <field name="application_token" readonly="1"/>
+                    <field name="return_reason" readonly="1" invisible="1"/>
+                </xpath>
+                <xpath expr="//group/group[4]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//group/group[4]" position="after">
+                    <group>
+                        <field string="On Boarding Plan" name="plan_id"
+                               domain="['|', '|',('plan_type', '=', 'onboarding'), ('project_id', '=', project_id), ('project_id', '=', False)]"
+                               attrs="{'required':[('data_state','in',['approve'])]}"/>
+                        <field name="pending_contract_id" readonly="1" force_save="1"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='email_from']" position="after">
+                    <field name="work_email"/>
+                </xpath>
+                <xpath expr="//field[@name='email_from']" position="before">
+                    <field name="project_id"
+                           attrs="{'readonly':['|',('data_state','not in',['draft']),('from_app','=',True)]}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='categ_ids']" position="before">
+                    <field name="project_owner_id"/>
+                    <field name="country_id"
+                           attrs="{'readonly':['|',('data_state','not in',['draft']),('from_app','=',True)]}"/>
+                    <field name="gender"
+                           attrs="{'required':[('app_state','=','direct_data')],'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                    <field name="national_address" class="oe_inline"
+                           attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                    <field name="birthday" class="oe_inline"
+                           attrs="{'required':[('app_state','==','direct_data')],'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                    <field name="employee_age" readonly="1"/>
+                    <field name="empl_type" string="Employee Type" attrs="{'readonly':[('from_app','=',True)]}"/>
+
+                </xpath>
+                <xpath expr="//notebook/page" position="before">
+                    <page string="Salary Rule">
+                        <group>
+                            <group>
+                                <field name="structure_type_id" required="1"
+                                       attrs="{'readonly':[('from_app','=',True)]}" options="{'no_create':True}"/>
+                            </group>
+                            <group>
+                                <field name="salary_total" readonly="1" force_save="1"/>
+                            </group>
+                        </group>
+                        <field name="rule_ids" force_save="1" attrs="{'readonly':[('from_app','=',True)]}">
+                            <tree editable="bottom">
+                                <field name="offer_id" invisible="1"/>
+                                <field name="employee_id" invisible="1"/>
+                                <field name="contract_id" invisible="1"/>
+                                <field name="structure_type_id" invisible="1"/>
+                                <field name="default_struct_id" invisible="1"/>
+                                <field name="rule_id" options="{'no_create':True}"/>
+                                <field name="value_type"/>
+                                <field name="value"/>
+                                <field name="total_value" force_save="1" string="Total Value"/>
+                            </tree>
+                        </field>
+
+                    </page>
+
+                    <page string="Sponsor">
+                        <group>
+                            <group>
+                                <field name="sponsor_name"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                            </group>
+                            <group>
+                                <field name="sponsor_phone"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                            </group>
+                            <group>
+                                <field name="sponsor_address"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Residency" name="residency"
+                          attrs="{'invisible':['|',('country_id','=',False),('country_code','=','SA')]}">
+                        <group>
+                            <group>
+                                <field name="country_code" invisible="1"/>
+                                <field name="resid_number"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                                <field name="serial_number"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                                <field name="resid_job_title"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+
+                            </group>
+                            <group>
+                                <field name="place_of_issuance"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                                <field name="resid_issuance_date"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                                <field name="resid_expiration_date"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                                <field name="resid_expiration_date_in_hijri"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                                <field name="arrival_date"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Bank Information">
+                        <group>
+                            <group>
+                                <field name="international_bank"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                            </group>
+                            <group/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="bank_country_id"
+                                       attrs="{'required' : [('international_bank', '=', True),('app_state','==','direct_data')],'invisible' : [('international_bank', '=', False)], 'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"
+                                       options="{'no_create':True}"/>
+                                <field name="bank_id"
+                                       attrs="{'required' : [('international_bank', '=', False),('app_state','==','direct_data')],'invisible' : [('international_bank', '=', True)],'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"
+                                       options="{'no_create':True}"/>
+                                <field name="bank_name"
+                                       attrs="{'required' : [('international_bank', '=', True),('app_state','==','direct_data')],'invisible' : [('international_bank', '=', False)],'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                                <field name="branch_name_code"
+                                       attrs="{'required' : [('international_bank', '=', True),('app_state','==','direct_data')],'invisible' : [('international_bank', '=', False)],'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                            </group>
+                            <group>
+                                <field name="iban_no"
+                                       attrs="{'required' : [('international_bank', '=', True),('app_state','==','direct_data')],'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Family Information">
+                        <field name="relative_ids" context="{'default_application_id':active_id}"
+                               attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}">
+                            <tree editable="bottom">
+                                <field name="employee_id" invisible="1"/>
+                                <field name="name"/>
+                                <field name="id_number"/>
+                                <field name="relation" required="1"/>
+                                <field name="gender"/>
+                                <field name="birthdate"/>
+                                <field name="phone"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Experience">
+                        <field name="experience_ids" context="{'default_application_id':active_id, }"
+                               attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}">
+                            <tree editable="bottom">
+                                <field name="employee_id" invisible="1"/>
+                                <field name="job_name" required="1"/>
+                                <field name="employer_name"/>
+                                <field name="date_from" widget="daterange" options='{"related_end_date": "date_to"}'/>
+                                <field name="date_to" widget="daterange" options='{"related_start_date": "date_from"}'/>
+                                <field name="service_certificate" readonly="0" string="Experience Certificate"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Education">
+                        <group>
+                            <group>
+                                <field name="graduate_date"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                                <field name="study_field"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                                <field name="study_school"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+
+                            </group>
+                            <group>
+                                <field name="certificate"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Certificate">
+                        <field name="certificate_ids" context="{'default_application_id':active_id}"
+                               attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}">
+                            <tree editable="bottom">
+                                <field name="employee_id" invisible="1"/>
+                                <field name="certificate_name" required="1"/>
+                                <field name="certificate_date" required="1"/>
+                                <field name="certificate_issuer" required="1"/>
+                                <field name="certificate_attach" required="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Other Info">
+                        <group>
+                            <group>
+                                <field name="gosi_id"
+                                       attrs="{'invisible':[('gosi_id','=', False)],'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                                <field name="gosi_number" class="oe_inline"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                                <field name="gosi_start_date"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+
+                            </group>
+                            <group>
+                                <field name="place_of_birth"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                                <field name="country_of_birth"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                                <field name="passport" class="oe_inline"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                                <field name="marital"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+                                <field name="religion"
+                                       attrs="{'readonly':['|',('data_state','not in',['draft']),'|',('from_app','=',True),('app_state','!=','direct_data')]}"/>
+
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Documents">
+                        <field name="appl_documents_ids" domain="[('in_portal', '=',True)]"
+                               context="{'default_application_id':active_id}"
+                               attrs="{'readonly':['|',('from_app','=',True),('app_state','!=','direct_data')]}"
+                               force_save="1">
+                            <tree editable="bottom" sample="1" multi_edit="1">
+                                <field name="id"/>
+                                <field name="employee_id" invisible="1"/>
+                                <field name="offer_id" invisible="1"/>
+                                <field name="contract_id" invisible="1"/>
+                                <field name="application_id" invisible="1"/>
+                                <field name="doc_type" invisible="1"/>
+                                <field name="document_id"/>
+                                <field name="is_required"/>
+                                <field name="attach" widget="binary"/>
+                                <field name="state"/>
+                                <field name="used_for"/>
+                                <button name="approve_document" type="object" string="Approve" class="btn btn-primary"
+                                        attrs="{'invisible':[('state','not in',['new'])]}"/>
+                                <button name="reject_document" type="object" string="Reject" class="btn btn-danger"
+                                        attrs="{'invisible':[('state','not in',['new'])]}"/>
+                            </tree>
+                        </field>
+                    </page>
+
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_applicant_view_form_inherit" model="ir.ui.view">
+            <field name="name">hr.applicant.form.inherit</field>
+            <field name="model">hr.applicant</field>
+            <field name="inherit_id" ref="hr_recruitment_survey.hr_applicant_view_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_send_survey']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="hr_applicant_return_employee_wizard_view" model="ir.ui.view">
+            <field name="name">hr.applicant.return.employee.wizard.view</field>
+            <field name="model">hr.applicant.return.employee.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="application_id" invisible="1"/>
+                        <field name="reason"/>
+
+                    </sheet>
+                    <footer>
+
+                        <button name="action_return" string="Return" type="object" class="btn-primary"/>
+                        <button special="cancel" string="Close" class="btn-secondary"/>
+
+                    </footer>
+                </form>
+
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="archer_recruitment.act_accepted_application">
+            <field name="name">Offer Applications</field>
+            <field name="res_model">hr.applicant</field>
+            <field name="view_mode">tree,form,pivot,graph,calendar,activity</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="hr_recruitment.hr_applicant_view_search_bis"/>
+            <field name="context">{'default_from_app':True,'default_app_state':False,
+                'create':False,'edit':False,'delete':False,'duplicate':False}
+            </field>
+            <field name="domain">[('from_app','=', True)]</field>
+        </record>
+        <record model="ir.actions.act_window" id="archer_recruitment.action_direct_apps_window">
+            <field name="name">Application By Employee</field>
+            <field name="res_model">hr.applicant</field>
+            <field name="view_mode">tree,form,pivot,graph,calendar,activity</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="hr_recruitment.hr_applicant_view_search_bis"/>
+            <field name="context">
+                {'default_from_app':False,'default_app_state':'direct','create':True,'edit':False,'delete':False,'duplicate':False}
+            </field>
+            <field name="domain">[('from_app','=', False),('app_state','=','direct')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_empty_folder">
+                    No applications yet
+                </p>
+                <p>
+                    Odoo helps you track applicants in the recruitment
+                    process and follow up all operations: meetings, interviews, etc.
+                </p>
+                <p>
+                    Applicants and their attached CV are created automatically when an email is sent.
+                    If you install the document management modules, all resumes are indexed automatically,
+                    so that you can easily search through their content.
+                </p>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="archer_recruitment.action_direct_with_data_window">
+            <field name="name">Application By HR</field>
+            <field name="res_model">hr.applicant</field>
+            <field name="view_mode">tree,form,pivot,graph,calendar,activity</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="hr_recruitment.hr_applicant_view_search_bis"/>
+            <field name="context">
+                {'default_from_app':False,'default_app_state':'direct_data','create':True,'edit':True,'delete':True,'duplicate':False}
+            </field>
+            <field name="domain">[('from_app','=', False),('app_state','=','direct_data')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_empty_folder">
+                    No applications yet
+                </p>
+                <p>
+                    Odoo helps you track applicants in the recruitment
+                    process and follow up all operations: meetings, interviews, etc.
+                </p>
+                <p>
+                    Applicants and their attached CV are created automatically when an email is sent.
+                    If you install the document management modules, all resumes are indexed automatically,
+                    so that you can easily search through their content.
+                </p>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

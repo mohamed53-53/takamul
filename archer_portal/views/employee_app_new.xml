@@ -1,0 +1,1731 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="employee_appl_new" name="employee_appl_new">
+        <t t-call="archer_portal.main_template">
+            <div id="wrap" class="oe_structure">
+                <section class="p-2 mb-5">
+                    <div class="container offer-card-body px-3">
+                        <div class="col-12">
+                            <div class="row head-row p-2 justify-content-between align-items-center">
+                                <div class="head-row-txt mx-5">Employee Data Form</div>
+                                <div class="head-row-img mx-5">
+                                    <img src="/archer_portal/static/images/takamol-logo.png" width="250" height="50"/>
+
+                                </div>
+                            </div>
+                            <t t-if="appl.data_state in ('employee_entry','return') ">
+                                <div id="employee_wizard">
+                                    <ul class="nav nav-progress h5 mt-4">
+                                        <li class="nav-item">
+                                            <div class="li_div">
+                                                <img src="/archer_portal/static/images/ico-CV.svg" width="40" height="40"/>
+                                            </div>
+                                            <a class="nav-link  align-items-center d-none default justify-content-center" href="#personal_step">
+                                                <span>Personal</span>
+
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div class="li_div">
+                                                <img src="/archer_portal/static/images/ico-Education.svg" width="40" height="40"/>
+                                            </div>
+                                            <a class="nav-link align-items-center d-none default justify-content-center" href="#education_step">
+                                                <span>Education</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div class="li_div">
+                                                <img src="/archer_portal/static/images/ico-GOSI.svg" width="40" height="40"/>
+                                            </div>
+                                            <a class="nav-link align-items-center d-none default justify-content-center" href="#gosi_step">
+                                                <span>GOSI</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div class="li_div">
+                                                <img src="/archer_portal/static/images/ico-Residency.svg" width="40" height="40"/>
+                                            </div>
+                                            <a class="nav-link align-items-center d-none default justify-content-center" href="#sponsor_residency_step">
+                                                <span>Residency</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div class="li_div">
+                                                <img src="/archer_portal/static/images/ico-bank.svg" width="40" height="40"/>
+                                            </div>
+                                            <a class="nav-link align-items-center d-none default justify-content-center" href="#bank_step">
+                                                <span>Bank</span>
+                                            </a>
+
+                                        </li>
+                                        <li class="nav-item">
+                                            <div class="li_div">
+                                                <img src="/archer_portal/static/images/ico-Family.svg" width="40" height="40"/>
+                                            </div>
+                                            <a class="nav-link align-items-center d-none default justify-content-center" href="#family_step">
+                                                <span>Family</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div class="li_div">
+                                                <img src="/archer_portal/static/images/ico-Experience.svg" width="40" height="40"/>
+                                            </div>
+                                            <a class="nav-link align-items-center d-none default justify-content-center" href="#experience_step">
+                                                <span>Experience</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div class="li_div">
+                                                <img src="/archer_portal/static/images/ico-CV.svg" width="40" height="40"/>
+                                            </div>
+                                            <a class="nav-link align-items-center d-none default justify-content-center" href="#attach_step">
+                                                <span>Attachments</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <div class="li_div">
+                                                <img src="/archer_portal/static/images/ico-Confirm.svg" width="40" height="40"/>
+                                            </div>
+                                            <a class="nav-link align-items-center d-none default justify-content-center" href="#last_step">
+                                                <span>Confirm</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0"
+                                             aria-valuemax="100">
+
+                                        </div>
+                                    </div>
+                                    <div class="tab-content">
+                                        <div id="personal_step" class="tab-pane" role="tabpanel" aria-labelledby="personal_step">
+                                            <form id="form-1" name="personal_form" class="row row-cols-1 ms-5 me-5 needs-validation"
+                                                  novalidate="">
+                                                <div class="col-12 p-1">
+                                                    <div class="row">
+                                                        <div class="col-4 p-4">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <label for="partner_name" class="form-label required">English Name</label>
+                                                                    <input type="text" class="form-control" id="partner_name"
+                                                                           placeholder="English Name"
+                                                                           t-att-value="appl.partner_name"
+                                                                           required=""/>
+                                                                    <div class="valid-feedback">
+                                                                        Looks good!
+                                                                    </div>
+                                                                    <div class="invalid-feedback">
+                                                                        Please provide English Name.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-12  half-line">
+                                                                    <label for="civil_id" class="form-label required">ID</label>
+                                                                    <br/>
+                                                                    <input type="text" class="form-control col-12 first-element" id="civil_id"
+                                                                           t-att-value="appl.civil_id"
+                                                                           required="" placeholder="Civil Id"
+                                                                           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+
+                                                                    <div class="valid-feedback">
+                                                                        Looks good!
+                                                                    </div>
+                                                                    <div class="invalid-feedback">
+                                                                        Please provide Civil ID.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-12  ">
+                                                                    <label for="passport_id" class="form-label required">Passport Number</label>
+                                                                    <input type="text" class="form-control col-12 first-element" id="passport_id"
+                                                                           t-att-value="appl.passport"
+                                                                           t-att-required="appl.country_id.code != 'SA'"
+                                                                           placeholder="Passport No."/>
+
+                                                                    <div class="valid-feedback">
+                                                                        Looks good!
+                                                                    </div>
+                                                                    <div class="invalid-feedback">
+                                                                        Please provide Passport No.
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-12">
+
+                                                                    <label for="birthday" class="form-label required">Date of Birth</label>
+                                                                    <div class="input-group add-on">
+                                                                        <input type="text" placeholder="Date of Birth" class="form-control date-picker-css"
+                                                                               id="birthday"
+                                                                               t-att-value="appl.birthday"
+                                                                               required=""/>
+                                                                        <div class="input-group-btn">
+                                                                            <i id="bithday-btn" class="fa fa-calendar"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="valid-feedback">
+                                                                        Looks good!
+                                                                    </div>
+                                                                    <div class="invalid-feedback">
+                                                                        Please provide Residency Attach.
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <label for="country_of_birth required">Country of Birth</label>
+                                                                    <select class="form-control" id="country_of_birth"
+                                                                            name="country_of_birth">
+                                                                        <option value="" selected="selected" disabled="disabled" hidden="hidden">Select
+                                                                        </option>
+                                                                        <t t-foreach="countries" t-as="country">
+                                                                            <option t-att-value="country.id" t-att-code="country.code"
+                                                                                    required=""
+                                                                                    t-att-selected="country.id == appl.country_of_birth.id">
+                                                                                <span t-esc="country.name"/>
+                                                                            </option>
+                                                                        </t>
+                                                                    </select>
+                                                                    <div class="valid-feedback">
+                                                                        Looks good!
+                                                                    </div>
+                                                                    <div class="invalid-feedback">
+                                                                        Please provide Country of Birth.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <label class="required">Religion</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-6">
+
+                                                                                <input type="radio" name="religion" id="muslim"
+                                                                                       value="muslim" class="radio-custom"
+                                                                                       t-att-checked="appl.religion == 'muslim'"/>
+                                                                            <label for="muslim" class="radio-custom-label">
+                                                                                Muslim
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                                <input type="radio" name="religion" id="non_muslim"
+                                                                                       value="non_muslim" class="radio-custom"
+                                                                                       t-att-checked="appl.religion == 'non_muslim'"/>
+                                                                            <label for="non_muslim" class="radio-inline radio-custom-label">
+
+                                                                                Non Muslim
+                                                                            </label>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div class="col-4 p-4">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <label for="name_ar" class="form-label required">Arabic Name</label>
+                                                                    <input type="text" class="form-control" id="name_ar"
+                                                                           t-att-value="appl.name_ar"
+                                                                           required=""/>
+                                                                    <div class="valid-feedback">
+                                                                        Looks good!
+                                                                    </div>
+                                                                    <div class="invalid-feedback">
+                                                                        Please provide Arabic Name.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-12 ">
+                                                                    <label for="national_address" class="form-label required">National Address
+                                                                    </label>
+                                                                    <input type="file"
+                                                                           accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                                                                    <div class="valid-feedback">
+                                                                        Looks good!
+                                                                    </div>
+                                                                    <div class="invalid-feedback">
+                                                                        Please provide National Address.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <label for="passport_id" class="form-label required">Marital Status</label>
+                                                                    <select id="marital" name="marital" placeholder="Marital Status"
+                                                                            class="form-control">
+                                                                        <option value="" selected="selected" disabled="disabled" hidden="hidden">Select
+                                                                        </option>
+                                                                        <option t-att-selected="appl.marital == 'single'"
+                                                                                value="single">Single
+                                                                        </option>
+                                                                        <option t-att-selected="appl.marital == 'married'"
+                                                                                value="married">Married
+                                                                        </option>
+                                                                        <option t-att-selected="appl.marital == 'widower'"
+                                                                                value="widower">Widower
+                                                                        </option>
+                                                                        <option t-att-selected="appl.marital == 'divorced'"
+                                                                                value="divorced">Divorced
+                                                                        </option>
+                                                                    </select>
+
+                                                                    <div class="valid-feedback">
+                                                                        Looks good!
+                                                                    </div>
+                                                                    <div class="invalid-feedback">
+                                                                        Please provide Marital Status.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <label for="place_of_birth" class="required">Place of Birth</label>
+                                                                    <input type="text" t-att-value="appl.place_of_birth" required=""
+                                                                           class="form-control tk_input"
+                                                                           id="place_of_birth" name="place_of_birth"
+                                                                           placeholder="Place of Birth"/>
+                                                                    <div class="valid-feedback">
+                                                                        Looks good!
+                                                                    </div>
+                                                                    <div class="invalid-feedback">
+                                                                        Please provide Place of Birth.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <label class="required">Gender</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-6">
+                                                                            <input type="radio" name="gender" id="male"
+                                                                                   value="male" class="radio-custom"
+                                                                                   t-att-checked="appl.gender == 'male'"/>
+                                                                            <label for="male" class="radio-custom-label">
+                                                                                Male
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                           <input type="radio" name="gender" id="female"
+                                                                                       value="female" class="radio-custom"
+                                                                                       t-att-checked="appl.gender == 'female'"/>
+                                                                           <label for="female" class="radio-inline radio-custom-label">
+                                                                                Female
+                                                                           </label>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4 p-4  disabeld_personal">
+                                                            <div class="row pr-4">
+                                                                <label for="partner_mobile" class="required">Mobile</label>
+                                                                <input type="text" t-att-value="appl.partner_mobile" id="partner_mobile"
+                                                                       disabled="="
+                                                                       name="partner_mobile" placeholder="Mobile" class="form-control tk_input"
+                                                                       oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                                <div class="valid-feedback">
+                                                                    Looks good!
+                                                                </div>
+                                                                <div class="invalid-feedback">
+                                                                    Please provide Mobile.
+                                                                </div>
+                                                            </div>
+                                                            <div class="row pr-4">
+                                                                <label for="country_id" class="required">Nationality</label>
+                                                                <select class="form-control readonly" id="country_id"
+                                                                        name="country_id"
+                                                                        disabled="disabled">
+                                                                    <option value="" selected="selected" disabled="disabled" hidden="hidden">Select
+                                                                    </option>
+                                                                    <t t-foreach="countries" t-as="country">
+                                                                        <option t-att-value="country.id" t-att-code="country.code"
+                                                                                t-att-selected="country.id == appl.country_id.id">
+                                                                            <span t-esc="country.name"/>
+                                                                        </option>
+                                                                    </t>
+                                                                </select>
+                                                                <div class="valid-feedback">
+                                                                    Looks good!
+                                                                </div>
+                                                                <div class="invalid-feedback">
+                                                                    Please provide Email.
+                                                                </div>
+                                                            </div>
+                                                            <div class="row pr-4">
+                                                                <label for="email_from" class=" tk_label">Email</label>
+                                                                <input type="email" id="email_from" name="email_from" class="form-control tk_input"
+                                                                       t-att-value="appl.email_from" placeholder="Email"
+                                                                       disabled="disabled"/>
+                                                                <div class="valid-feedback">
+                                                                    Looks good!
+                                                                </div>
+                                                                <div class="invalid-feedback">
+                                                                    Please provide Email.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <div id="education_step" class="tab-pane" role="tabpanel" aria-labelledby="education_step">
+                                            <form id="form-2" name="education_form" class="row row-cols-1 ms-5 me-5 needs-validation"
+                                                  novalidate="">
+                                                <div class="col-12">
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <label for="certificate" class="form-label required">Certificate or Degree</label>
+                                                            <select id="certificate" name="certificate"
+                                                                    placeholder="Certificate Level" class="form-control" required="">
+                                                                <option value="" selected="selected" disabled="disabled" hidden="hidden">Select
+                                                                </option>
+                                                                <option t-att-selected="appl.certificate == 'graduate'"
+                                                                        value="graduate">Graduate
+                                                                </option>
+                                                                <option t-att-selected="appl.certificate == 'bachelor'"
+                                                                        value="bachelor">Bachelor
+                                                                </option>
+                                                                <option t-att-selected="appl.certificate == 'master'"
+                                                                        value="master">Master
+                                                                </option>
+                                                                <option t-att-selected="appl.certificate == 'doctor'"
+                                                                        value="doctor">Doctor
+                                                                </option>
+                                                                <option t-att-selected="appl.certificate == 'other'"
+                                                                        value="other">Other
+                                                                </option>
+                                                            </select>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Certificate Level.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <label for="study_field" class="form-label required">Major</label>
+                                                            <input type="text" class="form-control" id="study_field"
+                                                                   t-att-value="appl.study_field"
+                                                                   required="" placeholder="Study Field"/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Study Field.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <label for="study_school" class="form-label required">College</label>
+                                                            <input type="text" class="form-control" id="study_school"
+                                                                   t-att-value="appl.study_school"
+                                                                   required="" placeholder="College"/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Study School.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <label for="graduate_date" class="form-label required">Graduate Date</label>
+                                                            <div class="input-group add-on">
+                                                                <input type="text" class="form-control date-picker-css" id="graduate_date"
+                                                                       t-att-value="appl.graduate_date"
+                                                                       required="" placeholder="Select"/>
+                                                                <div class="input-group-btn dup">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Graduate Date.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2 ">
+                                                            <label for="e_attached" class="form-label required">Attached</label>
+                                                            <input type="file" id="e_attached" required="" placeholder="Select file"
+                                                           accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Education Attached.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr/>
+                                                    <div class="row">
+
+
+                                                    </div>
+
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div id="gosi_step" class="tab-pane" role="tabpanel" aria-labelledby="gosi_step">
+                                            <form id="form-3" name="gosi_form" class="row row-cols-1 ms-5 me-5 needs-validation"
+                                                  novalidate="">
+                                                <div class="col-12">
+                                                    <div class="row nav-line-checkbox">
+                                                        <div class="col-1">
+                                                            <input type="checkbox" class="form-control" id="not_have_gosi"
+                                                                   t-att-value="appl.not_have_gosi"
+                                                                   onClick="NotHaveGosiClick()"/>
+                                                        </div>
+                                                        <div class="col-11">
+                                                            <label for="not_have_gosi" class="form-label">Not Have GOSI</label>
+                                                        </div>
+                                                    </div>
+                                                    <hr/>
+                                                    <div class="row" id="gosi_div">
+                                                        <div class="col-4">
+                                                            <label for="gosi_number" class="form-label">GOSI Number</label>
+                                                            <input type="text" class="form-control" id="gosi_number"
+                                                                   t-att-value="appl.gosi_number"
+                                                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                   required=""/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide GOSI Number.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <label for="gosi_start_date" class="form-label">GOSI Start Date</label>
+                                                            <div class="input-group add-on">
+                                                                <input type="text" class="form-control" id="gosi_start_date"
+                                                                   t-att-value="appl.gosi_start_date"
+                                                                   required="" placeholder="Select"/>
+                                                                <div class="input-group-btn">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide GOSI Start Date.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div id="sponsor_residency_step" class="tab-pane" role="tabpanel"
+                                             aria-labelledby="sponsor_residency_step">
+                                            <form id="form-4" name="sponsor_residency_form"
+                                                  class="row row-cols-1 ms-5 me-5 needs-validation"
+                                                  novalidate="">
+                                                <div class="col-4 p-4  disabeld_personal">
+                                                    <div class="col-12">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label for="sponsor_name" class="form-label required">Sponsor Name</label>
+                                                                <input type="text" class="form-control" id="sponsor_name"
+                                                                       t-att-value="appl.sponsor_name"
+                                                                       required=""/>
+                                                                <div class="valid-feedback">
+                                                                    Looks good!
+                                                                </div>
+                                                                <div class="invalid-feedback">
+                                                                    Please provide Sponsor Name.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label for="sponsor_phone" class="form-label required">Sponsor Phone</label>
+                                                                <input type="text" class="form-control" id="sponsor_phone"
+                                                                       t-att-value="appl.sponsor_phone"
+                                                                       required=""
+                                                                       oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                                <div class="valid-feedback">
+                                                                    Looks good!
+                                                                </div>
+                                                                <div class="invalid-feedback">
+                                                                    Please provide Sponsor Phone.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <label for="sponsor_address" class="form-label">Sponsor Address</label>
+                                                                <textarea rows="3" cols="50" maxlength="200" style="resize: none;"
+                                                                          class="form-control" id="sponsor_address"
+                                                                          required="">
+                                                                    <t t-esc="appl.sponsor_address"/>
+                                                                </textarea>
+                                                                <div class="valid-feedback">
+                                                                    Looks good!
+                                                                </div>
+                                                                <div class="invalid-feedback">
+                                                                    Please provide Sponsor Address.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <label for="residency_number" class="form-label required">Residency Number
+                                                            </label>
+                                                            <input type="text" class="form-control tk_input" id="residency_number"
+                                                                   t-att-value="appl.resid_number"
+                                                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                   required="" placeholder="Residency Number"/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Residency Number.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <label for="resid_job_title" class="form-label required">Residency Job Title
+                                                            </label>
+                                                            <input type="text" class="form-control tk_input" id="resid_job_title"
+                                                                   t-att-value="appl.resid_job_title"
+                                                                   required="" placeholder="Residency Job Title"/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Residency Job Title.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <label for="resid_issuance_date" class="form-label required">Residency Issuance
+                                                                Date
+                                                            </label>
+                                                            <div class="input-group add-on">
+                                                                <input type="text" class="form-control" id="resid_issuance_date"
+                                                                   t-att-value="appl.resid_issuance_date" required=""
+                                                                   placeholder="Select"/>
+                                                                <div class="input-group-btn">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Residency Issuance Date.
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <label for="expiration_date_in_hijri" class="form-label required">Residency
+                                                                Expiration
+                                                                Date
+                                                                In
+                                                                Hijri
+                                                            </label>
+                                                            <div class="input-group add-on">
+                                                                <input type="text" class="form-control" id="expiration_date_in_hijri"
+                                                                   t-att-value="appl.resid_expiration_date_in_hijri" required=""
+                                                                   placeholder="Select"/>
+                                                                <div class="input-group-btn">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Residency Expiration Date In Hijri.
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <label for="serial_number" class="form-label required">Serial Number</label>
+                                                            <input type="text" class="form-control" id="serial_number"
+                                                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                   t-att-value="appl.serial_number" required=""
+                                                                   placeholder="Serial Number"/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Serial Number.
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row">
+
+                                                        <div class="col-12">
+                                                            <label for="place_of_issuance" class="form-label required">Residency Issuance
+                                                                Place
+                                                            </label>
+                                                            <input type="text" class="form-control" id="place_of_issuance"
+                                                                   t-att-value="appl.place_of_issuance" required=""
+                                                                   placeholder="Residency Issuance Place"/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Residency Issuance Place.
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <label for="expiration_date" class="form-label required">Residency Expiration
+                                                                Date
+                                                            </label>
+                                                            <div class="input-group add-on">
+                                                                <input type="text" class="form-control" id="expiration_date"
+                                                                   t-att-value="appl.resid_expiration_date" placeholder="Select"
+                                                                   required=""/>
+                                                                <div class="input-group-btn">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Residency Expiration Date.
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <label for="arrival_date" class="form-label required">Residency Arrival Date
+                                                            </label>
+                                                            <div class="input-group add-on">
+                                                                <input type="text" class="form-control" id="arrival_date"
+                                                                   t-att-value="appl.arrival_date" required="" placeholder="Select"/>
+                                                                <div class="input-group-btn">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Residency Arrival Date.
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div id="bank_step" class="tab-pane" role="tabpanel" aria-labelledby="bank_step">
+
+                                            <form id="form-5" name="bank_form" class="row row-cols-1 ms-5 me-5 needs-validation"
+                                                  novalidate="">
+                                                <div class="col-12">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="row nav-line-checkbox" t-if="appl.country_id.code != 'SA' "
+                                                                 id="international_bank_row">
+                                                                <div class="col-1">
+                                                                    <input type="checkbox" class="form-control" id="international_bank"
+                                                                           t-att-value="appl.international_bank"
+                                                                           onClick="internationalBankClick()"/>
+                                                                </div>
+                                                                <div class="col-11">
+                                                                    <label for="international_bank" class="form-label">Is International
+                                                                        Bank
+                                                                    </label>
+                                                                </div>
+
+
+                                                            </div>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide International Bank.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr/>
+
+                                                    <div class="row" id="local_bank_div">
+                                                        <div class="col-12">
+                                                            <div class="row">
+                                                                <div class="col-8">
+                                                                    <div class="row pt-2 cls-info">
+                                                                        <i class="fa fa-info-circle iban-info-icon"/>
+                                                                        <h6 class="text-info nav-link" id="iban_val_cond"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <label for="bank_id" class="form-label required">Bank Name</label>
+                                                                    <select class="form-control" id="bank_id" name="bank_id"
+                                                                            placeholder="Bank Name">
+                                                                        <option value="" selected="selected" disabled="disabled" hidden="hidden">Select</option>
+                                                                        <t t-foreach="banks" t-as="bank">
+                                                                            <option t-att-value="bank.id"
+                                                                                    t-att-selected="bank.id == appl.bank_id.id">
+                                                                                <span t-esc="bank.bank_name"/>
+                                                                            </option>
+                                                                        </t>
+                                                                    </select>
+                                                                    <div class="valid-feedback">
+                                                                        Looks good!
+                                                                    </div>
+                                                                    <div class="invalid-feedback">
+                                                                        Please provide Bank Name.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="row  d-none" id="international_bank_div">
+                                                        <div class="col-12">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <div class="row pt-2 cls-info">
+                                                                        <i class="fa fa-info-circle iban-info-icon"/>
+                                                                        <h6 class="text-info nav-link" id="iban_val_cond"/>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="row">
+
+                                                                <div class="col-6">
+                                                                    <label for="bank_country_id" class="form-label required">Bank Country</label>
+                                                                    <select class="form-control" id="bank_country_id"
+                                                                            name="bank_country_id">
+                                                                        <option value="" selected="selected" disabled="disabled" hidden="hidden">Select
+                                                                        </option>
+                                                                        <t t-foreach="countries" t-as="country">
+                                                                            <option t-att-value="country.id"
+                                                                                    t-att-selected="country.id == appl.bank_country_id.id">
+                                                                                <span t-esc="country.name"/>
+                                                                            </option>
+                                                                        </t>
+                                                                    </select>
+                                                                    <div class="valid-feedback">
+                                                                        Looks good!
+                                                                    </div>
+                                                                    <div class="invalid-feedback">
+                                                                        Please provide Bank Country.
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="row">
+                                                                        <div class="col-6">
+                                                                            <label for="bank_name" class="form-label required">Bank Name</label>
+                                                                            <input type="text" class="form-control" id="bank_name"
+                                                                                   t-att-value="appl.bank_name"
+                                                                                   required="" placeholder="Bank Name"/>
+                                                                            <div class="valid-feedback">
+                                                                                Looks good!
+                                                                            </div>
+                                                                            <div class="invalid-feedback">
+                                                                                Please provide Bank Name.
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col-6">
+                                                                            <label for="branch_name_code" class="form-label required">Branch Code
+                                                                            </label>
+                                                                            <input type="text" class="form-control tk_input" id="branch_name_code"
+                                                                                   t-att-value="appl.branch_name_code"
+                                                                                   required="" placeholder="Branch Name/Code"/>
+                                                                            <div class="valid-feedback">
+                                                                                Looks good!
+                                                                            </div>
+                                                                            <div class="invalid-feedback">
+                                                                                Please provide Branch Name/Code.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <label for="iban_no" class="form-label required">IBAN</label>
+                                                                    <input type="text" class="form-control" id="iban_no"
+                                                                           t-att-value="appl.iban_no"  oninput="limit(this)"
+                                                                           required="" placeholder="IBAN"/>
+                                                                    <div class="valid-feedback">
+                                                                        Looks good!
+                                                                    </div>
+                                                                    <div class="invalid-feedback">
+                                                                        Please provideIBAN.
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <label for="reconfirm_iban_no" class="form-label required">IBAN Reconfirm</label>
+                                                                    <input type="text" class="form-control" id="reconfirm_iban_no"
+                                                                           t-att-value="appl.iban_no" oninput="limit(this)"
+                                                                           required="" placeholder="IBAN Reconfirm"/>
+                                                                    <div class="valid-feedback">
+                                                                        Looks good!
+                                                                    </div>
+                                                                    <div class="invalid-feedback">
+                                                                        Please provide IBAN Reconfirm.
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col6">
+                                                            <h5 id="iban_note" class="text-danger nav-link"></h5>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div id="family_step" class="tab-pane" role="tabpanel" aria-labelledby="family_step">
+                                            <form id="form-6" name="family_form" class="row row-cols-1 ms-5 me-5 needs-validation"
+                                                  novalidate="">
+                                                <div class="col-12   overflow-auto">
+                                                    <div class="row d-none" id="father_row">
+                                                        <t t-set="father"
+                                                           t-value="appl.relative_ids.filtered(lambda rel: rel.relation == 'father')"/>
+                                                        <div class="col-4">
+                                                            <label for="father_name" class="form-label tk_label">Father Name</label>
+                                                            <input type="text" class="form-control tk_input" id="father_name"
+                                                                   t-att-value="father.name"
+                                                                   required=""/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Father Name.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <label for="father_id_number" class="form-label tk_label">Father ID Number</label>
+                                                            <input type="text" class="form-control tk_input" id="father_id_number"
+                                                                   t-att-value="father.id_number"
+                                                                   required=""
+                                                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Father ID Number.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <label for="father_birthdate" class="form-label tk_label">Father DoB</label>
+                                                            <input type="text" class="form-control tk_input" id="father_birthdate"
+                                                                   t-att-value="father.birthdate"
+                                                                   required=""/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Father DoB.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <label for="father_phone" class="form-label tk_label">Father Phone</label>
+                                                            <input type="text" class="form-control tk_input" id="father_phone"
+                                                                   t-att-value="father.phone"
+                                                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Father Phone.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3 ">
+                                                            <label for="spouse_attached" class="form-label required">Father Attached</label>
+                                                            <input type="file" id="father_family_attach" required="" placeholder="Select file"
+                                                                   accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Spouse Attached.
+                                                            </div>
+                                                        </div>
+                                                        <t t-if="father_family_attach">
+                                                        <div class="col-2">
+                                                            <label for="father_family_attach" class="form-label">Father Attach</label>
+
+                                                                <t t-foreach="appl.appl_documents_ids.filtered(lambda d:d.in_portal and d.doc_type == 'father_birth')[0]"
+                                                                   t-as="atc">
+                                                                    <t t-if="atc.state != 'approve'">
+                                                                        <input type="file" class="form-control" id="father_family_attach"
+                                                                               t-att-required="atc.is_required"
+                                                                               t-att-name="'attach_%s'%atc.id"/>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <snap class="h6">Approved Document</snap>
+                                                                    </t>
+                                                                </t>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Father Attach.
+                                                            </div>
+                                                        </div>
+                                                        </t>
+                                                    </div>
+
+                                                    <div class="row d-none" id="mother_row">
+                                                        <t t-set="mother"
+                                                           t-value="appl.relative_ids.filtered(lambda rel: rel.relation == 'mother')"/>
+                                                        <div class="col-4">
+                                                            <label for="mother_name" class="form-label tk_label">Mother Name</label>
+                                                            <input type="text" class="form-control tk_input" id="mother_name"
+                                                                   t-att-value="mother.name"
+                                                                   required=""/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Mother Name.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <label for="mother_id_number" class="form-label tk_label">Mother ID Number</label>
+                                                            <input type="text" class="form-control tk_input" id="mother_id_number"
+                                                                   t-att-value="mother.id_number"
+                                                                   required=""
+                                                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Mother ID Number.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <label for="mother_birthdate" class="form-label tk_label">Mother DoB</label>
+                                                            <input type="text" class="form-control tk_input" id="mother_birthdate"
+                                                                   t-att-value="mother.birthdate"
+                                                                   required=""/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Mother DoB.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <label for="mother_phone" class="form-label tk_label">Mother Phone</label>
+                                                            <input type="text" class="form-control tk_input" id="mother_phone"
+                                                                   t-att-value="mother.phone"
+                                                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Mother Phone.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3 ">
+                                                            <label for="spouse_attached" class="form-label required"><Mother></Mother> Attached</label>
+                                                            <input type="file" id="mother_family_attach" required="" placeholder="Select file"
+                                                                   accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Spouse Attached.
+                                                            </div>
+                                                        </div>
+                                                        <t t-if="mother_family_attach">
+                                                            <div class="col-2">
+                                                                <label for="mother_family_attach" class="form-label">Mother Attach</label>
+                                                                <t t-foreach="appl.appl_documents_ids.filtered(lambda d:d.in_portal and d.doc_type == 'mother_birth')[0]"
+                                                                   t-as="atc">
+                                                                    <t t-if="atc.state != 'approve'">
+                                                                        <input type="file" class="form-control" id="mother_family_attach"
+                                                                               t-att-required="atc.is_required"
+                                                                               t-att-name="'attach_%s'%atc.id"/>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <snap class="h6">Approved Document</snap>
+                                                                    </t>
+                                                                </t>
+
+                                                                <div class="valid-feedback">
+                                                                    Looks good!
+                                                                </div>
+                                                                <div class="invalid-feedback">
+                                                                    Please provide Mother Attach.
+                                                                </div>
+                                                            </div>
+                                                        </t>
+
+                                                    </div>
+
+                                                    <div class="row d-none" id="spouse_row">
+                                                        <t t-set="spouse"
+                                                           t-value="appl.relative_ids.filtered(lambda rel: rel.relation == 'spouse')"/>
+                                                        <div class="col-3">
+                                                            <label for="spouse_name" class="form-label">Spouse Name</label>
+                                                            <input type="text" class="form-control" id="spouse_name"
+                                                                   t-att-value="spouse.name"
+                                                                   required="" placeholder="Spouse Name"/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Spouse Name.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <label for="spouse_id_number" class="form-label tk_label">Spouse ID Number</label>
+                                                            <input type="text" class="form-control tk_input" id="spouse_id_number"
+                                                                   t-att-value="spouse.id_number"
+                                                                   required="" placeholder="Spouse ID Number"
+                                                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Spouse ID Number.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2 add-on">
+                                                            <label for="spouse_birthdate" class="form-label">Spouse DoB</label>
+                                                            <input type="text" class="form-control" id="spouse_birthdate"
+                                                                   t-att-value="spouse.birthdate"
+                                                                   required="" placeholder="Spouse DoB"/>
+                                                            <div class="input-group-btn dup">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </div>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Spouse DoB.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <label for="spouse_phone" class="form-label">Spouse Phone</label>
+                                                            <input type="text" class="form-control" id="spouse_phone"
+                                                                   t-att-value="spouse.phone" placeholder="Spouse Phone"
+                                                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Spouse Phone.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3 ">
+                                                            <label for="spouse_attached" class="form-label required">Spouse Attached</label>
+                                                            <input type="file" id="spouse_family_attach" placeholder="Select file"
+                                                           accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                                                            <div class="valid-feedback">
+                                                                Looks good!
+                                                            </div>
+                                                            <div class="invalid-feedback">
+                                                                Please provide Spouse Attached.
+                                                            </div>
+                                                        </div>
+                                                        <t t-if="spouse_family_attach">
+                                                            <div class="col-2">
+                                                                <label for="spouse_family_attach" class="form-label">Spouse Attach</label>
+                                                                <t t-foreach="appl.appl_documents_ids.filtered(lambda d:d.in_portal and d.doc_type == 'spouse_birth')[0]"
+                                                                   t-as="atc">
+                                                                    <t t-if="atc.state != 'approve'">
+                                                                        <input type="file" class="form-control" id="spouse_family_attach"
+                                                                               t-att-required="atc.is_required"
+                                                                               t-att-name="'attach_%s'%atc.id"/>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <snap class="h6">Approved Document</snap>
+                                                                    </t>
+                                                                </t>
+                                                                <div class="valid-feedback">
+                                                                    Looks good!
+                                                                </div>
+                                                                <div class="invalid-feedback">
+                                                                    Please provide Spouse Attach.
+                                                                </div>
+                                                            </div>
+                                                        </t>
+
+                                                    </div>
+                                                    <hr/>
+                                                    <div class="row d-none" id="children_row">
+                                                        <div class="col-12">
+                                                            <h6>Children Information</h6>
+                                                            <table id="child_info_table" class="table table-responsive d-table"
+                                                                   style="width=100%">
+                                                                <thead>
+                                                                    <tr class="spouse-tr">
+                                                                        <th scope="col">Name</th>
+                                                                        <th scope="col">ID Number</th>
+                                                                        <th scope="col">Gender</th>
+                                                                        <th scope="col">Date Of Birth</th>
+                                                                        <th scope="col">Phone</th>
+                                                                        <th scope="col">Attach</th>
+                                                                        <th scope="col-2" id="spouse-add-btn">
+                                                                            <a class="btn btn-success rounded"
+                                                                               id='family_info_table_add_line'
+                                                                               onclick="addFamilyRelationNewRow()">
+                                                                                ADD
+                                                                                <i class="fa fa-plus spouse-add-btn-icon"/>
+
+                                                                            </a>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="pt-1 p-0">
+                                                                            <div class="col-12 m-0 p-1">
+                                                                                <input type="text" class="form-control" id="child_name" placeholder="Name"/>
+                                                                                <div class="valid-feedback">
+                                                                                    Looks good!
+                                                                                </div>
+                                                                                <div class="invalid-feedback">
+                                                                                    Please provide Child Name.
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="pt-1 p-0">
+                                                                            <div class="col-12 m-0 p-1">
+                                                                                <input type="text" class="form-control" id="child_id_number"
+                                                                                        placeholder="ID Number"
+                                                                                       oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                                                <div class="valid-feedback">
+                                                                                    Looks good!
+                                                                                </div>
+                                                                                <div class="invalid-feedback">
+                                                                                    Please provide Child ID Number.
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="pt-1 p-0">
+
+                                                                            <div class="col-12 m-0 p-1">
+                                                                                <select class="form-control gender" id="child_gender"
+                                                                                        name="child_gender">
+                                                                                    <option value=""></option>
+                                                                                    <option value="male">Male</option>
+                                                                                    <option value="female">Female</option>
+                                                                                </select>
+                                                                                <div class="valid-feedback">
+                                                                                    Looks good!
+                                                                                </div>
+                                                                                <div class="invalid-feedback">
+                                                                                    Please provide Child Gender.
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="pt-1 p-0">
+                                                                            <div class="col-12 m-0 p-1 input-group add-on">
+                                                                                <input type="text" class="form-control" id="child_birthdate"
+                                                                                        placeholder="Date"/>
+                                                                                <div class="input-group-btn dup">
+                                                                                    <i class="fa fa-calendar"></i>
+                                                                                </div>
+                                                                                <div class="valid-feedback">
+                                                                                    Looks good!
+                                                                                </div>
+                                                                                <div class="invalid-feedback">
+                                                                                    Please provide Child Date od Birth.
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="pt-1 p-0">
+                                                                            <div class="col-12 m-0 p-1">
+                                                                                <input type="text" class="form-control" id="child_phone"
+                                                                                       placeholder="Phone"
+                                                                                       oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                                                <div class="valid-feedback">
+                                                                                    Looks good!
+                                                                                </div>
+                                                                                <div class="invalid-feedback">
+                                                                                    Please provide Child Phone.
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="pt-1 p-0">
+                                                                            <div class="col-12 m-0 p-1">
+                                                                                <input type="file" class="form-control" id="child_family_attach"
+                                                                                       placeholder="Select File"
+                                                                                       accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
+                                                                                <div class="valid-feedback">
+                                                                                    Looks good!
+                                                                                </div>
+                                                                                <div class="invalid-feedback">
+                                                                                    Please provide Child Birth Attach.
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="pt-1 p-0" id="spouse-del-btn">
+                                                                            <a type="button"
+                                                                               class="btn btn-danger rounded family_delete_btn mt-1 "
+                                                                            >
+                                                                                <i class="fa fa-trash text-white"></i>
+                                                                            </a>
+
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                    <t t-if="children" t-foreach="children" t-as="child">
+                                                                        <tr>
+                                                                            <td class="pt-1 p-0">
+                                                                                <div class="col-12 m-0 p-1">
+                                                                                    <input type="text" class="form-control" id="child_name"
+                                                                                           t-att-value="child.name"
+                                                                                            placeholder="Name"/>
+                                                                                    <div class="valid-feedback">
+                                                                                        Looks good!
+                                                                                    </div>
+                                                                                    <div class="invalid-feedback">
+                                                                                        Please provide Child Name.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="pt-1 p-0">
+                                                                                <div class="col-12 m-0 p-1">
+                                                                                    <input type="text" class="form-control tk_input"
+                                                                                           id="child_id_number"
+                                                                                           t-att-value="child.id_number"
+                                                                                            placeholder="ID Number"
+                                                                                           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                                                    <div class="valid-feedback">
+                                                                                        Looks good!
+                                                                                    </div>
+                                                                                    <div class="invalid-feedback">
+                                                                                        Please provide Child ID Number.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="pt-1 p-0">
+
+                                                                                <div class="col-12 m-0 p-1">
+                                                                                    <select class="form-control gender" id="child_gender"
+                                                                                            name="child_gender">
+                                                                                        <option t-att-selected="child.gender == 'male'"
+                                                                                                value="male">Male
+                                                                                        </option>
+                                                                                        <option t-att-selected="child.gender == 'female'"
+                                                                                                value="female">Female
+                                                                                        </option>
+                                                                                    </select>
+                                                                                    <div class="valid-feedback">
+                                                                                        Looks good!
+                                                                                    </div>
+                                                                                    <div class="invalid-feedback">
+                                                                                        Please provide Child Gender.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="pt-1 p-0">
+
+                                                                                <div class="col-12 m-0 p-1 input-group add-on">
+                                                                                    <input type="text" class="form-control"
+                                                                                           id="child_birthdate"
+                                                                                           t-att-value="child.birthdate"
+                                                                                            placeholder="Date"/>
+                                                                                    <div class="input-group-btn dup">
+                                                                                        <i class="fa fa-calendar"></i>
+                                                                                    </div>
+                                                                                    <div class="valid-feedback">
+                                                                                        Looks good!
+                                                                                    </div>
+                                                                                    <div class="invalid-feedback">
+                                                                                        Please provide Child Date od Birth.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="pt-1 p-0">
+                                                                                <div class="col-12 m-0 p-1">
+                                                                                    <input type="text" class="form-control tk_input" id="child_phone"
+                                                                                           t-att-value="child.phone"
+                                                                                            placeholder="Phone"
+                                                                                           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                                                    <div class="valid-feedback">
+                                                                                        Looks good!
+                                                                                    </div>
+                                                                                    <div class="invalid-feedback">
+                                                                                        Please provide Child Phone.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="pt-1 p-0">
+                                                                                <div class="col-12 m-0 p-1">
+                                                                                    <input type="file" class="form-control"
+                                                                                           id="child_family_attach" placeholder="Select File"
+
+                                                                                           accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
+                                                                                    <div class="valid-feedback">
+                                                                                        Looks good!
+                                                                                    </div>
+                                                                                    <div class="invalid-feedback">
+                                                                                        Please provide Child Birth Attach.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="pt-1 p-0" id="spouse-del-btn">
+                                                                                <a type="button"
+                                                                                   class="btn btn-danger family_delete_btn"
+                                                                                >delete
+                                                                                </a>
+
+                                                                            </td>
+
+                                                                        </tr>
+                                                                    </t>
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix mt-5"/>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div id="experience_step" class="tab-pane" role="tabpanel" aria-labelledby="experience_step">
+                                            <form id="form-7" name="experience_form" class="row row-cols-1 ms-5 me-5 needs-validation"
+                                                  novalidate="">
+                                                <div class="col-12  overflow-auto">
+                                                    <hr/>
+                                                    <div class="col-12">
+                                                        <div class="ex-info">
+                                                            <i class="fa fa-info-circle iban-info-icon"/>
+                                                            <h6 class="text-info nav-link" id="experience_val_cond">It is preferable to register all certificates available to you</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row ex-nav-header">
+                                                        <div class="col-3 ex-add-btn">
+                                                            <a class="btn btn-success rounded"
+                                                               id='experience_table_add_line'
+                                                               onclick="addExperienceNewRow()">
+                                                                ADDITION
+                                                                <i class="fa fa-plus ex-add-btn-icon"/>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-3"></div>
+
+                                                    </div>
+                                                    <div class="row h-100 ">
+                                                        <div class="col-12 h-100">
+                                                            <table id="experience_table" class="table table-responsive d-table"
+                                                                   style="width:100%">
+                                                                <thead>
+                                                                    <tr class="spouse-tr">
+                                                                        <th scope="col">Job Name</th>
+                                                                        <th scope="col">Employer</th>
+                                                                        <th scope="col">From Date</th>
+                                                                        <th scope="col">To Date</th>
+                                                                        <th scope="col">Certificate File</th>
+                                                                        <th scope="col">
+<!--                                                                            <a class="btn btn-success rounded"-->
+<!--                                                                               id='experience_table_add_line'-->
+<!--                                                                               onclick="addExperienceNewRow()">-->
+<!--                                                                                <i class="fa fa-plus "/>-->
+<!--                                                                                New-->
+<!--                                                                            </a>-->
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="pt-1 p-0">
+                                                                            <div class="col-12 m-0 p-1">
+                                                                                <input type="text" class="form-control"
+                                                                                       id="job_name"
+                                                                                       name="job_name" placeholder="Job Name"/>
+                                                                                <div class="valid-feedback">
+                                                                                    Looks good!
+                                                                                </div>
+                                                                                <div class="invalid-feedback">
+                                                                                    Please provide Job Name.
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="pt-1 p-0">
+                                                                            <div class="col-12 m-0 p-1">
+                                                                                <input type="text" class="form-control tk_input"
+                                                                                       id="employer_name" name="employer_name"
+                                                                                       placeholder="Employer Name"/>
+                                                                                <div class="valid-feedback">
+                                                                                    Looks good!
+                                                                                </div>
+                                                                                <div class="invalid-feedback">
+                                                                                    Please provide Employer Name.
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="pt-1 p-0">
+                                                                            <div class="col-12 m-0 p-1">
+                                                                                <div class="input-group date add-on">
+                                                                                    <input type="text" class="form-control date"
+                                                                                           id="date_from" name="date_from"
+                                                                                           placeholder="Date From"/>
+                                                                                    <div class="input-group-btn dup">
+                                                                                        <i class="fa fa-calendar"></i>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="valid-feedback">
+                                                                                    Looks good!
+                                                                                </div>
+                                                                                <div class="invalid-feedback">
+                                                                                    Please provide Date From.
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="pt-1 p-0">
+                                                                            <div class="col-12 m-0 p-1">
+                                                                                <div class="input-group date add-on">
+                                                                                    <input type="text" class="form-control date"
+                                                                                           id="date_to" name="date_to"
+                                                                                           placeholder="Date To"/>
+                                                                                    <div class="input-group-btn dup">
+                                                                                        <i class="fa fa-calendar"></i>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="valid-feedback">
+                                                                                    Looks good!
+                                                                                </div>
+                                                                                <div class="invalid-feedback">
+                                                                                    Please provide Date To.
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="pt-1 p-0">
+                                                                            <div class="col-12 m-0 p-1 ">
+                                                                                <input type="file" name="service_certificate"
+                                                                                       placeholder="Service Certificate"
+                                                                                       accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
+                                                                                <div class="valid-feedback">
+                                                                                    Looks good!
+                                                                                </div>
+                                                                                <div class="invalid-feedback">
+                                                                                    Please provide Attach.
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </td>
+                                                                        <td class="pt-1 p-0">
+                                                                            <a type="button"
+                                                                               class="btn btn-danger rounded experience_delete_btn mt-1 "
+                                                                            >
+                                                                                <i class="fa fa-trash text-white"></i>
+                                                                            </a>
+
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <t t-if="appl.experience_ids" t-foreach="appl.experience_ids"
+                                                                       t-as="exper">
+                                                                        <tr>
+                                                                            <td class="pt-1 p-0">
+                                                                                <div class="col-12 m-0 p-1">
+                                                                                    <input type="text" class="form-control tk_input"
+                                                                                           id="job_name"
+                                                                                           t-att-value="exper.job_name"
+                                                                                           name="job_name" placeholder="Job Name"/>
+                                                                                    <div class="valid-feedback">
+                                                                                        Looks good!
+                                                                                    </div>
+                                                                                    <div class="invalid-feedback">
+                                                                                        Please provide Job Name.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="pt-1 p-0">
+                                                                                <div class="col-12 m-0 p-1">
+                                                                                    <input type="text" class="form-control tk_input"
+                                                                                           t-att-value="exper.employer_name"
+                                                                                           id="employer_name" name="employer_name"
+                                                                                           placeholder="Employer Name"/>
+                                                                                    <div class="valid-feedback">
+                                                                                        Looks good!
+                                                                                    </div>
+                                                                                    <div class="invalid-feedback">
+                                                                                        Please provide Employer Name.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="pt-1 p-0">
+                                                                                <div class="col-12 m-0 p-1">
+                                                                                    <div class="input-group date add-on">
+                                                                                        <input type="text" class="form-control date"
+                                                                                               t-att-value="exper.date_from"
+                                                                                               id="date_from" name="date_from"
+                                                                                               placeholder="Date From"/>
+                                                                                        <div class="input-group-btn dup">
+                                                                                            <i class="fa fa-calendar"></i>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="valid-feedback">
+                                                                                        Looks good!
+                                                                                    </div>
+                                                                                    <div class="invalid-feedback">
+                                                                                        Please provide Date From.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="pt-1 p-0">
+                                                                                <div class="col-12 m-0 p-1">
+                                                                                    <div class="input-group date add-on">
+                                                                                        <input type="text" class="form-control date"
+                                                                                               t-att-value="exper.date_to"
+
+                                                                                               id="date_to" name="date_to"
+                                                                                               placeholder="Date To"/>
+                                                                                        <div class="input-group-btn dup">
+                                                                                            <i class="fa fa-calendar"></i>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="valid-feedback">
+                                                                                        Looks good!
+                                                                                    </div>
+                                                                                    <div class="invalid-feedback">
+                                                                                        Please provide Date To.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="pt-1 p-0">
+                                                                                <div class="col-12 m-0 p-1">
+                                                                                    <input type="file" name="service_certificate"
+                                                                                           placeholder="Service Certificate"
+                                                                                    accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
+                                                                                    <div class="valid-feedback">
+                                                                                        Looks good!
+                                                                                    </div>
+                                                                                    <div class="invalid-feedback">
+                                                                                        Please provide Attach.
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </td>
+                                                                            <td class="pt-1 p-0">
+                                                                                <a type="button"
+                                                                                   class="btn btn-danger experience_delete_btn">
+                                                                                    delete
+                                                                                </a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </t>
+
+                                                                </tbody>
+                                                            </table>
+                                                            <hr/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div id="attach_step" class="tab-pane" role="tabpanel" aria-labelledby="attach_step">
+                                            <form id="form-8" name="attach_form" class="row row-cols-1 ms-5 me-5 needs-validation"
+                                                  novalidate="">
+                                                <div class="col-12  overflow-auto">
+                                                    <t t-foreach="appl.appl_documents_ids.filtered(lambda d:d.in_portal and d.doc_type not in ['father_birth','mother_birth','spouse_birth','child_birth','experience',])"
+                                                       t-as="atc">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <span t-esc="atc.document_id.name"></span>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <t t-if="atc.state != 'approve'">
+                                                                        <input type="file" class="form-control tk_input" t-att-atcid="atc.id"
+                                                                               t-att-required="atc.is_required"
+                                                                               t-att-name="'attach_%s'%atc.id"
+                                                                               accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <span class="h6">Approved Document</span>
+                                                                </t>
+                                                                <div class="valid-feedback">
+                                                                    Looks good!
+                                                                </div>
+                                                                <div class="invalid-feedback">
+                                                                    Please provide Mother Attach.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr/>
+                                                    </t>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                        <div id="last_step" class="tab-pane" role="tabpanel" aria-labelledby="last_step">
+                                            <div class="row" id="last_step_row">
+                                                <h1 class="ls-header text-center">Thank You</h1>
+                                                <p class="ls-p text-center">For Fill Profile
+                                                If Every thing fine
+                                                you can send application to HR by click submit button</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div class="mt-5"/>
+                                <div class="alert alert-info text-center" role="alert">
+                                    Your Application in Revision Status
+                                </div>
+                            </t>
+
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+
+        </t>
+
+    </template>
+</odoo>

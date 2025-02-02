@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_petty_cash.view_archer_petty_cash_request_form" model="ir.ui.view">
+            <field name="name">archer_petty_cash.view.archer.petty.cash.request.form</field>
+            <field name="model">archer.petty.cash.request</field>
+            <field name="arch" type="xml">
+                <form string="Petty Cash Request" duplicate="false">
+                    <header>
+                        <field name="user_can_approve" invisible="1"/>
+                        <field name="workflow_states" invisible="1"/>
+                        <field name="button_approve_enabled" invisible="1"/>
+                        <field name="button_forward_enabled" invisible="1"/>
+                        <field name="button_return_enabled" invisible="1"/>
+                        <field name="approve_button_name" invisible="1"/>
+                        <field name="approve_confirm_msg" invisible="1"/>
+                        <field name="reject_button_wizard" invisible="1"/>
+                        <field name="reject_button_name" invisible="1"/>
+                        <field name="reject_confirm_msg" invisible="1"/>
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_close_request" type="object" class="oe_highlight" string="Close"
+                                attrs="{'invisible':[('payment_state','!=','paid')]}"/>
+                        <button name="create_new_settlement" type="object" class="oe_highlight" string="New Settlement"
+                                attrs="{'invisible':['|',('can_create_settlement','=',False),'|',('state','!=','approved'),('payment_state','!=','paid')]}"/>
+                        <button name="register_payment" type="object" class="oe_highlight" string="Payment Register"
+                                attrs="{'invisible':['|',('state','!=','fin_approve'),('payment_id','!=',False)]}"/>
+                        <button name="action_approve" type="object" string="Draft Approve" states="draft"/>
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve"
+                                attrs="{'invisible' : ['|',('state','in',['fin_approve','in_payment']),('user_can_approve','=', False)]}"/>
+                        <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', '|',('state','in',['in_payment']), ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}"/>
+                        <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|','|','|',('state','in',['in_payment']), ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}"/>
+                        <button name="action_forward" type="object" string="Forward"
+                                attrs="{'invisible' : [('button_forward_enabled','=', False)]}"/>
+                        <button name="action_return" type="object" string="Return"
+                                attrs="{'invisible' : [('button_return_enabled','=', False)]}"/>
+                        <field name="can_create_settlement" invisible="1"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_button_box" name="button_box"
+                             attrs="{'invisible':[('state','!=', 'approved'),('payment_state','!=','paid')]}">
+
+
+                            <button name="open_sttelments_entries" type="object" class="oe_stat_button" icon="fa-book">
+                                <field name="entries_count" string="Entries" widget="statinfo"/>
+                            </button>
+                            <button name="get_request_settlements" type="object" class="oe_stat_button" icon="fa-bars">
+                                <field name="settlement_count" string="Settlements" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div class="row" attrs="{'invisible':[('payment_id','=',False)]}">
+                            <div class="col-3 d-flex justify-content-center text-center">
+                                <div class="oe_title">
+                                    <label for="paid_amount"/>
+                                    <h4>
+                                        <field name="paid_amount" readonly="1" force_save="1"/>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="col-3 d-flex justify-content-center text-center">
+                                <div class="oe_title">
+                                    <label for="consumed_amount"/>
+                                    <h4>
+                                        <field name="consumed_amount" readonly="1" force_save="1"/>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="col-3 d-flex justify-content-center text-center">
+                                <div class="oe_title">
+                                    <label for="remaining_amount"/>
+                                    <h4>
+                                        <field name="remaining_amount" readonly="1" force_save="1"/>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="col-3 d-flex justify-content-center text-center">
+                                <div class="oe_title">
+                                    <label for="in_settlement_amount"/>
+                                    <h4>
+                                        <field name="in_settlement_amount" readonly="1" force_save="1"/>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <group>
+                            <group>
+                                <div class="oe_title">
+                                    <label for="sequence"/>
+                                    <h3>
+                                        <field name="sequence" readonly="1" force_save="1"/>
+                                    </h3>
+                                </div>
+                            </group>
+                            <group class="">
+                                <div class="row d-flex justify-content-end">
+
+                                    <field name="payment_state" widget="badge" nolabel="1"
+                                           decoration-danger="payment_state == 'not_paid'"
+                                           decoration-success="payment_state == 'paid'"/>
+                                </div>
+                                <div class="row d-flex justify-content-end">
+
+                                    <field name="cluser_state" widget="badge" nolabel="1"
+                                           decoration-danger="cluser_state == 'open'"
+                                           decoration-success="cluser_state == 'close'"/>
+                                </div>
+                            </group>
+                        </group>
+
+
+                        <group>
+                            <group>
+                                <field name="project_id"/>
+                            </group>
+                            <group>
+                                <field name="responsible_id" readonly="1" force_save="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+
+                                <field name="amount" class="h4"/>
+
+                            </group>
+                            <group>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-3">
+
+
+                                                <label for="request_month"/>
+                                            </div>
+                                            <div class="col-9">
+
+                                                <field name="request_month" class=" w-100"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-3">
+
+
+                                                <label for="request_year" class="oe_inline"/>
+                                            </div>
+                                            <div class="col-9">
+
+
+                                                <field name="request_year" class=" w-100"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="payment_id" readonly="1" force_save="1" attrs="{'invisible':[('payment_id','=',False)]}"/>
+                            </group>
+                            <group/>
+                        </group>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+
+            </field>
+        </record>
+
+        <record id="archer_petty_cash.view_archer_petty_cash_request_tree" model="ir.ui.view">
+            <field name="name">archer_petty_cash.view_archer_petty_cash_request_tree</field>
+            <field name="model">archer.petty.cash.request</field>
+            <field name="arch" type="xml">
+                <tree string="Petty Cash Request" duplicate="false">
+                    <field name="project_id"/>
+                    <field name="responsible_id"/>
+                    <field name="amount"/>
+                    <field name="sequence"/>
+                    <field name="request_month"/>
+                    <field name="request_year"/>
+                    <field name="state"/>
+                    <field name="payment_state" widget="badge"
+                           decoration-danger="payment_state == 'not_paid'"
+                           decoration-success="payment_state == 'paid'"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="archer_petty_cash.act_archer_petty_cash_request_action" model="ir.actions.act_window">
+            <field name="name">Petty Cash Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">archer.petty.cash.request</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

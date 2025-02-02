@@ -1,0 +1,133 @@
+<odoo>
+    <record id="view_hr_payslip_form_inherit_edit" model="ir.ui.view">
+        <field name="name">view.hr.payslip.form.inherit</field>
+        <field name="model">hr.payslip</field>
+        <field name="priority" eval="102"/>
+
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='amount']"
+                   position="attributes">
+                <attribute name="widget">monetary</attribute>
+
+            </xpath>
+        </field>
+    </record>
+    <record id="hr_contract_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr_contract_view_form_inherit</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='wage']" position="after">
+                <label for="annual_basic"/>
+                <div class="o_row" name="annual_basic">
+                    <field name="annual_basic" nolabel="1" widget='monetary'
+                           options="{'currency_field': 'annual_basic_currency'}"/>
+                    <field name="annual_basic_currency" nolabel="1"/>
+                    <span>/ month</span>
+                    <field name="annual_basic_today_currency"/>
+                </div>
+                <label for="teaching_certificate"/>
+                <div class="o_row" name="teaching_certificate">
+                    <field name="teaching_certificate" nolabel="1" widget='monetary'
+                           options="{'currency_field': 'teaching_certificate_currency'}"/>
+                    <field name="teaching_certificate_currency" nolabel="1"/>
+                    <span>/ month</span>
+                    <field name="teaching_certificate_today_currency"/>
+
+                </div>
+                <label for="master_degree"/>
+                <div class="o_row" name="master_degree">
+                    <field name="master_degree" nolabel="1" widget='monetary'
+                           options="{'currency_field': 'master_degree_currency'}"/>
+                    <field name="master_degree_currency" nolabel="1"/>
+                    <span>/ month</span>
+                    <field name="master_degree_today_currency"/>
+
+                </div>
+                <label for="phd_degree"/>
+                <div class="o_row" name="phd_degree">
+                    <field name="phd_degree" nolabel="1" widget='monetary'
+                           options="{'currency_field': 'phd_degree_currency'}"/>
+                    <field name="phd_degree_currency" nolabel="1"/>
+                    <span>/ month</span>
+                    <field name="phd_degree_today_currency"/>
+
+                </div>
+                <label for="first_five_year_experience"/>
+                <div class="o_row" name="first_five_year_experience">
+                    <field name="first_five_year_experience" nolabel="1" widget='monetary'
+                           options="{'currency_field': 'first_five_year_experience_currency'}"/>
+                    <field name="first_five_year_experience_currency" nolabel="1"/>
+                    <span>/ month</span>
+                    <field name="first_five_year_experience_currency_today_currency"/>
+
+                </div>
+                <label for="second_five_year_experience"/>
+                <div class="o_row" name="second_five_year_experience">
+                    <field name="second_five_year_experience" nolabel="1" widget='monetary'
+                           options="{'currency_field': 'second_five_year_experience_currency'}"/>
+                    <field name="second_five_year_experience_currency" nolabel="1"/>
+                    <span>/ month</span>
+                    <field name="second_five_year_today_currency"/>
+
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="hr_contract_form_inherit" model="ir.ui.view">
+        <field name="name">hr_contract_form_inherit</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="tax_calculation.view_contract_tax_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='apply_tax']" position="after">
+                <label for="Monthly_Salary"/>
+                <div class="o_row" name="Monthly_Salary">
+                    <field name="Monthly_Salary" nolabel="1" widget='monetary'
+                    />
+                    <!--                    <span>/ month</span>-->
+                </div>
+
+                <label for="Net_Due"/>
+                <div class="o_row" name="Net_Due">
+                    <field name="Net_Due" nolabel="1" widget='monetary'
+                    />
+                    <!--                    <span>/ month</span>-->
+                </div>
+
+                <label for="Tuition_Fee"/>
+                <div class="o_row" name="Tuition_Fee">
+                    <field name="Tuition_Fee" nolabel="1" widget='monetary'
+                    />
+                    <!--                    <span>/ month</span>-->
+                </div>
+
+                <label for="Monthly_Retirement"/>
+                <div class="o_row" name="Monthly_Retirement">
+                    <field name="Monthly_Retirement" nolabel="1" widget='monetary'
+                    />
+                    <!--                    <span>/ month</span>-->
+                </div>
+
+                <label for="Health_Insurance"/>
+                <div class="o_row" name="Health_Insurance">
+                    <field name="Health_Insurance" nolabel="1" widget='monetary'
+                    />
+                    <!--                    <span>/ month</span>-->
+                </div>
+                <label for="Rent"/>
+                <div class="o_row" name="Rent">
+                    <field name="Rent" nolabel="1" widget='monetary'
+                    />
+                    <!--                    <span>/ month</span>-->
+                </div>
+
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_archer_base_hr_hr_employee_portal,hr.employee portal,hr.model_hr_employee,base.group_portal,1,1,1,1
+access_archer_base_hr_project_project_portal,project.project portal,project.model_project_project,base.group_portal,1,1,1,1
+access_archer_base_hr_employee_relative,hr.employee.relative,model_hr_employee_relative,base.group_user,1,1,1,1
+archer_base_hr_experience,hr.employee.experience,model_hr_employee_experience,base.group_user,1,1,1,1
+archer_base_hr_certificate,hr.employee.certificate,model_hr_employee_certificate,base.group_user,1,1,1,1
+access_archer_base_hr_hr_grade,hr.grade,model_hr_grade,base.group_user,1,1,1,1
+access_archer_base_hr_employee_certificate,hr.employee.certificate,model_hr_employee_certificate,base.group_user,1,1,1,1
+
+# archer_base_hr.access_bank_bank,archer_base_hr.access_bank_bank,archer_base_hr.model_bank_bank,base.group_user,1,1,1,1

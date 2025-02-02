@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mail_template_employee_eval" model="mail.template">
+            <field name="name">{{ ctx.get('employee_name', '') }} Evaluation</field>
+            <field name="model_id" ref="archer_employee_evaluation.model_hr_probation_period_evaluation"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="email_from">{{ ctx.get('email_from') }}</field>
+            <field name="email_to">{{ ctx.get('email_to') }}</field>
+            <field name="subject">[ {{ ctx.get('project_name') }} ] : {{ ctx.get('employee_name', '') }} Evaluation</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px;font-size: 13px;">
+                        Dear {{ ctx.get('project_owner') }},
+                        <br/>
+                        Please Evaluate Employee
+                        <strong>
+                            {{ ctx.get('employee_name', '') }}
+                        </strong>
+                        In
+                        <strong>
+                            {{ ctx.get('project_name') }}
+                        </strong>
+                        .
+                        <br/>
+                        You Will Evaluate Trial Period For
+                        <t t-if="ctx.get('eval_state') == 'new'">First Time</t>
+                        <t t-if="ctx.get('eval_state') == 'extend'">Last Time</t>
+
+                    </p>
+                </div>
+            </field>
+        </record>
+
+<!--        <record id="mail_template_end_employee_eval" model="mail.template">-->
+<!--            <field name="name">{{object.employee_id.name}} Evaluation</field>-->
+<!--            <field name="model_id" ref="archer_employee_evaluation.model_hr_probation_period_eval_employee_wizard"/>-->
+<!--            <field name="auto_delete" eval="True"/>-->
+<!--            <field name="email_from">{{ (object.create_uid.email_formatted or user.email_formatted) }}</field>-->
+<!--            <field name="email_to">{{ object.employee_id.project_id.owner_id.email }}</field>-->
+<!--            <field name="subject">[ {{ object.project_id.name }} ] : {{object.employee_id.name}} Evaluation</field>-->
+<!--            <field name="body_html" type="html">-->
+<!--                <div style="margin: 0px; padding: 0px;">-->
+<!--                    <p style="margin: 0px; padding: 0px;font-size: 13px;">-->
+<!--                        Dear HR,-->
+<!--                        <br/>-->
+<!--                        Please Noted This Employee-->
+<!--                        <strong>-->
+<!--                            <t t-out="object.employee_id.name or ''"/>-->
+<!--                        </strong>-->
+<!--                        In-->
+<!--                        <strong>-->
+<!--                            <t t-out="object.employee_id.project_id.name or ''"/>-->
+<!--                        </strong>-->
+<!--                        .-->
+<!--                        <br/>-->
+<!--                        was trial period is rejected from-->
+<!--                        <t t-if="eval_state == 'new'">First Time</t>-->
+<!--                        <t t-if="eval_state == 'extend'">Last Time</t>-->
+
+<!--                    </p>-->
+<!--                </div>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>

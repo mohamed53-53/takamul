@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="project_change_request_tree" model="ir.ui.view">
+            <field name="name">project.change.request.tree.view</field>
+            <field name="model">project.change.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="project_manager"/>
+                    <field name="new_end_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="project_change_request_form_view" model="ir.ui.view">
+            <field name="name">project.change.request.form.view</field>
+            <field name="model">project.change.request</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="user_can_approve" invisible="1" />
+                        <field name="workflow_states" invisible="1" />
+                        <field name="button_approve_enabled" invisible="1" />
+                        <field name="button_forward_enabled" invisible="1" />
+                        <field name="button_return_enabled" invisible="1" />
+                        <field name="approve_button_name" invisible="1" />
+                        <field name="approve_confirm_msg" invisible="1" />
+                        <field name="reject_button_wizard" invisible="1" />
+                        <field name="reject_button_name" invisible="1" />
+                        <field name="reject_confirm_msg" invisible="1" />
+                        <button name="action_approve" type="object" string="Confirm" class="oe_highlight" states="draft" />
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve" attrs="{'invisible' : [('user_can_approve','=', False)]}" />
+                        <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject" attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}" />
+                        <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject" attrs="{'invisible' : ['|','|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}" />
+                        <button name="action_forward" type="object" string="Forward" attrs="{'invisible' : [('button_forward_enabled','=', False)]}" />
+                        <button name="action_return" type="object" string="Return" attrs="{'invisible' : [('button_return_enabled','=', False)]}" />
+                        <button name="action_cancel" type="object" string="Cancel" class="oe_highlight" states="draft,done" />
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1 class="mt0" >
+                                <field name="name" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="project_id" readonly="1"/>
+                                <field name="project_manager" readonly="1"/>
+                                <field name="project_owner_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="contract_value" readonly="1"/>
+                                <field name="vat_included" readonly="1"/>
+                                <field name="markup" readonly="1"/>
+                                <field name="date" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="request_type" widget="radio"/>
+                            </group>
+                            <group>
+                                <field name="new_user_id" attrs="{'invisible': [('request_type', '!=', 'actors')], 'required': [('request_type', '=', 'actors')]}"/>
+                                <field name="new_owner_id" attrs="{'invisible': [('request_type', '!=', 'actors')], 'required': [('request_type', '=', 'actors')]}"/>
+                                <field name="new_project_contract_value" attrs="{'invisible': [('request_type', '!=', 'time_and_value')], 'required': [('request_type', '=', 'time_and_value')]}"/>
+                                <field name="new_vat_included" attrs="{'invisible': [('request_type', '!=', 'time_and_value')], 'required': [('request_type', '=', 'time_and_value')]}"/>
+                                <field name="new_markup" attrs="{'invisible': [('request_type', '!=', 'time_and_value')], 'required': [('request_type', '=', 'time_and_value')]}"/>
+                                <field name="new_end_date" attrs="{'invisible': [('request_type', '!=', 'time_and_value')]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow this project to automatically track the events associated to tasks and issues of this project." groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="project_change_request_search" model="ir.ui.view">
+            <field name="name">project.change.request.search</field>
+            <field name="model">project.change.request</field>
+            <field name="arch" type="xml">
+                <search>
+                   <field name="name"/>
+                    <field name="project_manager"/>
+                    <field name="project_owner_id"/>
+                    <field name="state"/>
+                    <field name="new_end_date"/>
+                    <filter string="Done" name="state" domain="[('state', '=', 'done')]"/>
+                    <filter string="Cancel" name="state" domain="[('state', '=', 'cancel')]"/>
+                    <filter string="End Date" name="new_end_date" date="new_end_date" />
+                    <filter string="Actors" name="actors" domain="[('request_type', '=', 'actors')]"/>
+                    <filter string="Time And Value" name="time_and_value" domain="[('request_type', '=', 'time_and_value')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Project Manager" name="Manager" context="{'group_by': 'project_manager'}"/>
+                        <filter string="Approval Status" name="state" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_project_change" model="ir.actions.act_window">
+            <field name="name">Project Request Change</field>
+            <field name="res_model">project.change.request</field>
+            <field name="search_view_id" ref="project_change_request_search" />
+            <field name="view_id" ref="project_change_request_tree"/>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

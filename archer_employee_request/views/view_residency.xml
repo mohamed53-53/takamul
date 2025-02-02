@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="residency_list_view" model="ir.ui.view">
+            <field name="name">residency.residency.tree</field>
+            <field name="model">residency.residency</field>
+            <field name="arch" type="xml">
+                <tree string="Project Request" create="false" delete="false" duplicate="false">
+                    <field name="residency_type" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="residency_form_view" model="ir.ui.view">
+            <field name="name">residency.residency.form</field>
+            <field name="model">residency.residency</field>
+            <field name="arch" type="xml">
+                <form  create="false" delete="false" duplicate="false" string="Project Request Form">
+                    <sheet>
+                        <div class="oe_title">
+                            <field name="name" invisible="1"/>
+                            <h1>
+                                <field name="residency_type" readonly="1"/>
+                            </h1>
+                        </div>
+
+                        <notebook>
+                             <page name="document" string="Document">
+                                 <field name="document_ids" context="{'default_residency_id':active_id}">
+                                     <tree editable="bottom">
+                                         <field name="residency_id" invisible="1"/>
+                                         <field name="document_name"/>
+                                     </tree>
+                                 </field>
+                             </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="residency_search_view">
+            <field name="name">residency.residency.search</field>
+            <field name="model">residency.residency</field>
+                   <field name="arch" type="xml">
+                <search>
+                    <field name="residency_type"/>
+                </search>
+
+            </field>
+        </record>
+
+        <record id="action_residency" model="ir.actions.act_window">
+            <field name="name">Residency</field>
+            <field name="res_model">residency.residency</field>
+             <field name="search_view_id" ref="residency_search_view" />
+            <field name="view_id" ref="residency_list_view"/>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

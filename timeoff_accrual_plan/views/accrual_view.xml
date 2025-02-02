@@ -1,0 +1,29 @@
+<odoo>
+    <record id="hr_accrual_level_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr_accrual_level_view_form_inherit</field>
+        <field name="model">hr.leave.accrual.level</field>
+        <field name="inherit_id" ref="hr_holidays.hr_accrual_level_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='action_with_unused_accruals']" position="after">
+                <field name="max_postponed_days" attrs="{'invisible':[('action_with_unused_accruals','=','lost')]}"/>
+                <field name="max_postponed_amount"
+                       attrs="{'invisible':[('action_with_unused_accruals','!=','postponed_amount')]}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="edit_project_inherit_form_view" model="ir.ui.view">
+        <field name="name">project.project.inherit.form.view</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bottom_cost_limit']" position="after">
+                <field name="action_with_unused_accruals"/>
+                <field name="no_of_allocation_days"
+                       attrs="{'invisible': [('action_with_unused_accruals', '!=', 'postponed_amount')]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

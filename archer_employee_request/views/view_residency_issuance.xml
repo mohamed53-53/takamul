@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="residency_issuance_list_view" model="ir.ui.view">
+            <field name="name">residency.issuance.tree</field>
+            <field name="model">residency.issuance</field>
+            <field name="arch" type="xml">
+                <tree string="Residency Issuance">
+                    <field name="sequence"/>
+                    <field name="employee_id"/>
+                    <field name="project_id" readonly="1"/>
+                    <field name="residency_id" invisible="context.get('residency_renewal')"/>
+                    <field name="create_date" string="Submission Date" widget="date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="residency_renewal_list_view" model="ir.ui.view">
+            <field name="name">residency.issuance.tree</field>
+            <field name="model">residency.issuance</field>
+            <field name="arch" type="xml">
+                <tree string="Residency Issuance">
+                    <field name="employee_renewal_id"/>
+                    <field name="renewal_project_id"/>
+                    <field name="create_date" string="Submission Date" widget="date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="residency_issuance_form_view" model="ir.ui.view">
+            <field name="name">residency.issuance.form</field>
+            <field name="model">residency.issuance</field>
+            <field name="arch" type="xml">
+                <form delete="0" string="Project Request Form">
+                    <header>
+                        <field name="user_can_approve" invisible="1"/>
+                        <field name="workflow_states" invisible="1"/>
+                        <field name="button_approve_enabled" invisible="1"/>
+                        <field name="button_forward_enabled" invisible="1"/>
+                        <field name="button_return_enabled" invisible="1"/>
+                        <field name="approve_button_name" invisible="1"/>
+                        <field name="approve_confirm_msg" invisible="1"/>
+                        <field name="reject_button_wizard" invisible="1"/>
+                        <field name="reject_button_name" invisible="1"/>
+                        <field name="reject_confirm_msg" invisible="1"/>
+                        <field name="state" widget="statusbar" statusbar_visible=" "/>
+                        <button name="action_approve" type="object" string="Draft Approve"  states="draft"/>
+                        <button name="action_approve" type="object" string="No Fees" class="oe_highlight"
+                                attrs="{'invisible' : ['|', ('user_can_approve','=', False), ('state','!=', 'pending_fees')]}"/>
+                        <button name="action_reject" type="object" string="Pending Fees"
+                                attrs="{'invisible' : ['|', ('user_can_approve','=', False), ('state','!=', 'pending_fees')]}"/>
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve"
+                                attrs="{'invisible' : ['|', ('user_can_approve','=', False), ('state', '=', 'pending_fees')]}"/>
+                        <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False), ('state', '=', 'pending_fees')]}"/>
+                        <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True), ('state', '=', 'pending_fees')]}"/>
+                        <button name="action_forward" type="object" string="Forward"
+                                attrs="{'invisible' : [('button_forward_enabled','=', False)]}"/>
+                        <button name="action_return" type="object" string="Return"
+                                attrs="{'invisible' : [('button_return_enabled','=', False)]}"/>
+
+                    </header>
+                    <sheet>
+                        <field name="company_id" invisible="1"/>
+                        <field name="request_type" invisible="1"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="sequence"/>
+                            </h1>
+                            <label for="employee_id"/>
+                            <h1>
+                                <field name="employee_id" force_save="1" options="{'no_create':True,'no_open':True}"
+                                       attrs="{'readonly' : [('state','!=', 'draft')]}"/>
+                            </h1>
+                            <label for="project_id" class="oe_inline" string="Project"/>
+                            <h3>
+                                <field name="project_id" force_save="1" options="{'no_create':True,'no_open':True}" class="oe_inline"
+                                       readonly="1"/>
+                            </h3>
+                            <label for="employee_position" class="oe_inline" string="Job"/>
+                            <h3>
+                                <field name="employee_position" force_save="1" options="{'no_create':True,'no_open':True}" class="oe_inline"
+                                       readonly="1" />
+                            </h3>
+                        </div>
+                        <!-- residency.issuance-->
+                        <group >
+                            <group name="employee" string="Employee" attrs="{'invisible': [('request_type', '!=', 'residency_issuance')]}">
+                                <field name="residency_id" force_save="1" options="{'no_create':True,'no_open':True}"
+                                       attrs="{'readonly' : [('state','!=', 'draft')],'required': [('request_type', '=', 'residency_issuance')]}"/>
+                                <field name="sponsor_name" force_save="1"
+                                       attrs="{'readonly' : [('state','!=', 'draft')], 'required': [('request_type', '=', 'residency_issuance')]}"/>
+                                <field name="sponsor_phone" force_save="1"
+                                       attrs="{'readonly' : [('state','!=', 'draft')], 'required': [('request_type', '=', 'residency_issuance')]}"/>
+                                <field name="sponsor_address" force_save="1"
+                                       attrs="{'readonly' : [('state','!=', 'draft')], 'required': [('request_type', '=', 'residency_issuance')]}"/>
+                            </group>
+                            <group name="submitted_information" string="Submitted Information" attrs="{'invisible':[('request_type','!=','residency_issuance')]}">
+                                <field name="name" force_save="1"
+                                       attrs="{'readonly' : [('state','!=', 'draft')], 'required': [('request_type', '=', 'residency_issuance')]}"/>
+                                <field name="arabic_name" force_save="1" attrs="{'readonly' : [('state','!=', 'draft')]}"/>
+                                <field name="residency_type" invisible="1"/>
+                                <field name="relation" force_save="1"
+                                       attrs="{'readonly' : [('state','!=', 'draft')], 'invisible' : [('residency_type', '!=', 'family_member')]}"/>
+                                <field name="nationality" force_save="1" options="{'no_create':True,'no_open':True}"
+                                       attrs="{'readonly' : ['|',('residency_type', 'in', ['employee',False]),('state','!=', 'draft')], 'required': [('request_type', '=', 'residency_issuance')]}"/>
+                                <field name="gender" force_save="1"
+                                       attrs="{'readonly' : ['|',('residency_type', 'in', ['employee',False]),('state','!=', 'draft')], 'required': [('request_type', '=', 'residency_issuance')]}"/>
+                                <field name="religion" force_save="1"
+                                       attrs="{'readonly' : ['|',('residency_type', 'in', ['employee',False]),('state','!=', 'draft')]}"/>
+                                <field name="date_of_birth" force_save="1"
+                                       attrs="{'readonly' : ['|',('residency_type', 'in', ['employee',False]),('state','!=', 'draft')], 'required': [('request_type', '=', 'residency_issuance')]}"/>
+                                <field name="job_title" force_save="1"
+                                       attrs="{'readonly' : [('state','!=', 'draft')], 'required': [('request_type', '=', 'residency_issuance')]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group name="amount" string="Expense Amount">
+                                <field force_save="1" name="amount"  attrs="{'required': [('state', '=', 'hr_approve')], 'readonly': [('state', 'not in', ['hr_approve'])]}"/>
+                            </group>
+                            <group name="pending_fees" string="Pending Fees Paid">
+                                <field force_save="1" name="pending_fees_paid"  attrs="{'required': [('state', '=', 'pending_fees')], 'readonly': [('state', 'not in', ['pending_fees'])]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Residency Information" attrs="{'invisible':['|',('state','!=', 'in_progress'),('request_type','!=','residency_issuance')]}">
+                                <group name="residency_information" string="Residency Information">
+                                <group >
+                                    <field name="number" force_save="1"
+                                           attrs="{'required': [('request_type', '=', 'residency_issuance'),('state', '=', 'in_progress')], 'readonly': [('state', 'in', ['approve', 'reject'])]}"/>
+                                    <field name="serial_number" force_save="1"
+                                           attrs="{'required': [('request_type', '=', 'residency_issuance'),('state', '=', 'in_progress')], 'readonly': [('state', 'in', ['approve', 'reject'])]}"/>
+                                    <field name="re_job_title" force_save="1"
+                                           attrs="{'required': [('request_type', '=', 'residency_issuance'),('state', '=', 'in_progress')], 'readonly': [('state', 'in', ['approve', 'reject'])]}"/>
+                                    <field name="place_of_issuance" force_save="1"
+                                           attrs="{'readonly': [('state', 'in', ['approve', 'reject'])]}"/>
+                                    <field name="issuance_date" force_save="1"
+                                           attrs="{'required': [('request_type', '=', 'residency_issuance'),('state', '=', 'in_progress')], 'readonly': [('state', 'in', ['approve', 'reject'])]}"/>
+                                    <field name="expiration_date" force_save="1"
+                                           attrs="{'required': [('request_type', '=', 'residency_issuance'),('state', '=', 'in_progress')], 'readonly': [('state', 'in', ['approve', 'reject'])]}"/>
+                                    <field name="expiration_date_in_hijri" force_save="1"
+                                           attrs="{'required': [('request_type', '=', 'residency_issuance'),('state', '=', 'in_progress')], 'readonly': [('state', 'in', ['approve', 'reject'])]}"/>
+                                    <field name="arrival_date" force_save="1"
+                                           attrs="{'readonly': [('state', 'in', ['approve', 'reject'])]}"/>
+                                </group>
+                                <group/>
+                                </group>
+
+                            </page>
+                            <page string="Residency Information"  attrs="{'invisible':['|',('state','!=', 'in_progress'),('request_type','!=','residency_renewal')]}">
+                                <group >
+                                    <group name="employee" string="Employee">
+                                        <field name="request_type" readonly="1" invisible="1" force_save="1"/>
+                                        <field name="employee_renewal_id" readonly="1" force_save="1"/>
+                                        <field name="renewal_project_id"/>
+                                        <field name="employee_renewal_residency_number"
+                                               attrs="{'required': [('request_type', '=', 'residency_renewal')]}"/>
+                                        <field name="renewal_expiration_date"/>
+                                    </group>
+                                    <group name="residency_information" string="Residency Information">
+                                        <field name="issuance_date" attrs="{'required': [('request_type', '=', 'residency_renewal')]}"/>
+                                        <field name="expiration_date"
+                                               attrs="{'required': [('request_type', '=', 'residency_renewal'),('state', '=', 'in_progress')], 'readonly': [('state', 'in', ['approve', 'reject'])]}"/>
+                                        <field name="renewal_reason" attrs="{'required': [('request_type', '=', 'residency_renewal')]}"/>
+                                    </group>
+                                </group>
+
+                            </page>
+                            <page name="document" string="Documents" attrs="{'invisible':[('state','!=', 'hr_approve')]}"  >
+                                <field name="document_ids" context="{'default_request_id':active_id}">
+                                    <tree delete="false" create="false" editable="1">
+                                        <field name="request_id" invisible="1"/>
+                                        <field name="document_name" readonly="1" force_save="1"/>
+                                        <field name="received"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <!-- residency.renewal-->
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'post_refresh':True}"
+                               help="Follow this project to automatically track the events associated to tasks and issues of this project."
+                               groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="residency_issuance_search_view">
+            <field name="name">residency.issuance.search</field>
+            <field name="model">residency.issuance</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="employee_id"/>
+                    <field name="employee_position"/>
+                    <field name="project_id"/>
+                    <field name="residency_id"/>
+                    <field name="state"/>
+                    <field name="sponsor_name"/>
+                    <field name="sponsor_phone"/>
+                    <field name="sponsor_address"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Project" name="project" context="{'group_by': 'project_id'}"/>
+                        <filter string="Type" name="residency_id" context="{'group_by': 'residency_id'}"
+                                invisible="context.get('residency_renewal')"/>
+                        <filter string="Status" name="state" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_residency_issuance" model="ir.actions.act_window">
+            <field name="name">Residency Issuance</field>
+            <field name="res_model">residency.issuance</field>
+            <field name="search_view_id" ref="residency_issuance_search_view"/>
+            <field name="view_id" ref="residency_issuance_list_view"/>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_request_type': 'residency_issuance', 'residency_issuance': True}</field>
+            <field name="domain">[('request_type', '=', 'residency_issuance')]</field>
+        </record>
+
+        <record id="action_residency_renewal" model="ir.actions.act_window">
+            <field name="name">Residency Renewal</field>
+            <field name="res_model">residency.issuance</field>
+            <field name="search_view_id" ref="residency_issuance_search_view"/>
+            <field name="view_id" ref="residency_renewal_list_view"/>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_request_type': 'residency_renewal', 'residency_renewal': True}</field>
+            <field name="domain">[('request_type', '=', 'residency_renewal')]</field>
+        </record>
+
+        <record id="mail_activity_submit_expense" model="mail.activity.type">
+            <field name="name">Submit Expense Report</field>
+            <field name="icon">fa-users</field>
+            <field name="res_model">residency.issuance</field>
+        </record>
+    </data>
+</odoo>

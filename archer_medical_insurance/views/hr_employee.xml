@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_medical_insurance.view_employee_form_inherit" model="ir.ui.view">
+            <field name="name">archer_medical_insurance.view_employee_form_inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_button_box')]/button" position="after">
+                    <button name="get_employee_medical"
+                            type="object" class="oe_stat_button order-10" icon="fa-newspaper-o">
+                        <field name="med_insurance_count" widget="statinfo" string="Medical Insurance"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="archer_medical_insurance.view_archer_medical_empl_employee_tree" model="ir.ui.view">
+            <field name="name">archer_medical_insurance.view_archer_medical_empl_employee_tree</field>
+            <field name="model">archer.medical.employee</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false" duplicate="false" delete="false">
+                    <field name="employee_id" invisible="1"/>
+                    <field name="provider_id"/>
+                    <field name="ins_for"/>
+                    <field name="family_id"/>
+                    <field name="license_no"/>
+                    <field name="med_group_id"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="archer_medical_insurance.view_archer_medical_base_employee_tree" model="ir.ui.view">
+            <field name="name">archer_medical_insurance.view_archer_medical_base_employee_tree</field>
+            <field name="model">archer.medical.employee</field>
+            <field name="arch" type="xml">
+                <tree duplicate="false">
+                    <field name="employee_id"/>
+                    <field name="provider_id"/>
+                    <field name="ins_for"/>
+                    <field name="family_id"/>
+                    <field name="license_no"/>
+                    <field name="med_group_id"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="archer_medical_insurance.view_archer_medical_base_employee_form" model="ir.ui.view">
+            <field name="name">archer_medical_insurance.view_archer_medical_base_employee_form</field>
+            <field name="model">archer.medical.employee</field>
+            <field name="arch" type="xml">
+                <form duplicate="false">
+                    <header>
+                        <field name="user_can_approve" invisible="1"/>
+                        <field name="workflow_states" invisible="1"/>
+                        <field name="button_approve_enabled" invisible="1"/>
+                        <field name="button_forward_enabled" invisible="1"/>
+                        <field name="button_return_enabled" invisible="1"/>
+                        <field name="approve_button_name" invisible="1"/>
+                        <field name="approve_confirm_msg" invisible="1"/>
+                        <field name="reject_button_wizard" invisible="1"/>
+                        <field name="reject_button_name" invisible="1"/>
+                        <field name="reject_confirm_msg" invisible="1"/>
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_approve" type="object" string="Draft Approve" states="draft"/>
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve"
+                                attrs="{'invisible' : [('user_can_approve','=', False)]}"/>
+                        <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}"/>
+                        <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|','|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}"/>
+                        <button name="action_forward" type="object" string="Forward"
+                                attrs="{'invisible' : [('button_forward_enabled','=', False)]}"/>
+                        <button name="action_return" type="object" string="Return"
+                                attrs="{'invisible' : [('button_return_enabled','=', False)]}"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1" force_save="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="employee_id" attrs="{'readonly':[('state','in',['approved','rejected'])]}"/>
+                                <field name="ins_for" attrs="{'readonly':[('state','in',['approved','rejected'])]}"/>
+                                <field name="family_id" attrs="{'invisible':[('ins_for','=','employee')]}"/>
+                            </group>
+                            <group>
+                                <field name="provider_id" attrs="{'readonly':[('state','in',['approved','rejected'])],'required':[('state','=','approve')]}"/>
+                                <field name="med_group_id" attrs="{'readonly':[('state','in',['approved','rejected'])],'required':[('state','=','approve')]}"/>
+                                <field name="license_no" attrs="{'readonly':[('state','in',['approved','rejected'])],'required':[('state','=','approve')]}"/>
+                                <field name="date_start" attrs="{'readonly':[('state','in',['approved','rejected'])],'required':[('state','=','approve')]}"/>
+                                <field name="date_end" attrs="{'readonly':[('state','in',['approved','rejected'])],'required':[('state','=','approve')]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+
+            </field>
+        </record>
+
+        <record id="archer_medical_insurance.act_archer_medical_base_employee_action" model="ir.actions.act_window">
+            <field name="name">Medical Insurance</field>
+            <field name="res_model">archer.medical.employee</field>
+            <field name="view_mode">kanban,list,form</field>
+        </record>
+
+
+        <menuitem
+                id="archer_medical_insurance.item_archer_medical_base_employee_menu"
+                name="Medical Insurance" action="archer_medical_insurance.act_archer_medical_base_employee_action"
+                parent="hr.menu_hr_root" sequence="4"/>
+
+    </data>
+</odoo>

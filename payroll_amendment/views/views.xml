@@ -1,0 +1,126 @@
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="hr_employee_view_form" model="ir.ui.view">
+            <field name="name">hr.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Amendments">
+                        <field name="amendment_ids" nolabel="1" readonly="1">
+                            <tree>
+                                <field name="name"/>
+                                <field name="rule_id"/>
+                                <field name="date"/>
+                                <field name="amount"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="payroll_amendment_form" model="ir.ui.view">
+            <field name="name">payroll.amendment.form</field>
+            <field name="model">payroll.amendment</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button name="action_confirm" type="object" string="Confirm" states="draft"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" required="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <label for="date" string="Period"/>
+                                <div>
+                                    <field name="month" class="oe_inline" readonly="1"/> - <field name="year" class="oe_inline" readonly="1"/>
+                                </div>
+                                <field name="rule_id" required="1" domain="[('is_amendment', '=', True)]"/>
+                            </group>
+                            <group>
+                                <field name="date" invisible="1"/>
+                                <field name="type" required="1"/>
+                                <field name="amount" required="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="employee_ids" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="payroll_amendment_tree" model="ir.ui.view">
+            <field name="name">payroll.amendment.tree</field>
+            <field name="model">payroll.amendment</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="rule_id"/>
+                    <field name="type"/>
+                    <field name="amount"/>
+                    <field name="employee_ids" widget="many2many_tags"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="payroll_amendment_action" model="ir.actions.act_window">
+            <field name="name">Payroll Amendment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">payroll.amendment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+        <record id="hr_salary_rule_form_inherit" model="ir.ui.view">
+            <field name="name">hr.salary.rule.form.inherit</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='appears_on_payslip']" position="after">
+                    <field name="is_amendment"/>
+                </xpath>
+                <xpath expr="//field[@name='amount_select']" position="attributes">
+                    <attribute name="force_save">1</attribute>
+
+                    <attribute name="attrs">{'readonly':[('is_amendment','=',True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='condition_select']" position="attributes">
+                    <attribute name="force_save">1</attribute>
+
+                    <attribute name="attrs">{'readonly':[('is_amendment','=',True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='amount_python_compute']" position="attributes">
+                    <attribute name="force_save">1</attribute>
+                    <attribute name="attrs">{'readonly':[('is_amendment','=',True)],'invisible':[('amount_select','!=','code')], 'required':[('amount_select','=','code')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='condition_python']" position="attributes">
+                    <attribute name="force_save">1</attribute>
+                    <attribute name="attrs">{'readonly':[('is_amendment','=',True)],'invisible':[('amount_select','!=','code')], 'required':[('amount_select','=','code')]}</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="payroll_amendment_menu" name="Payroll Amendment" parent="hr_work_entry_contract_enterprise.menu_hr_payroll_root"
+                  action="payroll_amendment_action" sequence="90"/>
+    </data>
+</odoo>

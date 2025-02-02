@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_project_custom.view_account_expense_revision_tree" model="ir.ui.view">
+            <field name="name">archer_project_custom.view.account.expense.revision.tree</field>
+            <field name="model">account.expense.revision</field>
+            <field name="arch" type="xml">
+                <tree create="false" duplicate="false" delete="false">
+                    <field name="origin_model" invisible="1"/>
+                    <field name="origin_id" invisible="1"/>
+                    <field name="model_name"/>
+                    <field name="reference"/>
+                    <field name="sequence"/>
+                    <field name="project_id"/>
+                    <field name="customer_id"/>
+                    <field name="expense_account_id"/>
+                    <field name="accrued_expense_account_id"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="archer_project_custom.view_account_expense_revision_form" model="ir.ui.view">
+            <field name="name">archer_project_custom.view.account.expense.revision.form</field>
+            <field name="model">account.expense.revision</field>
+            <field name="arch" type="xml">
+                <form create="false" duplicate="false" delete="false">
+                    <header>
+                        <button name="action_confirm" type="object" string="Confirm" class="oe_highlight"
+                                states="draft"/>
+                        <button name="action_entry_post" type="object" string="Post Entry" class="oe_highlight"
+                                states="confirm"/>
+                        <button name="action_confirm_entry_post" type="object" string="Confirm &amp; Post Entry"
+                                class="oe_highlight" states="confirm"/>
+                        <button name="action_confirm_payment" type="object" string="Create Payment"
+                                class="oe_highlight"  attrs="{'invisible':['|',('state','!=', 'post'),('payment_status','!=', 'not_paid')]}"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <field name="company_id" invisible="1"/>
+                        <field name="currency_id" invisible="1"/>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="row d-flex justify-content-start">
+                                        <div class="oe_title">
+                                        <h1>
+                                            <field name="sequence"/>
+                                        </h1>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="row d-flex justify-content-end">
+                                        <h1>
+
+                                            <field name="payment_status" nolabel="1" widget="badge" decoration-success="payment_status == 'paid'"
+                                                   decoration-info="payment_status == 'in_payment'"    decoration-danger="payment_status == 'not_paid'"/>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <group>
+                            <group>
+                                <field name="model_name"/>
+                                <field name="origin_id" invisible="1"/>
+                                <field name="origin_model" invisible="1"/>
+                                <field name="reference"/>
+                            </group>
+                            <group>
+                                <field name="partner_id" readonly="1" force_save="1"/>
+                                <field name="project_id"/>
+                                <field name="analytic_account_id" readonly="1" force_save="1"/>
+                                <field name="customer_id"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="amount" widget="monetary"/>
+                                <field name="account_move_id" attrs="{'invisible':[('account_move_id','=',False)]}"/>
+                                <field name="payment_id" attrs="{'invisible':[('payment_id','=',False)]}"/>
+
+                            </group>
+                            <group>
+                                <field name="expense_account_id"/>
+                                <field name="accrued_expense_account_id" invisible="1"/>
+                                <field name="accrued_expense_journal_id" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="archer_project_custom.account_expense_revision_act_window" model="ir.actions.act_window">
+            <field name="name">Expense</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.expense.revision</field>
+            <field name="view_mode">tree,form</field>
+
+        </record>
+
+        <record id="archer_project_custom.account_expense_revision_confirm_act_server" model="ir.actions.server">
+            <field name="name">Confirm</field>
+            <field name="model_id" ref="archer_project_custom.model_account_expense_revision"/>
+            <field name="binding_model_id" ref="archer_project_custom.model_account_expense_revision"/>
+            <field name="binding_view_types">form,list</field>
+            <field name="state">code</field>
+            <field name="code">action = records.action_confirm()</field>
+        </record>
+        <record id="archer_project_custom.account_expense_revision_post_act_server" model="ir.actions.server">
+            <field name="name">Post</field>
+            <field name="model_id" ref="archer_project_custom.model_account_expense_revision"/>
+            <field name="binding_model_id" ref="archer_project_custom.model_account_expense_revision"/>
+            <field name="binding_view_types">form,list</field>
+            <field name="state">code</field>
+            <field name="code">action = records.action_entry_post()</field>
+        </record>
+        <record id="archer_project_custom.account_expense_revision_confirm_post_act_server" model="ir.actions.server">
+            <field name="name">Confirm &amp; Post</field>
+            <field name="model_id" ref="archer_project_custom.model_account_expense_revision"/>
+            <field name="binding_model_id" ref="archer_project_custom.model_account_expense_revision"/>
+            <field name="binding_view_types">form,list</field>
+            <field name="state">code</field>
+            <field name="code">action = records.action_confirm_entry_post()</field>
+        </record>
+
+    </data>
+</odoo>

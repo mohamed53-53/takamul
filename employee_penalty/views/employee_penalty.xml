@@ -1,0 +1,103 @@
+<data>
+    <record id="employee_penalty_form" model="ir.ui.view">
+        <field name="name">employee.penalty.form</field>
+        <field name="model">employee.penalty</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_hr_specialist_approve" groups="employee_penalty.hr_specialist_group"
+                            string="HR Specialist Approve"
+                            attrs="{'invisible':[('state','!=','draft')]}"
+                            type="object" class="oe_highlight" />
+                    <button name="action_approve" string="Approve"
+                            attrs="{'invisible':[('state','!=','hr_specialist')]}"
+                            type="object" class="oe_highlight" />
+                    <button name="action_cancel" string="Cancel" type="object" class="oe_highlight" states="draft"/>
+                    <button name="action_set_draft" string="Set to Draft" type="object" class="oe_highlight" states="hr_specialist"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,hr_specialist,approve"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date"
+                                   attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
+                            <field name="penalty_type"
+                                   attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
+                            <field name="penalty_value"
+                                   attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
+                        </group>
+                        <group>
+                            <field name="employee_id"
+                                   attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
+                            <field name="pin"/>
+                            <field name="contract_id"/>
+                            <field name="penalty_amount"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="reason"
+                               attrs="{'readonly':[('state','in',('approve','cancel'))]}"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="employee_penalty_tree" model="ir.ui.view">
+        <field name="name">employee.penalty.tree</field>
+        <field name="model">employee.penalty</field>
+        <!--<field name="field_parent">children_ids if_want_to_add_Childs</field>-->
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="employee_id"/>
+                <field name="pin"/>
+                <field name="penalty_type"/>
+                <field name="penalty_value"/>
+                <field name="penalty_amount"/>
+                <field name="deducted"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="employee_penalty_search" model="ir.ui.view">
+        <field name="name">employee.penalty.search</field>
+        <field name="model">employee.penalty</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="date"/>
+                <field name="employee_id"/>
+                <field name="penalty_type"/>
+                <field name="penalty_value"/>
+                <field name="penalty_amount"/>
+                <group expand="0" string="Group By">
+                    <filter string="Date" name="group_date"
+                            context="{'group_by':'date'}"/>
+                    <filter string="Employee" name="group_employee_id"
+                            context="{'group_by':'employee_id'}"/>
+                    <filter string="Penalty Type" name="group_penalty_type"
+                            context="{'group_by':'penalty_type'}"/>
+                    <filter string="Penalty Value" name="group_penalty_value"
+                            context="{'group_by':'penalty_value'}"/>
+                    <filter string="Penalty Amount" name="group_penalty_amount"
+                            context="{'group_by':'penalty_amount'}"/>
+                    <filter string="Deducted" name="group_deducted"
+                            context="{'group_by':'deducted'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="employee_penalty_action" model="ir.actions.act_window">
+        <field name="name">Employee penalty</field>
+        <field name="res_model">employee.penalty</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+</data>

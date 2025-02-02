@@ -1,0 +1,145 @@
+<odoo>
+    <data>
+        <record id="hr_contract_view_form_inherit" model="ir.ui.view">
+            <field name="name">archer_dynamic_allowance.hr.contract.view.form.inherit</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='rule_ids']/tree/field[@name='rule_id']" position="before">
+                    <field name="date"/>
+                </xpath>
+                <xpath expr="//page[last()]" position="after">
+                    <page string="History Dynamic Salary Rule" name="history_dynamic_salary_rule">
+                        <field name="basic_sal" invisible="1"/>
+                        <field name="history_rule_ids" context="{'default_contract_id':active_id}">
+                            <tree editable="bottom">
+                                <field name="employee_id" invisible="1"/>
+                                <field name="contract_id" invisible="1"/>
+                                <field name="structure_type_id" invisible="1"/>
+                                <field name="default_struct_id" invisible="1"/>
+                                <field name="date"/>
+                                <field name="date_history"/>
+                                <field name="rule_id"/>
+                                <field name="value_type"/>
+                                <field name="value"/>
+                                <field name="total_value" string="Total Value" sum="Total"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <record id="employee_promotion_form" model="ir.ui.view">
+            <field name="name">employee.promotion.form</field>
+            <field name="model">employee.promotion</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <field name="user_can_approve" invisible="1"/>
+                        <field name="workflow_states" invisible="1"/>
+                        <field name="button_approve_enabled" invisible="1"/>
+                        <field name="button_forward_enabled" invisible="1"/>
+                        <field name="button_return_enabled" invisible="1"/>
+                        <field name="approve_button_name" invisible="1"/>
+                        <field name="approve_confirm_msg" invisible="1"/>
+                        <field name="reject_button_wizard" invisible="1"/>
+                        <field name="reject_button_name" invisible="1"/>
+                        <field name="reject_confirm_msg" invisible="1"/>
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_approve" type="object" string="Draft Approve" states="draft"/>
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve"
+                                attrs="{'invisible' : [('user_can_approve','=', False)]}"/>
+                        <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}"/>
+                        <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|','|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}"/>
+                        <button name="action_forward" type="object" string="Forward"
+                                attrs="{'invisible' : [('button_forward_enabled','=', False)]}"/>
+                        <button name="action_return" type="object" string="Return"
+                                attrs="{'invisible' : [('button_return_enabled','=', False)]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" attrs="{'readonly':[('state', 'in',['approved'])]}"/>
+                            </group>
+                            <group>
+                                <field name="date" attrs="{'readonly':[('state', 'in',['approved'])]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="department_id" attrs="{'readonly':[('state', 'in',['approved'])]}"/>
+                            </group>
+                            <group>
+                                <field name="job_id" attrs="{'readonly':[('state', 'in',['approved'])]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Dynamic Salary Rule" name="dynamic_salary_rule">
+                                <field name="rule_ids" context="{'default_contract_id':active_id}" attrs="{'readonly':[('state', 'in',['approved'])]}">
+                                    <tree editable="bottom">
+                                        <field name="employee_id" invisible="1"/>
+                                        <field name="contract_id" invisible="1"/>
+                                        <field name="structure_type_id" invisible="1"/>
+                                        <field name="default_struct_id" invisible="1"/>
+                                        <field name="rule_id"/>
+                                        <field name="value_type" readonly="1"/>
+                                        <field name="old_value" readonly="1"/>
+                                        <field name="total_value" string="Total Value" sum="Total" readonly="1"/>
+                                        <field name="new_value" string="New Value"/>
+                                        <field name="new_total_value" string="New Total Value" sum="Total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="employee_promotion_tree" model="ir.ui.view">
+            <field name="name">employee.promotion.tree</field>
+            <field name="model">employee.promotion</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="job_id"/>
+                    <field name="state" widget="badge" decoration-success="state == 'confirm'"
+                           decoration-info="state == 'draft'"/>
+                </tree>
+            </field>
+        </record>
+        <record id="employee_promotion_action" model="ir.actions.act_window">
+            <field name="name">Employee Promotion</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.promotion</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="employee_promotion_menu" name="Employee Promotion" parent="hr.menu_hr_root" action="employee_promotion_action"
+                  sequence="5"/>
+        <record id="view_hr_payslip_form" model="ir.ui.view">
+            <field name="name">hr.payslip.form</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='contract_id']" position="after">
+                    <field name="promo_note"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,46 @@
+<odoo>
+    <data>
+        <record id="other_benefits_form" model="ir.ui.view">
+            <field name="name">eos.other.benefits.form</field>
+            <field name="model">eos.other.benefits</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <field name="account_id" class="oe_inline"/>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="other_benefits_tree" model="ir.ui.view">
+            <field name="name">eos.other.benefits.tree</field>
+            <field name="model">eos.other.benefits</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="account_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="other_benefits_action" model="ir.actions.act_window">
+            <field name="name">Other Benefits</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">eos.other.benefits</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="other_benefits_menu" name="Other Benefits" parent="hr.menu_human_resources_configuration"
+                  action="other_benefits_action" sequence="6"/>
+    </data>
+</odoo>

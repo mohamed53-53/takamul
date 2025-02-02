@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_freelancer_employee.view_res_partner_form_inherit" model="ir.ui.view">
+            <field name="name">archer_freelancer_employee.view_res_partner-form_inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='email']" position="attributes">
+                    <attribute name="attrs"></attribute>
+                </xpath>
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="project_id" readonly="1" save_force="1" attrs="{'invisible':[('is_freelance','=', False)]}"/>
+                    <field name="is_freelance" readonly="1" save_force="1" attrs="{'invisible':[('is_freelance','=', False)]}"/>
+                    <field name="bank_name" readonly="1" save_force="1" attrs="{'invisible':[('is_freelance','=', False)]}"/>
+                    <field name="iban" readonly="1" save_force="1" attrs="{'invisible':[('is_freelance','=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="archer_freelancer_employee.view_archer_freelance_application_form" model="ir.ui.view">
+            <field name="name">archer_freelancer_employee.view_archer_freelance_application_form</field>
+            <field name="model">archer.freelance.application</field>
+            <field name="arch" type="xml">
+                <form string="Freelance Application">
+                    <header>
+                        <field name="user_can_approve" invisible="1"/>
+                        <field name="workflow_states" invisible="1"/>
+                        <field name="button_approve_enabled" invisible="1"/>
+                        <field name="button_forward_enabled" invisible="1"/>
+                        <field name="button_return_enabled" invisible="1"/>
+                        <field name="approve_button_name" invisible="1"/>
+                        <field name="approve_confirm_msg" invisible="1"/>
+                        <field name="reject_button_wizard" invisible="1"/>
+                        <field name="reject_button_name" invisible="1"/>
+                        <field name="reject_confirm_msg" invisible="1"/>
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_approve" type="object" string="Draft Approve" states="draft"/>
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve"
+                                attrs="{'invisible' : [('user_can_approve','=', False)]}"/>
+                        <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}"/>
+                        <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|','|',('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}"/>
+                        <button name="action_forward" type="object" string="Forward"
+                                attrs="{'invisible' : [('button_forward_enabled','=', False)]}"/>
+                        <button name="action_return" type="object" string="Return"
+                                attrs="{'invisible' : [('button_return_enabled','=', False)]}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="sequence"/>
+                            <h4>
+                                <field name="sequence" readonly="1" save_force="1"/>
+                            </h4>
+                        </div>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                            </h1>
+                        </div>                        <div class="oe_title">
+                            <label for="ar_name"/>
+                            <h1>
+                                <field name="ar_name" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="partner_id" readonly="1" save_force="1" attrs="{'invisible':[('partner_id','=', False)]}"/>
+                                <field name="project_id" options="{'no_create':True,'no_open':True}" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                                <field name="email" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                                <field name="mobile" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="country_id" options="{'no_create':True,'no_open':True}" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                                <field name="bank_name" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                                <field name="iban" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="archer_freelancer_employee.view_archer_freelance_application_tree" model="ir.ui.view">
+            <field name="name">archer_freelancer_employee.view_archer_freelance_application_tree</field>
+            <field name="model">archer.freelance.application</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="ar_name"/>
+                    <field name="project_id"/>
+                    <field name="email"/>
+                    <field name="country_id"/>
+                    <field name="bank_name"/>
+                    <field name="iban"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="archer_freelancer_employee.action_archer_freelance_application_window" model="ir.actions.act_window">
+            <field name="name">Freelancer Application</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">archer.freelance.application</field>
+            <field name="view_mode">tree,form</field>
+
+        </record>
+
+
+    </data>
+</odoo>

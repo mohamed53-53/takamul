@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_archer_payroll_arch_import_hr_contract,archer_payroll.arch_import_hr_contract,model_arch_import_hr_contract,base.group_user,1,1,1,1

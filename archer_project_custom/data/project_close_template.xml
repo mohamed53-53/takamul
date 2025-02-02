@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mail_template_project_close" model="mail.template">
+            <field name="name">Project Termination</field>
+            <field name="model_id" ref="project.model_project_project"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="email_from">{{ (object.create_uid.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.owner_id.email }}</field>
+            <field name="subject">Project [{{ object.name }}] Termination </field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px;font-size: 13px;">
+                        Dear <t t-out="object.owner_id.name or ''"/>,<br/>
+                        Please noted <br/>
+                        Project : <t t-out="object.name"/><br/>
+                        Start Date : <t t-out="object.date_start"/><br/>
+                        End Date : <t t-out="object.date"/><br/>
+                        Must start in termination process<br/>
+                        Please start process
+
+                    </p>
+                </div></field>
+        </record>
+    </data>
+</odoo>

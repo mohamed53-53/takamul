@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="archer_freelancer_employee.archer_freelance_application_seq" model="ir.sequence">
+            <field name="name">Freelancer Application</field>
+            <field name="code">archer_freelancer_employee.archer_freelance_application_seq</field>
+            <field name="prefix">FRT</field>
+            <field name="padding">7</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="archer_freelancer_employee.archer_freelance_workorder_seq" model="ir.sequence">
+            <field name="name">Freelancer Workorder</field>
+            <field name="code">archer_freelancer_employee.archer_freelance_workorder_seq</field>
+            <field name="prefix">WOT</field>
+            <field name="padding">7</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="main_template" name="main_template" inherit_id="portal.frontend_layout" primary="True">
+        <xpath expr="//div[@id='wrapwrap']/header" position="replace"></xpath>
+        <xpath expr="//div[@id='wrapwrap']/footer" position="replace"></xpath>
+        <xpath expr="//body" position="attributes">
+            <attribute name="t-attf-class" separator=" " add="bbody"/>
+        </xpath>
+    </template>
+
+
+</odoo>

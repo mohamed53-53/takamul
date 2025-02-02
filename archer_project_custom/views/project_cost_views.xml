@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="archer_project_custom.view_archer_project_cost_tree" model="ir.ui.view">
+        <field name="name">archer_project_custom.view_archer_project_cost_tree</field>
+        <field name="model">archer.project.cost</field>
+        <field name="arch" type="xml">
+            <tree string="Project Cost">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="request_month"/>
+                <field name="request_year"/>
+                <field name="month_cost" sum="Total"/>
+                <button name="generate_cost_report" type="object" class="oe_highlight" string="Cost Analysis"/>
+                <button name="generate_coc_report" type="object" class="btn-warning" string="COC Report"/>
+                <button name="get_cost_lines" type="object" class="btn-info" string="Cost Report"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="archer_project_custom.view_archer_project_cost_line_tree" model="ir.ui.view">
+        <field name="name">archer_project_custom.view_archer_project_cost_line_tree</field>
+        <field name="model">archer.project.cost.line</field>
+        <field name="arch" type="xml">
+            <tree string="Project Cost">
+                <field name="line_type" invisible="1"/>
+                <field name="cost_id"/>
+                <field name="project_id"/>
+                <field name="analytic_account_id"/>
+                <field name="service_id" invisible="1"/>
+                <field name="headhunt_id" invisible="1"/>
+                <field name="logistic_id" invisible="1"/>
+                <field name="service_name"/>
+                <field name="account_id"/>
+                <field name="account_id"/>
+                <field name="service_month_cost" sum="Total"/>
+            </tree>
+        </field>
+    </record>
+
+
+</odoo>

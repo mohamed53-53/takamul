@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<template id="report_coc">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)" />
+				<t t-call="oi_certification_of_completion.report_coc_document" t-lang="o.partner_id.lang" />
+			</t>
+		</t>
+	</template>
+
+	<template id="report_coc_document">
+		<t t-call="web.external_layout">
+			<div class="page">
+				<div class="oe_structure" />
+				<h2>Certification of Completion</h2>
+				<div id="informations" class="row mt32 mb32">
+					<div t-if="o.user_id" class="col-3 bm-2">
+						<strong>Vendor:</strong>
+						<p t-field="o.partner_id" class="m-0" />
+					</div>
+					<div t-if="o.purchase_order_id" class="col-3 bm-2">
+						<strong>Purchase Order:</strong>
+						<p t-field="o.purchase_order_id" class="m-0" />
+					</div>
+					<div class="col-3 bm-2" t-if="o.department_id">
+						<strong>Department:</strong>
+						<p t-field="o.department_id" class="m-0" />
+					</div>					
+					<div class="col-3 bm-2">
+						<strong>Date:</strong>
+						<p t-field="o.date" class="m-0" />
+					</div>
+				</div>
+
+				<table class="table table-sm o_main_table">
+					<thead>
+						<tr>
+							<th name="no">
+								<strong>No.</strong>
+							</th>
+							<th name="th_description">
+								<strong>Description</strong>
+							</th>
+							<th name="th_po_quantity" class="text-right" t-if="o.purchase_order_id">
+								<strong>Order Qty</strong>
+							</th>
+							<th name="th_received_quantity" class="text-right">
+								<strong>Received Qty</strong>
+							</th>
+							<th name="th_amount" class="text-right">
+								<strong>Amount</strong>
+							</th>
+							<th name="th_date_req" class="text-center">
+								<strong>Date Received</strong>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<t t-set="line_seq" t-value="0" />
+						<t t-foreach="o.line_ids" t-as="line">
+							<t t-set="line_seq" t-value="line_seq + 1" t-if="not line.display_type" />
+							<tr
+								t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+								<t t-if="not line.display_type">
+									<td id="sequence">
+										<span t-esc="line_seq" />
+									</td>
+									<td id="product">
+										<span t-field="line.name" />
+									</td>
+									<td class="text-right" t-if="o.purchase_order_id">
+										<span t-field="line.po_product_qty" />
+									</td>
+									<td class="text-right">
+										<span t-field="line.product_qty" />
+										<span t-field="line.product_uom.name" groups="uom.group_uom" />
+									</td>
+									<td class="text-right">
+										<span t-field="line.price_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}" />
+									</td>
+									<td class="text-center">
+										<span t-field="line.received_date" />
+									</td>
+								</t>
+								<t t-if="line.display_type == 'line_section'">
+									<td colspan="99" id="section">
+										<span t-field="line.name" />
+									</td>
+								</t>
+								<t t-if="line.display_type == 'line_note'">
+									<td colspan="99" id="note">
+										<span t-field="line.name" />
+									</td>
+								</t>
+							</tr>
+						</t>
+					</tbody>
+				</table>
+
+				<div id="total" class="row justify-content-end">
+					<div class="col-4">
+						<table class="table table-sm">
+							<tr class="border-black">
+								<td name="td_subtotal_label">
+									<strong>Subtotal</strong>
+								</td>
+								<td class="text-right">
+									<span t-field="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}" />
+								</td>
+							</tr>
+							<tr>
+								<td name="td_taxes_label">Taxes</td>
+								<td class="text-right">
+									<span t-field="o.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}" />
+								</td>
+							</tr>
+							<tr class="border-black o_total">
+								<td name="td_amount_total_label">
+									<strong>Total</strong>
+								</td>
+								<td class="text-right">
+									<span t-field="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}" />
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+
+				<p t-field="o.notes" />
+				<div class="oe_structure" />
+
+			</div>
+		</t>
+	</template>
+
+
+</odoo>

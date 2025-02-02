@@ -1,0 +1,93 @@
+<odoo>
+    <data>
+        <record id="view_hr_payslip_form" model="ir.ui.view">
+            <field name="name">hr.payslip.form</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='move_id']" position="after">
+                    <field name="payment_id" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='date_from']" position="replace">
+                    <field name="month" class="oe_inline"/> /
+                </xpath>
+                <xpath expr="//field[@name='date_to']" position="replace">
+                    <field name="year" class="oe_inline"/>
+                </xpath>
+                <xpath expr="//group" position="inside">
+                    <label for="date_from" string="Period"/>
+                    <div>
+                        <field name="date_from" class="oe_inline" readonly="1"/> - <field name="date_to" class="oe_inline" readonly="1"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_hr_payslip_run_form" model="ir.ui.view">
+            <field name="name">hr.payslip.run.form</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_end']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date_start']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//group/group[2]" position="inside">
+                    <field name="total_net"/>
+                </xpath>
+                <xpath expr="//group/group[1]" position="inside">
+                    <field name="total_cost"/>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <field name="slip_ids" invisible="1"/>
+                    <button name="recompute_slips" type="object" string="Recompute Slips" class="oe_highlight" attrs="{'invisible': ['|', ('state', 'not in', ['draft', 'verify']), ('slip_ids', '=', [])]}"/>
+                    <button name="create_payment" type="object" string="Create Payment" class="oe_highlight" attrs="{'invisible': ['|', ('state', '!=', 'close'), ('slip_ids', '=', [])]}"/>
+                </xpath>
+                <xpath expr="//label[@for='date_start']" position="replace">
+                    <label for="month" string="Period"/>
+                     <div class="o_row">
+                           <field name="month" class="oe_inline"/>     <field name="year" class="oe_inline"/>
+                     </div>
+<!--                    <field name="month"/>-->
+<!--                    <field name="year"/>-->
+<!--                    <br/>-->
+                    <label for="date_start" string="Period" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_arch_import_hr_contract_wizard_form" model="ir.ui.view">
+        <field name="name">view_arch_import_hr_contract_wizard_form</field>
+        <field name="model">arch.import.hr.contract</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="file_name" required="1"/>
+                </sheet>
+                <footer>
+                    <button name="import_hr_contract"
+                            string="Import"
+                            type="object"
+                            class="oe_highlight "
+                    />
+                    <button string="Cancel"
+                            class="oe_link"
+                            special="cancel"
+                    />
+                </footer>
+            </form>
+        </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="wizard_arch_import_hr_contract_action">
+            <field name="name">Import HR Contract</field>
+            <field name="res_model">arch.import.hr.contract</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="wizard_arch_import_hr_contract_menuitem" name="Import Contracts" action="wizard_arch_import_hr_contract_action"  parent="hr.menu_human_resources_configuration"/>
+
+    </data>
+</odoo>

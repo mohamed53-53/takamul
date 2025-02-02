@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<menuitem id="menu_coc" name="COC" web_icon="oi_certification_of_completion,static/description/icon.png" />	
+
+	<menuitem id="menu_account_coc" action="action_account_coc" parent="menu_coc" name="Certificate of Completion"/>
+
+</odoo>

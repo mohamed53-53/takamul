@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="project_req_list_view" model="ir.ui.view">
+        <field name="name">project.request.tree</field>
+        <field name="model">project.request</field>
+        <field name="arch" type="xml">
+            <tree string="Project Request">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="owner_id"/>
+                <field name="date_start" optional="show"/>
+                <field name="date" optional="show"/>
+                <field name="coc_template_id" optional="show"/>
+                <field name="actual_value" optional="hide"/>
+                <field name="budget" optional="hide"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="project_req_form_view" model="ir.ui.view">
+        <field name="name">project.request.form</field>
+        <field name="model">project.request</field>
+        <field name="arch" type="xml">
+            <form delete="0" string="Project Request Form">
+                <header>
+                    <field name="user_can_approve" invisible="1"/>
+                    <field name="workflow_states" invisible="1"/>
+                    <field name="button_approve_enabled" invisible="1"/>
+                    <field name="button_forward_enabled" invisible="1"/>
+                    <field name="button_return_enabled" invisible="1"/>
+                    <field name="approve_button_name" invisible="1"/>
+                    <field name="approve_confirm_msg" invisible="1"/>
+                    <field name="reject_button_wizard" invisible="1"/>
+                    <field name="reject_button_name" invisible="1"/>
+                    <field name="reject_confirm_msg" invisible="1"/>
+                    <button name="action_approve" type="object" string="Confirm" class="oe_highlight" states="draft"/>
+                    <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve"
+                            attrs="{'invisible' : [('user_can_approve','=', False)]}"/>
+                    <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject"
+                            attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}"/>
+                    <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject"
+                            attrs="{'invisible' : ['|','|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}"/>
+                    <button name="action_forward" type="object" string="Forward"
+                            attrs="{'invisible' : [('button_forward_enabled','=', False)]}"/>
+                    <button name="action_return" type="object" string="Return"
+                            attrs="{'invisible' : [('button_return_enabled','=', False)]}"/>
+
+                    <field name="state" widget="statusbar"/>
+
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" class="text-break" placeholder="Project Name" required="1"
+                                   readonly="context.get('account_project_request') or context.get('hr_project_request')"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" widget="res_partner_many2one" required="1"
+                                   readonly="context.get('account_project_request') or context.get('hr_project_request')"
+                                   domain="[('is_company', '=', True)]" context="{'default_company_type':'company'}"/>
+                            <field name="user_id" string="Project Manager" widget="many2one_avatar_user" domain="[('share', '=', False)]"
+                                   required="1" readonly="context.get('account_project_request') or context.get('hr_project_request')"/>
+                            <field name="owner_id" string="Project Owner" domain="[('parent_id', '=', partner_id)]"
+                                   readonly="context.get('account_project_request') or context.get('hr_project_request')"/>
+                            <label for="date_start" string="Project Duration"/>
+                            <div name="dates" class="o_row">
+                                <field name="date_start" widget="daterange" options='{"related_end_date": "date"}' required="1"
+                                       readonly="context.get('account_project_request') or context.get('hr_project_request')"/>
+                                <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon" title="Arrow"/>
+                                <i class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon" title="Arrow"
+                                   attrs="{'invisible': [('date_start', '=', False), ('date', '=', False)]}"/>
+                                <field name="date" widget="daterange" options='{"related_start_date": "date_start"}' required="1"
+                                       readonly="context.get('account_project_request') or context.get('hr_project_request')"/>
+                            </div>
+                            <field name="categ_id" options="{ 'no_quick_create': True, 'no_create': True}"/>
+                            <field name="business_domain" options="{ 'no_quick_create': True, 'no_create': True}"/>
+                            <field name="analytic_account_id" readonly="1" attrs="{'invisible':[('analytic_account_id','=',False)]}"/>
+                            <field name="project_id" readonly="1" attrs="{'invisible':[('project_id','=',False)]}"/>
+                            <field name="company_id" groups="base.group_multi_company" invisible="1"/>
+                            <field name="coc_template_id" options="{'no_create':True,'no_open':True}" string="COC Template" invisible="context.get('hr_project_request',True)"/>
+                            <field name="petty_cash_allowed" invisible="context.get('hr_project_request',True)"/>
+                            <field name="petty_cash_responsible_id" options="{'no_create':True,'no_open':True}" attrs="{'required':[('petty_cash_allowed','=', True)],'invisible':[('petty_cash_allowed','=', False)]}" readonly="context.get('hr_project_request',True)" />
+
+                        </group>
+                        <group>
+                            <field name="contract_value" required="1" invisible="context.get('hr_project_request',True)"/>
+                            <field name="vat_included" invisible="context.get('hr_project_request',True)"/>
+                            <field name="actual_value" invisible="context.get('hr_project_request',True)"/>
+                            <field name="markup" required="1" invisible="context.get('hr_project_request',True)"/>
+                            <field name="budget" invisible="context.get('hr_project_request',True)"/>
+                            <field name="top_cost_limit" required="1" invisible="context.get('hr_project_request',True)"/>
+                            <field name="bottom_cost_limit" required="1" invisible="context.get('hr_project_request',True)"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="margin" string="Margin" invisible="context.get('hr_project_request',True)">
+                            <field name="coc_template_item_ids" context="{'project_request_id':active_id}" options="{'no_create':True,'no_open':True}"
+                                   readonly="context.get('account_project_request') or context.get('hr_project_request')">
+                                <tree editable="bottom">
+                                    <field name="project_request_id" invisible="1"/>
+                                    <field name="coc_template_id" invisible="1" />
+                                    <field name="coc_template_item_id" options="{'no_create':True,'no_open':True}" required="1" string="Item" domain="[('coc_template_id','=',coc_template_id)]"/>
+                                    <field name="margin"  required="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="services" string="Services"  invisible="context.get('hr_project_request',True)">
+                            <field name="service_ids" options="{'no_create':True,'no_open':True}"
+                                   readonly="context.get('account_project_request') or context.get('hr_project_request')">
+                                <tree>
+                                    <field name="name" />
+                                    <field name="property_account_expense_id" />
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page name="salary" string="Payroll Policy" invisible="context.get('hr_project_request',True)">
+                            <field name="salary_constraint_ids" readonly="context.get('account_project_request')">
+                                <tree editable="bottom"  class="max_min_salary">
+                                    <field name="grade_id"  required="1" context="{'project_request_grade': True}" options="{'no_create':True,'no_open':True}"/>
+                                    <field name="basic_salary_min"   required="1"/>
+                                    <field name="basic_salary_max" required="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="constraints" string="Service Constraints" invisible="context.get('hr_project_request',True)">
+                            <field name="constraint_ids" readonly="context.get('account_project_request')"
+                                   required="context.get('hr_project_request')" context="{'project_request_id':active_id}">
+                                <tree string="Hr Expense Constraint" editable="bottom">
+                                    <field name="project_id" invisible="1"/>
+                                    <field name="project_request_id" invisible="1"/>
+                                    <field name="service_ids" invisible="1"/>
+                                    <field name="product_id" domain="[('provide_service', '=', True),('id', 'in', service_ids)]" options="{'no_create':True,'no_open':True}"/>
+                                    <field name="grade_id" options="{'no_create':True,'no_open':True}"/>
+                                    <field name="max_amount"/>
+                                    <field name="period"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="salary_rules" string="Salary Rules" >
+                                <group>
+                                    <group>
+                                        <field name="structure_type_id" required="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="structure_id" readonly="1" force_save="1"/>
+                                    </group>
+                                </group>
+                                <field name="salary_rule_ids" options="{'no_create': True,'no_create_edit': True}" domain="[('struct_id','=',structure_id)]">
+                            </field>
+                        </page>
+                        <page name="loan_config" string="Loan Configuration">
+                            <group>
+                                <group>
+                                    <field name="max_loan_percentage" invisible="context.get('hr_project_request',True)"/>
+                                </group>
+                                <group>
+                                    <field name="max_loan_installments" invisible="context.get('hr_project_request',True)"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" options="{'post_refresh':True}"
+                           help="Follow this project to automatically track the events associated to tasks and issues of this project."
+                           groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+
+        </field>
+    </record>
+    <record model="ir.ui.view" id="project_req_search_view">
+        <field name="name">project.request.search</field>
+        <field name="model">project.request</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id" string="Customer" filter_domain="[('partner_id', 'child_of', self)]"/>
+                <field name="owner_id"/>
+                <field name="user_id"/>
+                <field name="state"/>
+                <field name="service_ids"/>
+                <field name="coc_template_id"/>
+                <field name="date"/>
+                <filter string="Rejected" name="state" domain="[('state', '=', 'rejected')]"/>
+                <filter string="End Date" name="date" date="date"/>
+                <group expand="0" string="Group By">
+                    <filter string="Customer" name="Partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Project Manager" name="Manager" context="{'group_by': 'user_id'}"/>
+                    <filter string="Approval Status" name="state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+
+        </field>
+    </record>
+    <record id="action_project_req_list" model="ir.actions.act_window">
+        <field name="name">Project Request</field>
+        <field name="res_model">project.request</field>
+        <field name="search_view_id" ref="project_req_search_view"/>
+        <field name="view_id" ref="project_req_list_view"/>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'hr_project_request': False, 'project_request': True}</field>
+    </record>
+
+
+    <!--    Hr Project Request-->
+    <record id="action_project_req_list_hr" model="ir.actions.act_window">
+        <field name="name">Project Request List</field>
+        <field name="res_model">project.request</field>
+        <field name="search_view_id" ref="project_req_search_view"/>
+        <field name="view_id" ref="project_req_list_view"/>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '!=', 'draft')]</field>
+        <field name="context">{'hr_project_request': True, 'create': False}</field>
+    </record>
+
+    <!--       Project Request Menu in accounting-->
+    <record id="action_project_req_list_account" model="ir.actions.act_window">
+        <field name="name">Project Request List</field>
+        <field name="res_model">project.request</field>
+        <field name="search_view_id" ref="project_req_search_view"/>
+        <field name="view_id" ref="project_req_list_view"/>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state', '!=', 'draft')]</field>
+        <field name="context">{'create': False, 'account_project_request': True,}</field>
+    </record>
+
+
+</odoo>

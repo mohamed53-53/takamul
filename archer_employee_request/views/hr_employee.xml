@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_employee_form_residency_inherit" model="ir.ui.view">
+            <field name="name">view.employee.form.residency.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="archer_hr_custom.view_employee_form_residency"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='residency_number']" position="before">
+                    <field name="from_request" readonly="1" attrs="{'invisible':[('from_request','=', False)]}"/>
+                    <field name="residency_type" readonly="1" attrs="{'invisible':[('from_request','=', False)]}"/>
+                    <field name="residency_job_title_date"/>
+                </xpath>
+
+                <xpath expr="//field[@name='residency_number']" position="attributes">
+                    <attribute name="attres">{'readonly':[('from_request','=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='serial_number']" position="attributes">
+                    <attribute name="attres">{'readonly':[('from_request','=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='resid_job_title']" position="attributes">
+                    <attribute name="attres">{'readonly':[('from_request','=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='place_of_issuance']" position="attributes">
+                    <attribute name="attres">{'readonly':[('from_request','=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='issuance_date']" position="attributes">
+                    <attribute name="attres">{'readonly':[('from_request','=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='expiration_date']" position="attributes">
+                    <attribute name="attres">{'readonly':[('from_request','=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='expiration_date_in_hijri']" position="attributes">
+                    <attribute name="attres">{'readonly':[('from_request','=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='arrival_date']" position="attributes">
+                    <attribute name="attres">{'readonly':[('from_request','=', True)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

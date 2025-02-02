@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_archer_vendor_account_coc_payment_type,archer_vendor_coc.account_coc_payment_type,model_account_coc_payment_type,base.group_user,1,1,1,1
+access_archer_vendor_account_coc_history,archer_vendor_coc.account_coc_history,model_account_coc_history,base.group_user,1,1,1,1
+access_archer_vendor_account_coc_sla,archer_vendor_coc.account_coc_sla,model_account_coc_sla,base.group_user,1,1,1,1
+access_archer_vendor_account_coc_payment_register,archer_vendor_coc.account_coc_payment_register,model_account_coc_payment_register,base.group_user,1,1,1,1

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="employee_project_transfer_batch_form_view" model="ir.ui.view">
+            <field name="name">employee.project.transfer.batch.form</field>
+            <field name="model">employee.project.transfer.batch</field>
+            <field name="arch" type="xml">
+                <form string="Employee Project Transfer Batch">
+                    <header>
+                        <button name="confirm" type="object" string="Confirm" class="oe_highlight"
+                                attrs="{'invisible': [('state', '=', 'confirmed')]}"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,confirmed"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="project_id" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+                            </group>
+                            <group>
+                                <field name="date" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="employee_ids" widget="many2many_tags" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+                            </group>
+                            <group>
+                                <field name="src_project_id" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Employees">
+                                <group>
+                                    <field name="transfer_ids" context="{'default_project_id': parent.project_id, 'default_date': parent.date}" nolabel="1">
+                                        <tree editable="bottom">
+                                            <field name="employee_id" domain="[('project_id', '!=', parent.project_id), ('contract_id', '!=', False)]"/>
+                                            <field name="current_project_id"/>
+                                            <field name="project_id" invisible="1"/>
+                                            <field name="date"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="employee_project_transfer_batch_tree_view" model="ir.ui.view">
+            <field name="name">employee.project.transfer.batch.tree</field>
+            <field name="model">employee.project.transfer.batch</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Project Transfer Batch">
+                    <field name="project_id"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="employee_project_transfer_batch_action_view" model="ir.actions.act_window">
+            <field name="name">Employee Project Transfer Batch</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.project.transfer.batch</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="employee_project_transfer_batch_menu" name="Employee Project Transfer Batch"
+                  parent="hr.menu_hr_employee_payroll"
+                  action="employee_project_transfer_batch_action_view" sequence="24"/>
+        <record id="employee_project_transfer_form_view" model="ir.ui.view">
+            <field name="name">employee.project.transfer.form</field>
+            <field name="model">employee.project.transfer</field>
+            <field name="arch" type="xml">
+                <form string="Employee Project Transfer">
+                    <header>
+                        <button name="confirm" type="object" string="Confirm" class="oe_highlight"
+                                attrs="{'invisible': [('state', '=', 'confirmed')]}"/>
+                        <button name="transfer_employees" type="object" string="Transfer" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,confirmed"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+                                <field name="current_project_id" readonly="1" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="project_id" attrs="{'readonly': [('state', '=', 'confirmed')]}" domain="[('id', '!=', current_project_id)]"/>
+                                <field name="date" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+                                <field name="last_date_in_project"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="employee_project_transfer_tree_view" model="ir.ui.view">
+            <field name="name">employee.project.transfer.tree</field>
+            <field name="model">employee.project.transfer</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Project Transfer">
+                    <field name="employee_id"/>
+                    <field name="current_project_id"/>
+                    <field name="project_id"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="employee_project_transfer_action_view" model="ir.actions.act_window">
+            <field name="name">Employee Project Transfer</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.project.transfer</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="employee_project_transfer_menu" name="Employee Project Transfer"
+                  parent="hr.menu_hr_employee_payroll"
+                  action="employee_project_transfer_action_view" sequence="25"/>
+    </data>
+</odoo>

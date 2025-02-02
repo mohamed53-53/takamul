@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+<!--        <record id="stage_job1" model="social.insurance">-->
+<!--            <field name="employee_basic">122</field>-->
+<!--            <field name="employee_variable">122</field>-->
+<!--            <field name="company_basic">122</field>-->
+<!--            <field name="company_variable">122</field>-->
+<!--        </record>-->
+
+<!--            <record id="hr_salary_rule_gosi" model="hr.salary.rule">-->
+<!--                <field name="category_id" ref="hr_payroll.ALW"/>-->
+<!--                <field name="name">Gosi</field>-->
+<!--                <field name="code">GOSI</field>-->
+<!--                <field name="sequence">20</field>-->
+<!--                <field name="condition_select">none</field>-->
+<!--                <field name="amount_select">code</field>-->
+<!--                <field name="amount_python_compute">-->
+<!--        result = contract.env["hr.payslip"].get_employee_gosi_amount(employee, payslip, categories.ALW)-->
+<!--                </field>-->
+<!--                <field name="struct_id" ref="hr_payroll.structure_worker_001"/>-->
+<!--            </record>-->
+
+    </data>
+</odoo>

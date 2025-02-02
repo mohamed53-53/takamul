@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem name="Employee Requests" id="menu_main_epr" groups="hr.group_hr_manager,hr.group_hr_user"
+                  web_icon="archer_employee_request,static/description/icon.png"/>
+
+      <menuitem name="Expense By HR" id="archer_employee_request.menu_hr_expense" groups="hr.group_hr_manager,hr.group_hr_user"
+                  web_icon="archer_employee_request,static/description/expense_hr_icon.png"/>
+
+
+        <menuitem id="archer_employee_request.menu_hr_expense_requests" name="Expense Requests" parent="archer_employee_request.menu_hr_expense"
+                  sequence="1" groups="hr.group_hr_manager" action="archer_employee_request.action_hr_expense_type_request"/>
+
+        <menuitem id="menu_all_requests" name="All Requests" parent="menu_main_epr"
+                  sequence="1" groups="hr.group_hr_manager"/>
+        <menuitem id="menu_requests" name="Requests" parent="menu_main_epr"
+                  sequence="2" groups="hr.group_hr_manager"/>
+
+
+        <menuitem id="residency_root_menu" name="Residency" parent="menu_main_epr"
+                  sequence="2" groups="hr.group_hr_manager"/>
+
+
+
+        <menuitem id="menu_residency_issuance" name="Residency Issuance" parent="residency_root_menu" action="action_residency_issuance"
+                  sequence="1" groups="hr.group_hr_manager"/>
+        <menuitem id="menu_residency_renewal" name="Residency Renewal" parent="residency_root_menu"
+                  sequence="2" groups="hr.group_hr_manager" action="action_residency_renewal"/>
+        <menuitem id="menu_residency_job_title_change" name="Residency Job Title Change" parent="residency_root_menu"
+                  sequence="3" groups="hr.group_hr_manager" action="action_residency_job_title"/>
+
+
+        <menuitem id="visa_root_menu" name="Visa" parent="menu_main_epr"
+                  sequence="3" groups="hr.group_hr_manager"/>
+
+        <menuitem id="menu_visit_visa_attestation" name="Visit Visa Attestation" parent="visa_root_menu"
+                  sequence="1" groups="hr.group_hr_manager" action="action_visit_visa_attestation"/>
+        <menuitem id="menu_exit_re_entry_visa" name="Exit And Re-entry Visa" parent="visa_root_menu"
+                  sequence="2" groups="hr.group_hr_manager" action="action_re_entry_visa"/>
+
+
+        <menuitem id="employee_bank_root_menu" name="Employee Bank" parent="menu_main_epr"
+                  sequence="4" groups="hr.group_hr_manager"/>
+
+        <menuitem id="menu_salary_transfer" name="Salary Transfer" parent="employee_bank_root_menu"
+                  sequence="6" groups="hr.group_hr_manager" action="action_salary_transfer"/>
+
+        <menuitem id="menu_benefit" name="Benefit" parent="menu_requests"
+                  sequence="7" groups="hr.group_hr_manager" action="action_benefit_request"/>
+        <menuitem id="menu_business_trip" name="Business Trip" parent="menu_requests"
+                  sequence="8" groups="hr.group_hr_manager" action="action_business_trip"/>
+        <menuitem id="menu_travel_tickets" name="Travel Tickets" parent="menu_requests"
+                  sequence="9" groups="hr.group_hr_manager" action="action_travel_tickets"/>
+        <menuitem id="menu_resignation" name="Resignation" parent="menu_requests"
+                  sequence="10" groups="hr.group_hr_manager" action="action_resignation_request"/>
+        <menuitem id="menu_loan_advance" name="Loan/Advance" parent="menu_requests"
+                  sequence="11" groups="hr.group_hr_manager" action="action_lone_advance"/>
+        <menuitem id="menu_leave_request" name="Leave Request" parent="menu_requests"
+                  sequence="13" groups="hr.group_hr_manager" action="action_leave_request"/>
+        <menuitem id="menu_po_expense" name="PO Expense" parent="menu_requests"
+                  sequence="14" groups="hr.group_hr_manager" action="action_po_request"/>
+
+        <menuitem id="menu_change_request_project" name="Change Request Project" parent="menu_main_epr"
+                  sequence="3" groups="hr.group_hr_manager"/>
+
+        <menuitem id="menu_letters" name="Letters" parent="menu_main_epr"
+                  sequence="4" groups="hr.group_hr_manager"/>
+        <menuitem id="menu_salary_confirmation" name="Salary Confirmation" parent="menu_letters"
+                  sequence="1" groups="hr.group_hr_manager" action="action_salary_confirmation"/>
+        <menuitem id="menu_identification" name="Identification" parent="menu_letters"
+                  sequence="2" groups="hr.group_hr_manager" action="action_salary_identification"/>
+
+        <menuitem id="menu_reports" name="Reports" parent="menu_main_epr"
+                  sequence="5" groups="hr.group_hr_manager"/>
+
+        <menuitem id="menu_reports" name="Reports" parent="menu_main_epr"
+                  sequence="3" groups="hr.group_hr_manager"/>
+        <menuitem id="menu_configuration" name="Configuration" parent="menu_main_epr"
+                  sequence="6" groups="hr.group_hr_manager"/>
+        <menuitem id="menu_residency" name="Residency Permit Types" parent="menu_configuration" action="action_residency"
+                  sequence="1" groups="hr.group_hr_manager"/>
+        <menuitem id="menu_expense_type" name="Expense Types" parent="menu_configuration" action="action_expense_type_request"
+                  sequence="2" groups="hr.group_hr_manager"/>
+
+
+      <menuitem id="employee_expense_root_menu" name="Expense Claim" parent="menu_main_epr"
+                sequence="6" groups="hr.group_hr_manager"/>
+      <menuitem id="menu_expense_claim" name="Expense Claim" parent="employee_expense_root_menu"
+                sequence="12" groups="hr.group_hr_manager" action="action_expense_request"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="gosi_hire_view_tree" model="ir.ui.view">
+        <field name="name">gosi.hire.tree</field>
+        <field name="model">gosi.hire</field>
+        <field name="arch" type="xml">
+            <tree string="Gosi Hire">
+                <field name="name" />
+                <field name="employee_id" />
+                <field name="number" />
+                <field name="start_date" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="gosi_hire_view_form" model="ir.ui.view">
+        <field name="name">gosi.hire.form</field>
+        <field name="model">gosi.hire</field>
+        <field name="arch" type="xml">
+            <form string="GOSI Hire" >
+                 <header>
+                        <field name="user_can_approve" invisible="1" />
+                        <field name="workflow_states" invisible="1" />
+                        <field name="button_approve_enabled" invisible="1" />
+                        <field name="button_forward_enabled" invisible="1" />
+                        <field name="button_return_enabled" invisible="1" />
+                        <field name="approve_button_name" invisible="1" />
+                        <field name="approve_confirm_msg" invisible="1" />
+                        <field name="reject_button_wizard" invisible="1" />
+                        <field name="reject_button_name" invisible="1" />
+                        <field name="reject_confirm_msg" invisible="1" />
+                        <button name="action_approve" type="object" string="Confirm" class="oe_highlight" states="draft" />
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve" attrs="{'invisible' : [('user_can_approve','=', False)]}" />
+                        <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject" attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}" />
+                        <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject" attrs="{'invisible' : ['|','|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}" />
+                        <button name="action_forward" type="object" string="Forward" attrs="{'invisible' : [('button_forward_enabled','=', False)]}" />
+                        <button name="action_return" type="object" string="Return" attrs="{'invisible' : [('button_return_enabled','=', False)]}" />
+                        <button name="action_cancel" type="object" string="Cancel" class="oe_highlight" states="draft,done" />
+                        <field name="state" widget="statusbar"/>
+                 </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1 class="mt0" >
+                            <field name="name"  attrs="{'readonly':[('state', 'in',['done'])]}"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id" attrs="{'readonly':[('state', 'in',['done'])]}"/>
+                            <field name="company_id" attrs="{'readonly':[('state', 'in',['done'])]}" />
+                            <field name="employee_id"  attrs="{'readonly':[('state', 'in',['done'])]}"/>
+                            <field name="number" attrs="{'readonly':[('state', 'in',['done'])]}" />
+                            <field name="start_date" attrs="{'readonly':[('state', 'in',['done'])]}" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow this project to automatically track the events associated to tasks and issues of this project." groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="gosi_hire_view_search" model="ir.ui.view">
+        <field name="name">gosi.hire.search</field>
+        <field name="model">gosi.hire</field>
+        <field name="arch" type="xml">
+            <search string="Tasks">
+                <field name="name" />
+                <field name="employee_id" />
+                <field name="number" />
+                <field name="start_date" />
+                <field name="state" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gosi_hire" model="ir.actions.act_window">
+        <field name="name">GOSI Hiring</field>
+        <field name="res_model">gosi.hire</field>
+        <field name="view_id" ref="gosi_hire_view_tree"/>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="gosi_hire_view_search"/>
+    </record>
+
+
+
+</odoo>

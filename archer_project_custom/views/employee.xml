@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="view_employee_form_project" model="ir.ui.view">
+            <field name="name">hr.employee.project</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='department_id']" position="after">
+                    <field name="project_id" domain="[('project_state','=', 'active')]"/>
+                    <field name="project_owner_id"/>
+                </xpath>
+                <xpath expr="//field[@name='department_id']" position="attributes">
+                        <attribute name="domain">[('project_ids', 'in', project_id)]</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

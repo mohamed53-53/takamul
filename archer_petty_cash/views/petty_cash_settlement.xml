@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_petty_cash.view_archer_petty_cash_settlement_form" model="ir.ui.view">
+            <field name="name">archer_petty_cash.view_archer_petty_cash_settlement_form</field>
+            <field name="model">archer.petty.cash.settlement</field>
+            <field name="arch" type="xml">
+                <form string="Petty Cash Settlement">
+                    <header>
+                        <field name="user_can_approve" invisible="1"/>
+                        <field name="workflow_states" invisible="1"/>
+                        <field name="button_approve_enabled" invisible="1"/>
+                        <field name="button_forward_enabled" invisible="1"/>
+                        <field name="button_return_enabled" invisible="1"/>
+                        <field name="approve_button_name" invisible="1"/>
+                        <field name="approve_confirm_msg" invisible="1"/>
+                        <field name="reject_button_wizard" invisible="1"/>
+                        <field name="reject_button_name" invisible="1"/>
+                        <field name="reject_confirm_msg" invisible="1"/>
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_approve" type="object" string="Draft Approve"
+                                attrs="{'invisible':['|',('state','!=', 'draft'),('can_approve_draft','=',False)]}"/>
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve"
+                                attrs="{'invisible' : [('user_can_approve','=', False)]}"/>
+                        <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}"/>
+                        <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|','|',('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}"/>
+                        <button name="action_forward" type="object" string="Forward"
+                                attrs="{'invisible' : [('button_forward_enabled','=', False)]}"/>
+                        <button name="action_return" type="object" string="Return"
+                                attrs="{'invisible' : [('button_return_enabled','=', False)]}"/>
+                        <field name="can_approve_draft" invisible="1"/>
+                    </header>
+                    <sheet>
+                        <div class="row">
+                            <div class="col-3 d-flex justify-content-center text-center">
+                                <div class="oe_title">
+                                    <label for="base_amount"/>
+                                    <h4>
+                                        <field name="base_amount" readonly="1" force_save="1"/>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="col-3 d-flex justify-content-center text-center">
+                                <div class="oe_title">
+                                    <label for="base_remaining_amount"/>
+                                    <h4>
+                                        <field name="base_remaining_amount" readonly="1" force_save="1"/>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="col-3 d-flex justify-content-center text-center">
+                                <div class="oe_title">
+                                    <label for="consumed_amount"/>
+                                    <h4>
+                                        <field name="consumed_amount" readonly="1" force_save="1"/>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="col-3 d-flex justify-content-center text-center">
+                                <div class="oe_title">
+                                    <label for="remaining_amount"/>
+                                    <h4>
+                                        <field name="remaining_amount" readonly="1" force_save="1"/>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="oe_title">
+                            <label for="sequence"/>
+                            <h1>
+                                <field name="sequence" readonly="1" force_save="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="create_date" readonly="1" force_save="1"/>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="sttel_month"/>
+                                        <field name="sttel_month" readonly="1" force_save="1"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="sttel_year"/>
+                                        <field name="sttel_year" readonly="1" force_save="1"/>
+                                    </div>
+                                </div>
+                                <field name="request_id" readonly="1" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="project_id" readonly="1" force_save="1"/>
+                                <field name="payment_journal_id" readonly="1" force_save="1"/>
+                                <field name="entry_id" readonly="1" force_save="1" attrs="{'invisible':[('entry_id','=',False)]}"/>
+                            </group>
+
+                        </group>
+                        <notebook>
+                            <page name="line_ids" string="Payment Transaction">
+                                <field name="settlement_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="settlement_id" readonly="1" force_save="1" invisible="1"/>
+                                        <field name="line_date"/>
+                                        <field name="line_description"/>
+                                        <field name="ref"/>
+                                        <field name="partner_id"/>
+                                        <field name="attach"/>
+                                        <field name="amount" sum="Total" widget="monetary"/>
+                                        <field name="settle_state" invisible="1"/>
+                                        <field name="group_id"
+                                               attrs="{'invisible': [('settle_state','not in',['fin_approve','approved'])], 'required':[('settle_state','=','fin_approve')]}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="archer_petty_cash.view_archer_petty_cash_settlement_tree" model="ir.ui.view">
+            <field name="name">archer_petty_cash.view_archer_petty_cash_settlement_tree</field>
+            <field name="model">archer.petty.cash.settlement</field>
+            <field name="arch" type="xml">
+                <tree string="Petty Cash Settlement" create="false" delete="false" duplicate="false">
+                    <field name="create_date" string="Date"/>
+                    <field name="sequence"/>
+                    <field name="request_id"/>
+                    <field name="responsible_id"/>
+
+                    <field name="sttel_month" />
+                    <field name="sttel_year" />
+                    <field name="base_amount"/>
+                    <field name="consumed_amount"/>
+                    <field name="remaining_amount"/>
+                    <field name="payment_journal_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="archer_petty_cash.action_archer_petty_cash_settlement_windows" model="ir.actions.act_window">
+            <field name="name">Petty Cash Settlement</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">archer.petty.cash.settlement</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <record id="archer_petty_cash.view_archer_petty_cash_group_tree" model="ir.ui.view">
+            <field name="name">archer_petty_cash.view_archer_petty_cash_group_tree</field>
+            <field name="model">archer.petty.cash.group</field>
+            <field name="arch" type="xml">
+                <tree string="Petty Cash Group" duplicate="false" editable="bottom">
+                    <field name="name" />
+                    <field name="account_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="archer_petty_cash.action_archer_petty_cash_group_windows" model="ir.actions.act_window">
+            <field name="name">Petty Cash Group</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">archer.petty.cash.group</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+    </data>
+</odoo>

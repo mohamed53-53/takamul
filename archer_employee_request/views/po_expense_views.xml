@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="po_expense_form_view" model="ir.ui.view">
+            <field name="name">po.expense.request.form</field>
+            <field name="model">po.expense</field>
+            <field name="arch" type="xml">
+                <form delete="0" string="PO Expense Form">
+                    <header>
+                        <field name="user_can_approve" invisible="1" />
+                        <field name="workflow_states" invisible="1" />
+                        <field name="button_approve_enabled" invisible="1" />
+                        <field name="button_forward_enabled" invisible="1" />
+                        <field name="button_return_enabled" invisible="1" />
+                        <field name="approve_button_name" invisible="1" />
+                        <field name="approve_confirm_msg" invisible="1" />
+                        <field name="reject_button_wizard" invisible="1" />
+                        <field name="reject_button_name" invisible="1" />
+                        <field name="reject_confirm_msg" invisible="1" />
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_approve" type="object" string="Draft Approve"  states="draft"/>
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve"
+                                attrs="{'invisible' : [('user_can_approve','=', False)]}"/>
+                        <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}"/>
+                        <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}"/>
+                        <button name="action_forward" type="object" string="Forward"
+                                attrs="{'invisible' : [('button_forward_enabled','=', False)]}"/>
+                        <button name="action_return" type="object" string="Return"
+                                attrs="{'invisible' : [('button_return_enabled','=', False)]}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="sequence"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="employee_id" />
+                                <field name="project_id"/>
+                                <field name="analytic_account_id"/>
+                            </group>
+                            <group>
+                                <field name="product_id_domain" invisible="1"/>
+                                <field name="product_id" domain="product_id_domain"/>
+                                <field name="account_id"/>
+                                <field name="amount"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="approve_date"/>
+                        </group>
+                        <group>
+                            <field name="desc"/>
+                        </group>
+                        <group>
+                            <field name="rejection_reason" readonly="1" attrs="{'invisible': [('state', 'not in', ['rejected'])]}"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow this project to automatically track the events associated to tasks and issues of this project." groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="po_expense_list_view" model="ir.ui.view">
+            <field name="name">po.expense.tree</field>
+            <field name="model">po.expense</field>
+            <field name="arch" type="xml">
+                <tree string="PO Expense">
+                    <field name="employee_id"/>
+                    <field name="project_id" />
+                    <field name="approve_date" />
+                    <field name="amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="po_expense_search_view">
+            <field name="name">po.expense.search</field>
+            <field name="model">po.expense</field>
+                <field name="arch" type="xml">
+                    <search>
+                        <field name="employee_id"/>
+                        <field name="project_id"/>
+                    </search>
+                </field>
+        </record>
+
+        <record id="action_po_request" model="ir.actions.act_window">
+            <field name="name">PO Expense</field>
+            <field name="res_model">po.expense</field>
+             <field name="search_view_id" ref="po_expense_search_view" />
+            <field name="view_id" ref="po_expense_list_view"/>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

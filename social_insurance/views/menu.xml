@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem
+                id="social_insurance_rule_menu"
+                name="GOSI Rules"
+                parent="hr.menu_human_resources_configuration"
+                groups="hr_payroll.group_hr_payroll_manager"
+                action="action_social_insurance"
+                sequence="5"
+        />
+        <menuitem
+                id="gosi_menu"
+                name="GOSI"
+                parent="hr.menu_hr_root"
+                groups="hr_payroll.group_hr_payroll_manager"
+                action="action_gosi_hire"
+                sequence="3"
+        />
+        <menuitem
+                id="social_insurance_new_hire_menu"
+                name="New Hire"
+                parent="gosi_menu"
+                groups="hr_payroll.group_hr_payroll_manager"
+                action="action_gosi_hire"
+                sequence="2"
+        />
+        <menuitem
+                id="gosi_eos_menu"
+                name="GOSI EOS"
+                parent="social_insurance.gosi_menu"
+                groups="hr_payroll.group_hr_payroll_manager"
+                action="action_gosi_eos"
+                sequence="3"
+        />
+    </data>
+</odoo>

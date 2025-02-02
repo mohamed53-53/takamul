@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="job_offer" name="job_offer">
+        <t t-call="archer_portal.main_template">
+            <div id="wrap" class="oe_structure">
+                <section class="p-2 mb-5">
+                    <div class="container offer-card-body px-3">
+                        <div class="col-12">
+                            <div class="row head-row p-2 justify-content-between align-items-center">
+                                <div class="head-row-txt mx-5">Job Offer</div>
+                                <div class="head-row-img mx-5">
+                                    <img src="/archer_portal/static/images/takamol-logo.png" width="250" height="50"/>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="row">
+                                        <span class="applicant-name">
+                                            Dear
+                                            <t t-out="offer.applicant_en_name or ''"/>
+
+                                        </span>
+                                    </div>
+                                    <div class="row">
+                                        <span class="applicant-greeting">
+                                            Greetings from Takamol Business Solutions
+                                        </span>
+                                    </div>
+
+                                </div>
+                                <div class="align-self-center col-4">
+                                    <div class="justify-content-end row ">
+                                        <span class="offer-sequence">
+                                            Offer
+                                            <t t-out="offer.sequence or ''" style=""/>
+
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-7">
+                                    <p>
+                                        We have an opportunity for
+                                        <strong>
+                                            <t t-out="offer.job_id.name or ''"/>
+                                        </strong>
+                                        , Please e-Sign this offers Job
+                                        <br/>
+                                        <br/>
+                                        Probation period: 3 Months
+                                        <br/>
+                                        <br/>
+                                        We expect you ready join with position on
+                                        <strong>
+                                            <t t-out="offer.date_start or ''"/>
+                                        </strong>
+                                        to
+                                        <strong>
+                                            <t t-out="offer.date_end or ''"/>
+                                        </strong>
+                                        .
+                                        <br/>
+                                        <br/>
+                                        <br/>
+                                        <t t-if="offer.date_expiry">
+                                            <span class="text-danger">Offer Expire on
+                                                <t t-out="offer.date_expiry or ''"/>
+                                            </span>
+
+                                        </t>
+                                    </p>
+                                </div>
+                                <div class="col-5 ">
+                                    Benefits Table:
+                                    <t t-if="offer.rule_ids">
+
+                                        <table class="table table-striped text-center table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th class="offer-head-td">Benefit</th>
+                                                    <th class="offer-head-td">Value</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="offer.rule_ids" t-as="rule">
+                                                    <tr>
+                                                        <td>
+                                                            <t t-out="rule.rule_id.name"/>
+
+                                                        </td>
+                                                        <td>
+                                                            <t t-out="rule.value"/>
+
+                                                            <t t-if="rule.value_type == 'percent' ">% from Base Salary</t>
+                                                            <t t-else="">
+                                                                <t t-out="rule.currency_id.symbol"/>
+                                                            </t>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <tr>
+                                                    <td class="offer-foot-td">
+                                                        <span class="text-white">Total Salary</span>
+                                                    </td>
+                                                    <td class="offer-foot-td">
+                                                        <span class="text-white">
+                                                            <t t-out="offer.salary_total or 0.0 "/>
+                                                            <t t-out="offer.currency_id.symbol"/>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <t t-if="offer.notes">
+                                    <span class="h5">Notes:</span>
+                                    <p t-out="offer.notes"/>
+                                </t>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <span>HR General Manager</span>
+                                </div>
+                                <div class="col-6  text-center">
+                                    <span>Your e-Sign Here</span>
+
+
+                                    <div class="wrappersign d-inline-block">
+                                        <canvas id="signature-pad" class="signature-pad border rounded" t-att-width="400"
+                                                t-att-height="200"/>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="footer-row row justify-content-around">
+                            <div class="col-6 align-self-center">
+                                <div class="footer-btn-reject row mx-5 w-50 float-left">
+                                    <div class="footer-btn-reject-div col-3 py-2">
+                                        <img src="/archer_portal/static/images/ico-refuse.svg" width="20" height="20"/>
+                                    </div>
+                                    <div class="col-9 text-center align-self-center ">
+                                        <a type="button" class="footer-btn-reject-label">Refuse
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-6 align-self-center">
+                                <div class="footer-btn-agree row mx-5 w-50 float-right">
+                                    <div class="col-9 text-center align-self-center ">
+                                        <a type="button" t-att-href="'/job/offer?offer=%s&amp;state=accept'%offer.application_token"
+                                           class="footer-btn-agree-label">Agree
+                                        </a>
+                                    </div>
+                                    <div class="footer-btn-agree-div col-3 py-2">
+                                        <img src="/archer_portal/static/images/ico-check.svg" width="20" height="20"/>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

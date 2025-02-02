@@ -1,0 +1,65 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="archer_vendor_coc.view_account_coc_form_inherit">
+      <field name="name">archer_vendor_coc.view_account_coc_form_inherit</field>
+      <field name="model">account.coc</field>
+      <field name="inherit_id" ref="oi_certification_of_completion.view_account_coc_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//header/button[last()]" position="after">
+          <button name="action_register_payment" type="object" string="Register Payment"  class="btn-info" attrs="{'invisible' : [('state','!=', 'approved')]}" />
+
+        </xpath>
+        <xpath expr="//field[@name='purchase_order_id']" position="attributes">
+          <attribute name="attrs">{'required':[('po_related','=',True)]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='purchase_order_id']" position="before">
+        <field name="project_id" force_save="1" options="{'no_create': True}" attrs="{'readonly':[('state','!=','draft')]}"/>
+          <field name="account_analytic_id"  position="move"/>
+          <field name="coc_payment_type_id" force_save="1"  attrs="{'readonly':[('state','!=','draft')]}" options="{'no_create': True}"/>
+
+        </xpath>
+        <xpath expr="//field[@name='account_analytic_id']" position="attributes">
+          <attribute name="readonly">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="po_related" invisible="1"  force_save="1"  attrs="{'readonly':[('state','!=','draft')]}"/>
+          <field name="invoice_number" force_save="1"  attrs="{'readonly':[('state','!=','draft')]}"/>
+          <field name="contract" force_save="1"  attrs="{'readonly':[('state','!=','draft')]}"/>
+          <field name="advance_payment" force_save="1"  attrs="{'readonly':[('state','!=','draft')]}"/>
+
+        </xpath>
+        <xpath expr="//field[@name='invoice_id']" position="after">
+
+          <field name="contract_from_date" force_save="1"  attrs="{'readonly':[('state','!=','draft')]}"/>
+          <field name="contract_to_date" force_save="1"  attrs="{'readonly':[('state','!=','draft')]}"/>
+          <field name="expected_sla_approve" force_save="1" readonly="1"/>
+          <field name="waiting_time" force_save="1" readonly="1"/>
+        </xpath>
+        <xpath expr="//notebook/page[last()]" position="after">
+          <page string="History" name="history">
+            <field name="history_ids" readonly="1" force_save="1">
+              <tree>
+                <field name="coc_id" invisible="1"/>
+                <field name="action_state"/>
+                <field name="action_date"/>
+                <field name="action_uid"/>
+              </tree>
+            </field>
+          </page>
+        </xpath>
+        <xpath expr="//field[@name='date']" position="attributes">
+          <attribute name="attrs">{'readonly':[('state','!=','draft')]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='user_id']" position="attributes">
+          <attribute name="attrs">{'readonly':[('state','!=','draft')]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='department_id']" position="attributes">
+          <attribute name="attrs">{'readonly':[('state','!=','draft')]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='line_ids']/tree/field[@name='account_analytic_id']" position="attributes">
+          <attribute name="readonly">1</attribute>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

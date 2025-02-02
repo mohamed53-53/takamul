@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+employee_penalty_id,employee_penalty_name,model_employee_penalty,,1,1,1,1
+employee_deduction_id,employee_deduction_name,model_employee_deduction,,1,1,1,1
+other_deduction_type,other.deduction.type,model_other_deduction_type,,1,1,1,1

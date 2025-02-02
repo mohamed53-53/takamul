@@ -1,0 +1,24 @@
+<data>
+    <menuitem id="employee_penalty_categ"
+              name="Employee Penalty"
+              parent="hr_work_entry_contract_enterprise.menu_hr_payroll_root"
+              sequence="66"/>
+
+    <menuitem id="employee_penalty_menu"
+              name="Employee Penalty"
+              action="employee_penalty_action"
+              parent="employee_penalty.employee_penalty_categ"
+              sequence="1"/>
+
+    <menuitem id="employee_deduction_menu"
+              name="Employee Deduction"
+              action="employee_deduction_action"
+              parent="employee_penalty.employee_penalty_categ"
+              sequence="2"/>
+
+    <menuitem id="employee_deduction_type_menu"
+              name="Deduction Types"
+              action="other_deduction_type_action"
+              parent="employee_penalty.employee_penalty_categ"
+              sequence="3"/>
+</data>

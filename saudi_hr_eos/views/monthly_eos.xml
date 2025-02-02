@@ -1,0 +1,84 @@
+<odoo>
+    <record id="view_employee_form_inherit" model="ir.ui.view">
+        <field name="name">view.employee.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='work_location_id']" position="after">
+                <field name="airline_tickets" invisible="1"/>
+                <field name="monthly_eos_category" invisible="1"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="employee_monthly_eos_form" model="ir.ui.view">
+        <field name="name">employee.monthly.eos</field>
+        <field name="model">employee.monthly.eos</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                    <button name="calculate_amount" string="Calculate Amount"
+                            type="object" class="oe_highlight" states="draft"/>
+                    <button name="create_monthly_eos_move" string="Create Entry"
+                            type="object" class="oe_highlight" states="draft"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" attrs="{'invisible':[('move_id','=',False)]}">
+                        <button class="oe_stat_button" name="action_open_move"
+                                string="Entry Move"
+                                type="object" icon="fa-usd">
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" attrs="{'readonly':[('state','=','posted')]}"/>
+                            <field name="type" required="True" attrs="{'readonly':[('state','=','posted')]}" readonly="1"/>
+                            <field name="date" required="True" attrs="{'readonly':[('state','=','posted')]}"/>
+                            <field name="eos_type_id"
+                                   attrs="{'required':[('type','=','monthly_eos')],'invisible':[('type','!=','monthly_eos')],'readonly':[('state','=','posted')]}"/>
+                            <field name="employee_ids" widget="many2many_tags"
+                                   attrs="{'readonly':[('state','=','posted')]}"/>
+                            <field name="move_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="journal_id" attrs="{'readonly':[('state','=','posted')]}"/>
+                            <field name="source_account_id" attrs="{'readonly':[('state','=','posted')]}"/>
+                            <field name="destination_account_id" attrs="{'readonly':[('state','=','posted')]}"/>
+                        </group>
+                        <field name="monthly_eos_line_ids" attrs="{'readonly':[('state','=','posted')]}">
+                            <tree editable="bottom">
+                                <field name="employee_id"/>
+                                <field name="join_date"/>
+                                <field name="amount"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="employee_monthly_eos_tree" model="ir.ui.view">
+        <field name="name">employee_monthly_eos_tree</field>
+        <field name="model">employee.monthly.eos</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+    <record id="employee_monthly_eos_action" model="ir.actions.act_window">
+        <field name="name">Employee Benefits</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employee.monthly.eos</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="monthly_eos_menu" name="Employee Benefits"
+              parent="menu_eos_label"
+              action="employee_monthly_eos_action"/>
+</odoo>

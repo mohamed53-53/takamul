@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_project_custom.account_expense_service_tree" model="ir.ui.view">
+            <field name="name">archer_project_custom.account.expense.service.tree</field>
+            <field name="model">account.expense.service</field>
+            <field name="arch" type="xml">
+            <tree editable="bottom"  multi_edit="1">
+                <field name="model_id" options="{'no_create':True}"/>
+                <field name="product_id" options="{'no_create':True}"/>
+            </tree>
+            </field>
+        </record>
+
+        <record id="archer_project_custom.account_expense_service_act_window" model="ir.actions.act_window">
+            <field name="name">Request Service</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.expense.service</field>
+            <field name="view_mode">tree</field>
+
+        </record>
+
+
+    </data>
+</odoo>

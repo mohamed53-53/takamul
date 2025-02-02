@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--        project menu in project-->
+        <menuitem name="Active Projects" id="menu_active_projects" parent="project.menu_main_pm" sequence="1" />
+        <menuitem name="Active Projects" id="menu_active_projects_action" action="action_project_active_list" parent="menu_active_projects" sequence="1" />
+        <menuitem name="Update Requests" id="menu_update_requests" action="action_project_change" parent="menu_active_projects" sequence="2" />
+
+        <menuitem name="Project Request" id="menu_request_project" parent="project.menu_main_pm" sequence="2" groups="group_project_prm"
+                  action="action_project_req_list"/>
+
+        <menuitem action="project.open_view_project_all_group_stage" id="project.menu_projects_group_stage" name="Projects" parent="project.menu_main_pm" sequence="3" groups="base.group_no_one" />
+        <menuitem name="My Tasks" id="project.menu_project_management" parent="project.menu_main_pm"
+                  action="project.action_view_all_task" sequence="4" groups="project.group_project_user"/>
+
+
+        <menuitem name="COC Templates" id="menu_coc_template" action="action_coc_template" parent="project.menu_project_config" sequence="8" />
+        <menuitem name="Project Category" id="archer_project_custom.item_project_project_category_menu" action="archer_project_custom.action_project_project_category_window" parent="project.menu_project_config"  />
+        <record id="account.menu_finance_receivables" model="ir.ui.menu">
+            <field name="sequence">3</field>
+        </record>
+        <menuitem name="Active Projects" id="menu_project_req_list_account" parent="account_accountant.menu_accounting"
+                  action="action_project_active_list_account" sequence="2" groups="account.group_account_manager"/>
+
+<!--        project menu in hr-->
+        <menuitem name="Projects" id="menu_HrProject" parent="hr.menu_hr_root" sequence="2"/>
+        <menuitem name="Projects" id="HrProject_menu" parent="menu_HrProject" action="action_project_active_list_hr" sequence="1"/>
+        <menuitem name="Project Requests" id="menu_request_project_in_hr" parent="menu_HrProject" action="action_project_req_list_hr"
+                  sequence="2" groups="hr.group_hr_manager"/>
+        <menuitem name="Request Service" id="archer_project_custom.account_expense_service_menu" parent="account.menu_finance_configuration" action="archer_project_custom.account_expense_service_act_window"/>
+
+        <menuitem name="Expense" id="archer_project_custom.account_expense_revision_menu" parent="account.menu_finance_entries_accounting_miscellaneous"
+                  action="archer_project_custom.account_expense_revision_act_window"/>
+
+    </data>
+</odoo>

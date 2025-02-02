@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_loan_inherited" model="ir.ui.view">
+            <field name="name">HR LOAN</field>
+            <field name="model">hr.loan</field>
+            <field name="inherit_id" ref="ohrms_loan.hr_loan_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_loan_pay" type="object" string="Register Payment" states="approved"
+                            class="oe_highlight" groups="account.group_account_user,account.group_account_manager"/>
+                </xpath>
+                <xpath expr="//header/button[@name='action_approve']" position="attributes">
+                    <attribute name="groups">hr.group_hr_manager,hr.group_hr_user</attribute>
+                </xpath>
+<!--                <xpath expr="//header/button[@name='action_refuse']" position="attributes">-->
+<!--                    <attribute name="groups">hr.group_hr_manager,hr.group_hr_user</attribute>-->
+<!--                    <attribute name="states">waiting_approval_1,waiting_approval_2</attribute>-->
+<!--                </xpath>-->
+
+                <xpath expr="//field[@name='loan_amount']" position="after">
+                    <field name="employee_account_id"
+                           domain="['|', ('company_id', '=', company_id), ('company_id', '=', False)]"
+                           attrs="{'readonly':[('state','in',('approve', 'refuse','cancel'))]}"/>
+                    <field name="treasury_account_id"
+                           domain="['|', ('company_id', '=', company_id), ('company_id', '=', False)]"
+                           attrs="{'readonly':[('state','in',('approve', 'refuse','cancel'))]}"/>
+                    <field name="journal_id" domain="['|', ('company_id', '=', company_id), ('company_id', '=', False)]"
+                           attrs="{'readonly':[('state','in',('approve', 'refuse','cancel'))]}"/>
+                </xpath>
+                <xpath expr="//field[@name='loan_lines']/tree/field[@name='amount']" position="after">
+                    <field name="paid_amount" sum="Total"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

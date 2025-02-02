@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record model="residency.residency" id="data_residency_residency_employee">
+            <field name="residency_type">employee</field>
+        </record>
+        <record model="residency.residency" id="data_residency_residency_family_member">
+            <field name="residency_type">family_member</field>
+        </record>
+        <record model="residency.residency" id="data_residency_residency_newborn_out">
+            <field name="residency_type">newborn_out</field>
+        </record>
+        <record model="residency.residency" id="data_residency_residency_newborn_in">
+            <field name="residency_type">newborn_in</field>
+        </record>
+    </data>
+</odoo>

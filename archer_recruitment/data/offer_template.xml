@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mail_template_new_offer" model="mail.template">
+            <field name="name">New Job Offer email</field>
+            <field name="model_id" ref="archer_recruitment.model_archer_recruitment_application"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="email_from">{{ (object.create_uid.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.applicant_email }}</field>
+            <field name="subject">{{ object.project_id.name }} Job Offer : (Ref {{ object.sequence or 'n/a' }})</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px;font-size: 13px;">
+                        Dear <t t-out="object.applicant_en_name or ''"/>,<br/>
+                        We are writing to offer you the position of <strong><t t-out="object.job_id.name or ''"/> </strong> with <strong><t t-out="object.partner_id.name or ''"/></strong>.<br/>
+                        <t t-if="object.date_start">
+                            We Expect you ready join with position on <strong><t t-out="object.date_start or ''"/></strong> <br/>
+                        </t>
+                        <t t-else=""/>
+                        We can offer you a <br/>
+                        <t t-if="object.rule_ids">
+                        <t t-foreach="object.rule_ids" t-as="rule">
+                            <strong><t t-out="rule.rule_id.name"/> : <t t-out="rule.value"/></strong>
+                            <t t-if="rule.value_type == 'percent' ">% from Base Salary</t>
+                            <t t-else="">
+                                 <t t-out="rule.currency_id.symbol"/>
+                            </t>
+                             . <br/>
+                        </t>
+                        </t>
+                        <br/>
+                        <strong>Total Salary : <t t-out="object.salary_total or 0.0 "/> <t t-out="object.currency_id.symbol"/></strong>  . <br/>
+                        along with paid time off as accrued according to company policy. <br/>
+                        <t t-if="object.date_expiry"><strong> Join Date </strong><t t-out="object.date_start"/><br/></t>
+                        Please review,  and sign by click following URL. <br/>
+                        <t t-if="object.date_expiry">
+                            Offer Expire on [<t t-out="object.date_expiry or ''"/> ]
+                        </t>
+                        <t t-else=""/>
+                        <t t-if="object.notes">
+                            <p t-out="object.notes"/>
+                        </t>
+                        <a class="btn btn-primary" t-att-href="'/job/offer?offer=%s'%object.application_token">Offer Link</a> <br/>
+
+
+                        <t t-if="user.signature">
+                            <br />
+                            <t t-out="user.signature or ''">--<br/>HR Specialist</t>
+                        </t>
+                    </p>
+                </div></field>
+        </record>
+    </data>
+</odoo>

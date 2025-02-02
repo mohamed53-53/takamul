@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="account_coc_workflow_submit" model="approval.config">
+        <field name="model_id" ref="model_account_coc"/>
+        <field name="state">submit</field>
+        <field name="name">Submitted</field>
+        <field name="sequence">1</field>
+        <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
+        <field name="condition">True</field>
+        <field name="schedule_activity" eval="True" />
+    </record>
+
+    <record id="account_coc_workflow_po_approve" model="approval.config">
+        <field name="model_id" ref="model_account_coc"/>
+        <field name="state">po_approve</field>
+        <field name="name">PO Approval</field>
+        <field name="sequence">2</field>
+        <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
+        <field name="condition">True</field>
+        <field name="schedule_activity" eval="True" />
+    </record>
+
+    <record id="account_coc_workflow_unit_head_approve" model="approval.config">
+        <field name="model_id" ref="model_account_coc"/>
+        <field name="state">unit_head_approve</field>
+        <field name="name">Unit Head Approval</field>
+        <field name="sequence">3</field>
+        <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
+        <field name="condition">True</field>
+        <field name="schedule_activity" eval="True" />
+    </record>
+
+    <record id="account_coc_workflow_po_approve" model="approval.config">
+        <field name="model_id" ref="model_account_coc"/>
+        <field name="state">contract_mngr_approve</field>
+        <field name="name">Contract Manager Approval</field>
+        <field name="sequence">4</field>
+        <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
+        <field name="condition">True</field>
+        <field name="schedule_activity" eval="True" />
+    </record>
+
+    <record id="account_coc_workflow_fin_approve" model="approval.config">
+        <field name="model_id" ref="model_account_coc"/>
+        <field name="state">fin_approve</field>
+        <field name="name">Financial Approval</field>
+        <field name="sequence">5</field>
+        <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
+        <field name="condition">True</field>
+        <field name="schedule_activity" eval="True" />
+    </record>
+
+</odoo>

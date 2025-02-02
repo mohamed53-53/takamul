@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_recruitment.res_config_settings_view_form_inherit" model="ir.ui.view">
+            <field name="name">archer_recruitment.res.config.settings.view.form.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="hr.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('app_settings_block')]/div[@name='employees_setting_container']" position="after">
+                    <h2>Probation Period Evaluation</h2>
+                    <div class="row mt16 o_settings_container" name="probation_period_evaluation_setting_container">
+                        <div class="col-12 col-lg-8 o_setting_box" id="first_evaluation_months_div">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label string="First Evaluation/months" for="first_evaluation_months" class="col-lg-4 o_light_label"/>
+                                        <field name="first_evaluation_months" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

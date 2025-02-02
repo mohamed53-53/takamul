@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	
+	<record id="rule_purchase_requisition_group_business_owner" model="ir.rule" >
+		<field name="name">Business Owner Requisition</field>
+		<field name="model_id" ref="purchase_requisition.model_purchase_requisition" />
+		<field name="groups" eval="[(4,ref('group_business_owner'))]" />
+		<field name="domain_force">[('line_ids.account_analytic_id.owner_ids.user_id','=',user.id)]</field>
+	</record>	
+    	
+	<record id="rule_purchase_order_group_business_owner" model="ir.rule" >
+		<field name="name">Business Owner Purchase Order</field>
+		<field name="model_id" ref="purchase.model_purchase_order" />
+		<field name="groups" eval="[(4,ref('group_business_owner'))]" />
+		<field name="domain_force">['|', ('requisition_id.line_ids.account_analytic_id.owner_ids.user_id','=',user.id), ('order_line.account_analytic_id.owner_ids.user_id','=',user.id)]</field>
+	</record>	
+	
+	<record id="rule_purchase_order_group_purchase_user" model="ir.rule" >
+		<field name="name">Purchase User Purchase Order</field>
+		<field name="model_id" ref="purchase.model_purchase_order" />
+		<field name="groups" eval="[(4,ref('purchase.group_purchase_user'))]" />
+		<field name="domain_force">[(1,'=', 1)]</field>
+	</record>	
+			
+	<record id="rule_account_coc_group_business_owner" model="ir.rule" >
+		<field name="name">Business Owner COC</field>
+		<field name="model_id" ref="model_account_coc" />
+		<field name="groups" eval="[(4, ref('group_business_owner'))]" />
+		<field name="domain_force">['|', '|', ('account_analytic_id.owner_ids.user_id','=', user.id), ('purchase_order_id.requisition_id.line_ids.account_analytic_id.owner_ids.user_id','=',user.id), ('purchase_order_id.order_line.account_analytic_id.owner_ids.user_id','=',user.id)]</field>
+	</record>	
+	
+	<record id="rule_account_coc_group_manager" model="ir.rule" >
+		<field name="name">Manager COC</field>
+		<field name="model_id" ref="model_account_coc" />
+		<field name="groups" eval="[(4,ref('group_manager'))]" />
+		<field name="domain_force">[(1, '=', 1)]</field>
+	</record>	
+    	
+</odoo>

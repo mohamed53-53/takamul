@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="customer_thankyou_page" name="Thanks" >
+        <t t-call="portal.portal_layout">
+
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="s_text_block pt40 pb40 o_colored_level " data-snippet="s_text_block">
+                    <div class="container s_allow_columns">
+                        <div class="row">
+                            <div class="col-12 ">
+                                <span class="d-block fa fa-4x fa-thumbs-up mx-auto rounded-circle bg-primary"/>
+                                <br/>
+                                <h1 class="text-center">Thank You!</h1>
+                                <div class="pb16 pt16 s_hr" data-snippet="s_hr" data-name="Separator">
+                                    <hr class="mx-auto border-top w-50 border-dark text-center"/>
+                                </div>
+                                <h5 class="text-center">
+                                    <span class="fa fa-check-circle"/>
+                                    <span>Your request has been received, our team will review it and send you
+                                        request updates.
+
+                                    </span>
+                                </h5>
+                                <p class="text-center">We will get back to you shortly.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+    <template id="customer_hire_registration" name=" Customer Hire Request" >
+        <t t-call="website.layout">
+       <div id="wrap" class="oe_structure oe_empty">
+                <section class="s_title parallax s_parallax_is_fixed bg-black-50 pt24 pb24" data-vcss="001"
+                         data-snippet="s_title" data-scroll-background-ratio="1">
+                    <span class="s_parallax_bg oe_img_bg"
+                          style="background-image: url('/web/image/website.s_banner_default_image'); background-position: 50% 0;"/>
+                    <div class="o_we_bg_filter bg-black-50"/>
+                    <div class="container">
+                        <h1>New Hire Request</h1>
+                    </div>
+                </section>
+                <section class="s_text_block pt40 pb40 o_colored_level ">
+
+                    <div class="container s_allow_columns">
+                        <form action="/customer-hire-registration/submit" method="post"
+                              enctype="multipart/form-data" class="o_mark_required">
+                            <t t-set="countries" t-value="request.env['res.country'].sudo().search([])"/>
+                            <t t-set="projects" t-value="request.env.user.project_ids.sudo()"/>
+                            <t t-set="grads" t-value="request.env['hr.grade'].sudo().search([])"/>
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <div class="row ">
+                                        <div class="col-lg-6 ">
+                                            <div class="form-group">
+                                                <label for="name">Applicant English Name
+                                                    <span style="color:red">*</span>
+                                                </label>
+                                                <input type="text" class="form-control" name="name" required="required"
+                                                       aria-describedby="name" placeholder="Enter Applicant English Name"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 ">
+                                            <div class="form-group">
+                                                <label for="ar_name">Applicant Arabic Name</label>
+                                                <input type="text" class="form-control" name="ar_name"
+                                                       placeholder="Enter Applicant Arabic Name"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col-lg-6 ">
+                                            <div class="form-group">
+                                                <label for="email">Applicant Email
+                                                    <span style="color:red">*</span>
+                                                </label>
+                                                <input type="text" class="form-control" name="email" required="required"
+                                                       aria-describedby="email" placeholder="Enter Applicant email"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 ">
+                                            <div class="form-group">
+                                                <label for="mobile">Applicant Mobile</label>
+                                                <input type="text" class="form-control" name="mobile"
+                                                       placeholder="Enter Applicant Mobile"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col-lg-6 ">
+                                            <div class="form-group">
+                                                <label for="email">Applicant Job
+                                                    <span style="color:red">*</span>
+                                                </label>
+                                                <input type="text" class="form-control" name="apply_job" required="required"
+                                                       aria-describedby="appy_job" placeholder="Enter Applicant Job"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 ">
+                                            <div class="form-group">
+                                                <label for="mobile">Applicant Grade</label>
+                                                <select class="form-control " required="required" name="grade_id">
+                                                    <option value="" selected="selected" disabled="disabled">Select Applicant Grade
+                                                    </option>
+                                                    <t t-foreach="grads" t-as="grade">
+                                                        <option t-att-value="grade.id">
+                                                            <t t-esc="grade.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col-lg-6 ">
+                                            <div class="form-group">
+                                                <label for="name">Applicant Nationality
+                                                    <span style="color:red">*</span>
+                                                </label>
+                                                <select class="form-control " required="required" name="country_id">
+                                                    <option value="" selected="selected" disabled="disabled">Select Applicant Nationality
+                                                    </option>
+                                                    <t t-foreach="countries" t-as="country">
+                                                        <option t-att-value="country.id">
+                                                            <t t-esc="country.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 ">
+                                            <div class="form-group">
+                                                <label for="name">Project
+                                                    <span style="color:red">*</span>
+                                                </label>
+                                                <select class="form-control " required="required" name="project_id">
+                                                    <option value="" selected="selected" disabled="disabled">Select Applicant Applied Project
+                                                    </option>
+                                                    <t t-foreach="projects" t-as="project">
+                                                        <option t-att-value="project.id">
+                                                            <t t-esc="project.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <input type="submit" role="button" class="btn btn-primary btn-lg  "/>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+
+    <record id="customer_hire_request_page" model="website.page">
+        <field name="url">/customer-hire-request</field>
+        <field name="is_published">True</field>
+        <field name="view_id" ref="customer_hire_registration"/>
+        <field name="cache_time">0</field>
+        <field name="track">True</field>
+    </record>
+    <record id="menu_customer_hire_request" model="website.menu">
+        <field name="name">Customer Hire Request</field>
+        <field name="url">/customer-hire-request</field>
+        <field name="page_id" ref="customer_hire_request_page"/>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" type="int">50</field>
+        <field name="group_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+
+
+</odoo>

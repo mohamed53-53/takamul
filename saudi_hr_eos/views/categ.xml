@@ -1,0 +1,81 @@
+<odoo>
+    <record id="employee_monthly_category_form_view" model="ir.ui.view">
+        <field name="name">employee_monthly_category_form_view</field>
+        <field name="model">employee.monthly.category</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+
+                    </group>
+                    <notebook>
+                        <page string="Monthly EOS">
+                            <group>
+                                <field name="monthly_eos_type"/>
+                                <field name="monthly_eos_journal_id"/>
+                                <field name="monthly_eos_source_account_id"/>
+                                <field name="monthly_eos_destination_account_id"/>
+                                <field name="eos_type"/>
+                            </group>
+                        </page>
+<!--                        <page string="Airline Tickets">-->
+<!--                            <group>-->
+<!--                                <field name="airline_tickets_type"/>-->
+<!--                                <field name="airline_tickets_journal_id"/>-->
+<!--                                <field name="airline_tickets_source_account_id"/>-->
+<!--                                <field name="airline_tickets_destination_account_id"/>-->
+<!--                            </group>-->
+<!--                        </page>-->
+                        <page string="TimeOff">
+                            <group>
+                                <field name="time_off_type"/>
+<!--                                <field name="time_off_journal_id"/>-->
+<!--                                <field name="time_off_source_account_id"/>-->
+<!--                                <field name="time_off_destination_account_id"/>-->
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="employee_monthly_category_tree_view" model="ir.ui.view">
+        <field name="name">employee_monthly_category_tree_view</field>
+        <field name="model">employee.monthly.category</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="employee_monthly_category_action" model="ir.actions.act_window">
+        <field name="name">EOS Category</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employee.monthly.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="view_hr_payslip_run_form" model="ir.ui.view">
+        <field name="name">hr.payslip.run.form</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+                <field name="is_created_employee_benefits" invisible="1"/>
+<!--                <button type="object" string="Generate Employee Benefits" name="action_create_employee_benefits"-->
+<!--                        icon="fa-check" class="btn btn-success"-->
+<!--                        attrs="{'invisible':[('state','!=','verify')]}"/>-->
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem id="employee_monthly_category_menu" name="EOS Provision Category" parent="hr_payroll.menu_hr_salary_configuration"
+              action="employee_monthly_category_action" sequence="4"/>
+
+</odoo>

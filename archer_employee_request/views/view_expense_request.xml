@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="expense_request_list_view" model="ir.ui.view">
+            <field name="name">expense.request.tree</field>
+            <field name="model">expense.request</field>
+            <field name="arch" type="xml">
+                <tree string="Expense Request">
+                    <field name="request_by"  invisible="1"/>
+                    <field name="employee_id"/>
+                    <field name="project_id" />
+                    <field name="date_from" />
+                    <field name="date_to" />
+                    <field name="amount" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="expense_request_form_view" model="ir.ui.view">
+            <field name="name">expense.request.form</field>
+            <field name="model">expense.request</field>
+            <field name="arch" type="xml">
+                <form delete="0" string="Expense Request Form">
+                    <header>
+                        <field name="user_can_approve" invisible="1" />
+                        <field name="workflow_states" invisible="1" />
+                        <field name="button_approve_enabled" invisible="1" />
+                        <field name="button_forward_enabled" invisible="1" />
+                        <field name="button_return_enabled" invisible="1" />
+                        <field name="approve_button_name" invisible="1" />
+                        <field name="approve_confirm_msg" invisible="1" />
+                        <field name="reject_button_wizard" invisible="1" />
+                        <field name="reject_button_name" invisible="1" />
+                        <field name="reject_confirm_msg" invisible="1" />
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_approve" type="object" string="Draft Approve"  states="draft"/>
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve"
+                                attrs="{'invisible' : [('user_can_approve','=', False)]}"/>
+                        <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}"/>
+                        <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}"/>
+                        <button name="action_forward" type="object" string="Forward"
+                                attrs="{'invisible' : [('button_forward_enabled','=', False)]}"/>
+                        <button name="action_return" type="object" string="Return"
+                                attrs="{'invisible' : [('button_return_enabled','=', False)]}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="sequence"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="request_by"  invisible="1"/>
+                                <field name="employee_id" />
+                                <field name="project_id"/>
+                                <field name="expense_type_id" />
+                                <field name="product_id"/>
+                                <field name="description" />
+                            </group>
+                            <group>
+                                <label for="date_from" string="Duration"/>
+                                <div name="dates" class="o_row">
+                                    <field name="date_from" requird="1"/>
+                                    <field name="date_to" requird="1"/>
+                                </div>
+                                <field name="supportive_doc" />
+                                <field name="amount" />
+                                <field name="approver_id" invisible="1"/>
+                                <field name="expense_approval_date" invisible="1"/>
+                            </group>
+                        </group>
+                        <group/>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow this project to automatically track the events associated to tasks and issues of this project." groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_expense_request" model="ir.actions.act_window">
+            <field name="name">Expense Request</field>
+            <field name="res_model">expense.request</field>
+            <field name="view_id" ref="expense_request_list_view"/>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_request_by':'employee'}</field>
+
+        </record>
+        <record id="archer_employee_request.action_hr_expense_type_request" model="ir.actions.act_window">
+            <field name="name">Expense Request</field>
+            <field name="res_model">expense.request</field>
+            <field name="view_id" ref="expense_request_list_view"/>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('request_by','=','hr')]</field>
+            <field name="context">{'default_request_by':'hr'}</field>
+        </record>
+
+        <record id="expense_request_type_list_view" model="ir.ui.view">
+            <field name="name">expense.request.type.tree</field>
+            <field name="model">expense.request.type</field>
+            <field name="arch" type="xml">
+                <tree string="Expense Request Type" editable="bottom">
+                    <field name="name"/>
+                    <field name="product_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_expense_type_request" model="ir.actions.act_window">
+            <field name="name">Expense Request Type</field>
+            <field name="res_model">expense.request.type</field>
+            <field name="view_id" ref="expense_request_type_list_view"/>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+
+
+
+
+    </data>
+</odoo>

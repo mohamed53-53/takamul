@@ -1,0 +1,42 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="archer_vendor_coc.view_account_coc_sla_tree">
+      <field name="name">archer_vendor_coc.view_account_coc_sla_tree</field>
+      <field name="model">account.coc.sla</field>
+      <field name="arch" type="xml">
+        <tree editable="bottom">
+          <field name="action_state" required="1"/>
+          <field name="timing" required="1"/>
+        </tree>
+      </field>
+    </record>
+    <record id="archer_vendor_coc.act_account_coc_sla_window" model="ir.actions.act_window">
+      <field name="name">COC SLA</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">account.coc.sla</field>
+      <field name="view_mode">tree</field>
+    </record>
+
+    <record model="ir.ui.view" id="archer_vendor_coc.view_account_coc_payment_type_tree">
+      <field name="name">archer_vendor_coc.view_account_coc_payment_type_tree</field>
+      <field name="model">account.coc.payment.type</field>
+      <field name="arch" type="xml">
+        <tree editable="bottom">
+          <field name="name" required="1"/>
+          <field name="po_related"/>
+        </tree>
+      </field>
+    </record>
+    <record id="archer_vendor_coc.act_account_coc_payment_type_window" model="ir.actions.act_window">
+      <field name="name">COC Payment Type</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">account.coc.payment.type</field>
+      <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem name="COC SLA" id="archer_vendor_coc.item_account_coc_sla_menu" parent="oi_certification_of_completion.menu_coc"
+              action="archer_vendor_coc.act_account_coc_sla_window"/>
+    <menuitem name="COC Payment Type" id="archer_vendor_coc.item_account_coc_payment_type_menu" parent="oi_certification_of_completion.menu_coc"
+              action="archer_vendor_coc.act_account_coc_payment_type_window"/>
+  </data>
+</odoo>

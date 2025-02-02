@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_archer_dynamic_allowance_arch_hr_contract_allowance_promotion,archer_dynamic_allowance.arch_hr_contract_allowance_promotion,model_arch_hr_contract_allowance_promotion,base.group_user,1,1,1,1
+access_employee_promotion,employee_promotion,model_employee_promotion,base.group_user,1,1,1,1
+access_gosi_promotion_user,gosi.promotion,model_gosi_promotion,base.group_user,1,0,0,0
+access_gosi_promotion,gosi.hire,model_gosi_promotion,hr.group_hr_manager,1,1,1,1

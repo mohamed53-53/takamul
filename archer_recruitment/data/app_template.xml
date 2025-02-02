@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mail_template_new_application" model="mail.template">
+            <field name="name">New Application Email</field>
+            <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="email_from">{{ (object.create_uid.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.email_from }}</field>
+            <field name="subject">{{ object.project_id.name }} ({{ object.name or 'n/a' }})</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px;font-size: 13px;">
+                        Dear <t t-out="object.partner_name or ''"/>,<br/>
+                        Please go with follow link to complete your profile and fill required fields<br/>
+                        Please Keep this link until finish profile
+                        <a class="btn btn-primary" t-att-href="'/job/app?app=%s'%object.application_token">Profile</a> <br/>
+
+                        <br />--<br/>HR Specialist
+                    </p>
+                </div></field>
+        </record>
+        <record id="mail_template_new_activity" model="mail.template">
+            <field name="name">New Application Activity Email</field>
+            <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="email_from">{{ (object.create_uid.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.email_from }}</field>
+            <field name="subject">{{ object.project_id.name }} ({{ object.name or 'n/a' }})</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px;font-size: 13px;">
+                        Dear <t t-out="ctx.get('user_name') or ''"/>,<br/>
+                        Please fulfill 'ctx.get("activity_name")' activity for the new onboarding employee ctx.get('employee_name')
+
+                        <br />--<br/>HR Specialist
+                    </p>
+                </div></field>
+        </record>
+
+        <record id="mail_template_return_application" model="mail.template">
+            <field name="name">Revision Application Email</field>
+            <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="email_from">{{ (object.create_uid.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.email_from }}</field>
+            <field name="subject">{{ object.project_id.name }} ({{ object.name or 'n/a' }})</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px;font-size: 13px;">
+                        Dear <t t-out="object.partner_name or ''"/>,<br/>
+                        Please Revision You Previously Submitted Application<br/>
+                        And Please review following notes<br/>
+                        <t t-out="object.return_reason or ''"/>
+                        <a class="btn btn-primary" t-att-href="'/job/app?app=%s'%object.application_token">Profile</a> <br/>
+
+                        <br />--<br/>HR Specialist
+                    </p>
+                </div></field>
+        </record>
+
+        <record id="mail_template_approve_application" model="mail.template">
+            <field name="name">Approve Application Email</field>
+            <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="email_from">{{ (object.create_uid.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.email_from }}</field>
+            <field name="subject">{{ object.project_id.name }} ({{ object.name or 'n/a' }})</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px;font-size: 13px;">
+                        Dear <t t-out="object.partner_name or ''"/>,<br/>
+                        Please noted Your Application Approved<br/>
+                        And Please review following notes<br/>
+                        <br />--<br/>HR Specialist
+                    </p>
+                </div></field>
+        </record>
+
+    </data>
+</odoo>

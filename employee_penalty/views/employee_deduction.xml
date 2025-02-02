@@ -1,0 +1,146 @@
+<data>
+    <record id="employee_deduction_form" model="ir.ui.view">
+        <field name="name">employee.deduction.form</field>
+        <field name="model">employee.deduction</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit"
+                            attrs="{'invisible':[('state','!=','draft')]}"
+                            type="object" class="oe_highlight"/>
+                    <button name="action_approve" string="Approve"
+                            attrs="{'invisible':[('state','!=','submit')]}"
+                            type="object" class="oe_highlight"/>
+                    <button name="action_set_draft" string="Set to Draft" type="object"
+                            states="submit"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,approve"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="type" invisible="1"
+                                   attrs="{'readonly':[('state','in',('approve'))]}"/>
+                            <field name="other_type_id" string="Deduction Type"
+                                   attrs="{'invisible':[('type','!=','other')],'readonly':[('state','in',('approve'))]}"/>
+                            <field name="employee_id"
+                                   attrs="{'readonly':[('state','in',('approve'))]}"/>
+                            <field name="department_id"/>
+                            <field name="job_id"/>
+                        </group>
+                        <group>
+                            <field name="date"
+                                   attrs="{'readonly':[('state','in',('approve'))]}"/>
+
+                            <field name="amount_type" class="oe_edit_only"
+                                   attrs="{'readonly':[('state','in',('approve'))]}"/>
+
+                            <field name="amount" class="oe_edit_only"
+                                   attrs="{'readonly':[('state','in',('approve'))]}"/>
+
+                            <field name="deduction_amount" class="oe_read_only"
+                                   attrs="{'readonly':[('state','in',('approve'))]}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="reason"
+                                   attrs="{'readonly':[('state','in',('approve'))]}"/>
+                            <field name="note"
+                                   attrs="{'readonly':[('state','in',('approve'))]}"/>
+                        </group>
+                        <group>
+                            <field name="company_id" attrs="{'readonly':[('state','in',('approve'))]}"/>
+                            <field name="payslip_id" attrs="{'invisible':[('payslip_id','=',False)]}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="employee_deduction_tree" model="ir.ui.view">
+        <field name="name">employee.deduction.tree</field>
+        <field name="model">employee.deduction</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="type_code"/>
+                <field name="date"/>
+                <field name="employee_id"/>
+                <field name="type"/>
+                <field name="deduction_amount"/>
+                <field name="deducted"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="employee_deduction_search" model="ir.ui.view">
+        <field name="name">employee.deduction.search</field>
+        <field name="model">employee.deduction</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="date"/>
+                <field name="employee_id"/>
+                <field name="type"/>
+                <field name="deduction_amount"/>
+                <group expand="0" string="Group By">
+                    <filter string="Date" name="group_date"
+                            context="{'group_by':'date'}"/>
+                    <filter string="Employee" name="group_employee_id"
+                            context="{'group_by':'employee_id'}"/>
+                    <filter string="Type" name="group_deduction_type"
+                            context="{'group_by':'type'}"/>
+                    <filter string="Deducted" name="group_deducted"
+                            context="{'group_by':'deducted'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="employee_deduction_action" model="ir.actions.act_window">
+        <field name="name">Employee Deduction</field>
+        <field name="res_model">employee.deduction</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="other_deduction_type_tree" model="ir.ui.view">
+        <field name="name">other.deduction.type.tree</field>
+        <field name="model">other.deduction.type</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="other_deduction_type_form" model="ir.ui.view">
+        <field name="name">other.deduction.type.form</field>
+        <field name="model">other.deduction.type</field>
+        <field name="arch" type="xml">
+            <form string="Other Type">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="other_deduction_type_action" model="ir.actions.act_window">
+        <field name="name">Other Types</field>
+        <field name="res_model">other.deduction.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+</data>

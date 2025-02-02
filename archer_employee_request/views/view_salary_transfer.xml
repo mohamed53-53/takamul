@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="salary_transfer_list_view" model="ir.ui.view">
+            <field name="name">salary.transfer.tree</field>
+            <field name="model">salary.transfer</field>
+            <field name="arch" type="xml">
+                <tree string="Salary Transfer">
+                    <field name="employee_id"/>
+                    <field name="project_id" />
+                    <field name="is_locked"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="salary_transfer_form_view" model="ir.ui.view">
+            <field name="name">salary.transfer.form</field>
+            <field name="model">salary.transfer</field>
+            <field name="arch" type="xml">
+                <form delete="0" string="Salary Transfer Form">
+                     <header>
+                        <field name="user_can_approve" invisible="1" />
+                        <field name="workflow_states" invisible="1" />
+                        <field name="button_approve_enabled" invisible="1" />
+                        <field name="button_forward_enabled" invisible="1" />
+                        <field name="button_return_enabled" invisible="1" />
+                        <field name="approve_button_name" invisible="1" />
+                        <field name="approve_confirm_msg" invisible="1" />
+                        <field name="reject_button_wizard" invisible="1" />
+                        <field name="reject_button_name" invisible="1" />
+                        <field name="reject_confirm_msg" invisible="1" />
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_approve" type="object" string="Draft Approve"  states="draft"/>
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve"
+                                attrs="{'invisible' : [('user_can_approve','=', False)]}"/>
+                        <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}"/>
+                        <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}"/>
+                        <button name="action_forward" type="object" string="Forward"
+                                attrs="{'invisible' : [('button_forward_enabled','=', False)]}"/>
+                        <button name="action_return" type="object" string="Return"
+                                attrs="{'invisible' : [('button_return_enabled','=', False)]}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="sequence"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="employee_id"/>
+                                <field name="project_id" />
+                                <field name="is_locked" invisible="1"/>
+                                <field name="bank_clearance_letter" attrs="{'required': [('is_locked', '=', True)]}"/>
+                            </group>
+                            <group>
+                                <field name="international_bank"/>
+                                <field name="bank_name" attrs="{'invisible' : [('international_bank', '=', False)]}"/>
+                                <field name="bank_id" attrs="{'invisible' : [('international_bank', '=', True)]}"/>
+                                <field name="branch_name" attrs="{'invisible' : [('international_bank', '=', False)]}"/>
+                                <field name="iban_number"/>
+                                <field name="re_enter_iban_number" attrs="{'required': [('iban_number', '!=', False)], 'invisible': [('iban_number', '=', False)]}"/>
+                                <field name="terms_and_conditions" required="1"/>
+                            </group>
+                        </group>
+                        <group/>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow this project to automatically track the events associated to tasks and issues of this project." groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="salary_transfer_search_view">
+            <field name="name">salary.transfer.search</field>
+            <field name="model">salary.transfer</field>
+                <field name="arch" type="xml">
+                    <search>
+                        <field name="employee_id"/>
+                        <field name="project_id" />
+                        <field name="is_locked"/>
+                        <field name="bank_clearance_letter"/>
+                    </search>
+                </field>
+        </record>
+
+        <record id="action_salary_transfer" model="ir.actions.act_window">
+            <field name="name">Salary Transfer</field>
+            <field name="res_model">salary.transfer</field>
+             <field name="search_view_id" ref="salary_transfer_search_view" />
+            <field name="view_id" ref="salary_transfer_list_view"/>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

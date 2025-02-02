@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_employee_evaluation.hr_view_employee_form_inherit" model="ir.ui.view">
+            <field name="name">archer_employee_evaluation.view.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+<!--                <xpath expr="//header/button[last()]" position="after">-->
+<!--                    <button string="Evaluate" name="open_evalation_wizard" type="object" class="oe_highlight" attrs="{'invisible':[('eval_state','not in', ['new','extend'])]}"/>-->
+
+<!--                </xpath>-->
+                <xpath expr="//header" position="inside">
+                    <field name="eval_state" invisible="1" widget="status_bar"/>
+                </xpath>
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Evaluation">
+                    <field name="evaluation_ids" readonly="1" force_save="1">
+                        <tree>
+                            <field name="employee_id"/>
+                            <field name="contract_id"/>
+                            <field name="eval_state"/>
+                            <field name="first_evaluate_date"/>
+                            <field name="second_evaluate_date"/>
+                            <field name="approve_date"/>
+                            <field name="reject_date"/>
+                            <field name="extend_date"/>
+                            <field name="extend_period"/>
+                        </tree>
+                    </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="archer_employee_evaluation.view_evaluation_evaluation_tree" model="ir.ui.view">
+            <field name="name">archer_employee_evaluation.view.evaluation.evaluation.tree</field>
+            <field name="model">hr.probation.period.evaluation</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="employee_id"/>
+                    <field name="eval_state"/>
+                    <field name="extend_period"/>
+                    <field name="first_evaluate_date"/>
+                    <field name="second_evaluate_date"/>
+                    <field name="approve_date"/>
+                    <field name="reject_date"/>
+                    <field name="extend_date"/>
+                    <field name="contract_id"/>
+
+                </tree>
+            </field>
+        </record>
+       <record id="archer_employee_evaluation.view_evaluation_evaluation_form" model="ir.ui.view">
+            <field name="name">archer_employee_evaluation.view.evaluation.evaluation.form</field>
+            <field name="model">hr.probation.period.evaluation</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="user_can_approve" invisible="1"/>
+                        <field name="workflow_states" invisible="1"/>
+                        <field name="button_approve_enabled" invisible="1"/>
+                        <field name="button_forward_enabled" invisible="1"/>
+                        <field name="button_return_enabled" invisible="1"/>
+                        <field name="approve_button_name" invisible="1"/>
+                        <field name="approve_confirm_msg" invisible="1"/>
+                        <field name="reject_button_wizard" invisible="1"/>
+                        <field name="reject_button_name" invisible="1"/>
+                        <field name="reject_confirm_msg" invisible="1"/>
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_approve" type="object" string="Draft Approve"  states="draft"/>
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve"
+                                attrs="{'invisible' : [('user_can_approve','=', False)]}"/>
+                        <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}"/>
+                        <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|','|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}"/>
+                        <button name="action_forward" type="object" string="Forward"
+                                attrs="{'invisible' : [('button_forward_enabled','=', False)]}"/>
+                        <button name="action_return" type="object" string="Return"
+                                attrs="{'invisible' : [('button_return_enabled','=', False)]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                            <field name="employee_id"  readonly="1"/>
+
+                            </group>
+                            <group>
+                            <field name="eval_action_state"  attrs="{'required':[('state','=','submit')],'readonly':[('state','not in',[('draft','submit')])]}"/>
+                                <field name="extend_period" attrs="{'required':[('state','=','submit')],'invisible':[('eval_action_state','!=','extend')]}"/>
+
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="eval_state" readonly="1" force_save="1"/>
+                                <field name="contract_id" readonly="1" force_save="1"/>
+
+                            </group>
+                            <group>
+                                <field name="first_evaluate_date" readonly="1" force_save="1"/>
+                                <field name="second_evaluate_date" readonly="1" force_save="1"/>
+                                <field name="approve_date" readonly="1" force_save="1"/>
+                                <field name="reject_date" readonly="1" force_save="1"/>
+                                <field name="extend_date" readonly="1" force_save="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="archer_employee_evaluation.view_evaluation_evaluation_action">
+            <field name="name">Probation Period Evaluation</field>
+            <field name="res_model">hr.probation.period.evaluation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem name="Probation Period Evaluation" id="archer_employee_evaluation.view_evaluation_evaluation_menuitem" parent="hr.menu_hr_employee_payroll"
+                  action="archer_employee_evaluation.view_evaluation_evaluation_action"/>
+
+
+    </data>
+</odoo>

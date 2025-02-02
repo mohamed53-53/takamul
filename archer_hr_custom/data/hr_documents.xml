@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+
+        <record id="archer_hr_custom.civil_document" model="hr.document.document" >
+            <field name="name">Civil ID</field>
+            <field name="is_required">True</field>
+            <field name="in_portal">True</field>
+            <field name="used_for">employee</field>
+            <field name="document_type">civil</field>
+        </record>
+        <record id="archer_hr_custom.passport_document" model="hr.document.document" >
+            <field name="name">Passport</field>
+            <field name="is_required">False</field>
+            <field name="in_portal">True</field>
+            <field name="used_for">employee</field>
+            <field name="document_type">passport</field>
+        </record>
+        <record id="archer_hr_custom.birth_document" model="hr.document.document" >
+            <field name="name">Employee Birth Certificate</field>
+            <field name="is_required">True</field>
+            <field name="in_portal">True</field>
+            <field name="used_for">employee</field>
+            <field name="document_type">birth</field>
+        </record>
+        <record id="archer_hr_custom.national_address_document" model="hr.document.document" >
+            <field name="name">National Address</field>
+            <field name="is_required">False</field>
+            <field name="in_portal">True</field>
+            <field name="used_for">employee</field>
+            <field name="document_type">national_address</field>
+        </record>
+        <record id="archer_hr_custom.education_document" model="hr.document.document" >
+            <field name="name">Education Certificate</field>
+            <field name="is_required">True</field>
+            <field name="in_portal">True</field>
+            <field name="used_for">employee</field>
+            <field name="document_type">education</field>
+        </record>
+        <record id="archer_hr_custom.gosi_document" model="hr.document.document" >
+            <field name="name">GOSI</field>
+            <field name="is_required">False</field>
+            <field name="in_portal">True</field>
+            <field name="used_for">both</field>
+            <field name="document_type">gosi</field>
+        </record>
+        <record id="archer_hr_custom.residency_document" model="hr.document.document" >
+            <field name="name">Residency</field>
+            <field name="is_required">False</field>
+            <field name="in_portal">True</field>
+            <field name="used_for">employee</field>
+            <field name="document_type">residency</field>
+        </record>
+        <record id="archer_hr_custom.experience_document" model="hr.document.document" >
+            <field name="name">Experience</field>
+            <field name="is_required">False</field>
+            <field name="in_portal">True</field>
+            <field name="used_for">employee</field>
+            <field name="document_type">experience</field>
+        </record>
+        <record id="archer_hr_custom.father_birth_document" model="hr.document.document" >
+            <field name="name">Father Birth Certificate</field>
+            <field name="is_required">False</field>
+            <field name="in_portal">True</field>
+            <field name="used_for">employee</field>
+            <field name="document_type">father_birth</field>
+        </record>
+        <record id="archer_hr_custom.mother_birth_document" model="hr.document.document">
+            <field name="name">Mother Birth Certificate</field>
+            <field name="is_required">False</field>
+            <field name="in_portal">True</field>
+            <field name="used_for">employee</field>
+            <field name="document_type">mother_birth</field>
+        </record>
+        <record id="archer_hr_custom.spouse_birth_document" model="hr.document.document">
+            <field name="name">Spouse Birth Certificate</field>
+            <field name="is_required">False</field>
+            <field name="in_portal">True</field>
+            <field name="used_for">employee</field>
+            <field name="document_type">spouse_birth</field>
+        </record>
+        <record id="archer_hr_custom.child_birth_document" model="hr.document.document" >
+            <field name="name">Child Birth Certificate</field>
+            <field name="is_required">False</field>
+            <field name="in_portal">True</field>
+            <field name="used_for">employee</field>
+            <field name="document_type">child_birth</field>
+        </record>
+
+
+
+    </data>
+</odoo>

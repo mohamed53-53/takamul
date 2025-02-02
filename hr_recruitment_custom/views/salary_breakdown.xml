@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="salary_breakdown_form_view" model="ir.ui.view">
+        <field name="name">salary_breakdown_form_view</field>
+        <field name="model">salary.breakdown</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="rate"/>
+                            <field name="is_experience_rule"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="salary_breakdown_tree_view" model="ir.ui.view">
+        <field name="name">salary_breakdown_tree_view</field>
+        <field name="model">salary.breakdown</field>
+        <field name="arch" type="xml">
+            <tree >
+                <field name="name"/>
+                <field name="rate"/>
+                <field name="is_experience_rule"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="salary_breakdown_form_action" model="ir.actions.act_window">
+        <field name="name">Salary Breakdown</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">salary.breakdown</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="salary_breakdown_menu" name="Salary Breakdown"
+              parent="hr_recruitment.menu_hr_recruitment_configuration"
+              groups="hr_recruitment_custom.access_salary_breakdown"
+              action="salary_breakdown_form_action" />
+</odoo>

@@ -1,0 +1,105 @@
+<odoo>
+    <record id="view_employee_form_residency" model="ir.ui.view">
+        <field name="name">hr.employee.residency</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[hasclass('oe_button_box')]/button[last()]" position="after">
+                <button class="oe_stat_button" name="get_hr_employee_document" type="object" icon="fa-book" >
+                    <div class="o_field_widget o_stat_info">
+                        <h6>Documents</h6>
+                        <field name="done_documents_count"/> Done/ <field name="all_documents_count"/> All
+                    </div>
+                </button>
+                <button class="oe_stat_button" name="action_open_plan_activity" type="object" icon="fa-check" >
+                    <div class="o_field_widget o_stat_info">
+                        <h6>Plan Activity</h6>
+                    </div>
+                </button>
+            </xpath>
+
+            <xpath expr="//field[@name='contract_id']" position="attributes">
+            <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='work_email']" position="attributes">
+            <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='country_id']" position="attributes">
+            <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='birthday']" position="attributes">
+            <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='gender']" position="attributes">
+            <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='identification_id']" position="attributes">
+            <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='job_id']" position="attributes">
+            <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='job_id']" position="after">
+            <field name="grade_id"/>
+            </xpath>
+            <xpath expr="//field[@name='country_id']" position="after">
+                <field name="country_code" invisible="1"/>
+            </xpath>
+            <xpath expr="//notebook/page[@name='hr_settings']" position="after">
+                <page string="Residency" name="residency" attrs="{'invisible':['|',('country_id','=',False),('country_code','=','SA')]}">
+                    <group>
+                        <group>
+                            <field name="residency_number"/>
+                            <field name="serial_number" />
+                            <field name="resid_job_title"/>
+                        </group>
+                        <group>
+                            <field name="place_of_issuance" />
+                            <field name="issuance_date"/>
+                            <field name="expiration_date"/>
+                            <field name="expiration_date_in_hijri"/>
+                            <field name="arrival_date"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//notebook/page[@name='personal_information']/group/group[4]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_employee_form_inherit_base" model="ir.ui.view">
+        <field name="name">archer_base_hr.view.employee.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="archer_base_hr.view_employee_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='birthday']" position="after">
+                <field name="employee_age" attrs="{'invisible': [('birthday','=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="archer_hr_custom.view_hr_employee_contract_tree" model="ir.ui.view">
+    <field name="name">archer_hr_custom.view.hr.employee.contract.tree</field>
+    <field name="model">hr.contract</field>
+    <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+    <field name="arch" type="xml">
+                        <xpath expr="//field[@name='employee_id']" position="after">
+
+                            <field name="project_id" readonly="1"/>
+<!--                            <field name="analytic_account_id" readonly="1" force_save="1"/>-->
+                        </xpath>
+    <xpath expr="//div[hasclass('oe_button_box')]/button[last()]" position="after">
+        <button class="oe_stat_button" name="get_hr_contract_document" type="object" icon="fa-book" >
+            <div class="o_field_widget o_stat_info">
+                <h6>Documents</h6>
+                <field name="done_documents_count"/> Done/ <field name="all_documents_count"/> All
+            </div>
+        </button>
+    </xpath>
+    </field>
+    </record>
+</odoo>

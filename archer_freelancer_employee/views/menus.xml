@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem name="Freelancer Application" id="archer_freelancer_employee.item_freelance_application_menu" parent="archer_recruitment.view_new_hire_root" sequence="2"
+                  action="archer_freelancer_employee.action_archer_freelance_application_window"/>
+
+        <menuitem name="Freelancer Workorder" id="archer_freelancer_employee.item_freelance_workorder_menu" parent="archer_employee_request.menu_main_epr"
+                  action="archer_freelancer_employee.action_archer_freelance_workorder_window"/>
+
+    </data>
+</odoo>

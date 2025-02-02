@@ -1,0 +1,1264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="employee_appl" name="job_offer">
+        <t t-call="archer_portal.main_template"/>
+
+        <div class="container p-3 h-100 ">
+            <div class="row">
+                <img src="/archer_portal/static/images/takamol-logo.png" class="illustration_border"/>
+            </div>
+            <div class="card mt-3 h-100 overflow-auto pb-5">
+                <div class="text-white text-left ">
+                    <div class="alert alert-primary text-left" role="alert">
+
+                        <span class="h3">Name :
+                            <span t-esc="appl.name" class="h3"/>
+                        </span>
+                        <br/>
+                        <span class="h3">Job :
+                            <span t-esc="appl.job_id.name" class="h3"/>
+                        </span>
+
+                    </div>
+                </div>
+                <t t-if="appl.data_state in ('employee_entry','return') ">
+                    <div class="container-fluid h-100 overflow-auto" id="employee_app_form_section">
+                        <div class="row justify-content-center mt-0">
+                            <div class="col-12 text-center p-0 mt-3 mb-2">
+                                <div class="card px-0  pb-0  mb-3">
+                                    <div class="row">
+                                        <div class="col-md-12 mx-0 ">
+                                            <form id="msform" t-att-action="'/job/app?app=%s'%appl.application_token" method="POST"
+                                                  enctype="multipart/form-data" data-parsley-validate="data-parsley-validate">
+                                                <input type="hidden" name="csrf_token" t-att-value="csrf_token"/>
+                                                <input class='d-none' type="text" id="application_token"
+                                                       t-att-value="appl.application_token"/>
+
+                                                <!-- progressbar -->
+                                                <ul id="progressbar">
+                                                    <li id="personal" class="active">
+                                                        <strong>Personal</strong>
+                                                    </li>
+                                                    <li id="personal2">
+                                                        <strong>Personal2</strong>
+                                                    </li>
+                                                    <li id="education">
+                                                        <strong>Education</strong>
+                                                    </li>
+                                                    <li id="gosi">
+                                                        <strong>GOSI</strong>
+                                                    </li>
+                                                    <li id="sponsor">
+                                                        <strong>Sponsor</strong>
+                                                    </li>
+                                                    <li id="residency">
+                                                        <strong>Residency</strong>
+                                                    </li>
+                                                    <li id="bank">
+                                                        <strong>Bank</strong>
+                                                    </li>
+                                                    <li id="family">
+                                                        <strong>Family</strong>
+                                                    </li>
+                                                    <li id="experience">
+                                                        <strong>Experience</strong>
+                                                    </li>
+                                                    <li id="confirm">
+                                                        <strong>Finish</strong>
+                                                    </li>
+                                                </ul>
+                                                <!-- fieldsets -->
+                                                <fieldset id="personal_fieldset">
+                                                    <div class="form-card">
+                                                        <div class="card-header">
+                                                            <h4 class="fs-title">Personal Information</h4>
+
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <div class="input-control">
+                                                                        <label for="partner_name">English Name</label>
+                                                                        <input type="text" t-att-value="appl.partner_name" id="partner_name"
+                                                                               name="partner_name"
+                                                                               placeholder="English Name" required="1"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                    <div class="input-control">
+
+                                                                        <label for="name_ar">Arabic Name</label>
+                                                                        <input t-att-value="appl.name_ar" type="text" id="name_ar"
+                                                                               name="name_ar"
+                                                                               placeholder="Arabic Name"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="row">
+                                                                        <div class=" input-control col-10">
+                                                                            <label for="birthday">Date of Birth</label>
+                                                                            <div class="input-group date">
+                                                                                <input type="text" t-att-value="appl.birthday"
+                                                                                       class="form-control date"
+                                                                                       placeholder="Date of Birth"
+                                                                                       id="birthday"
+                                                                                       name="birthday" required=""/>
+                                                                                <div class="input-group-addon">
+                                                                                    <span class="glyphicon glyphicon-th"/>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="error"/>
+                                                                        </div>
+                                                                        <div class="input-control col-2  align-self-end d-block">
+                                                                            <label for="birth_attach">
+                                                                                <i class="fa fa-upload"/>
+                                                                                <input type="file" id="birth_attach"
+                                                                                       name="birth_attach"
+                                                                                       placeholder="Birth Attach"/>
+                                                                            </label>
+                                                                            <div class="error"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label class="country_id">Nationality</label>
+                                                                        <select class="form-control readonly" id="country_id"
+                                                                                name="country_id"
+                                                                                disabled="disabled">
+                                                                            <t t-foreach="countries" t-as="country">
+                                                                                <option t-att-value="country.id" t-att-code="country.code"
+                                                                                        t-att-selected="country.id == appl.country_id.id">
+                                                                                    <span t-esc="country.name"/>
+                                                                                </option>
+                                                                            </t>
+                                                                        </select>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="row">
+                                                                        <div class="input-control col-10">
+                                                                            <label class="identification_id">Civil Id</label>
+                                                                            <input type="text" t-att-value="appl.civil_id"
+                                                                                   id="identification_id" name="identification_id"
+                                                                                   placeholder="Civil Id"
+                                                                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                                            <div class="error"/>
+                                                                        </div>
+                                                                        <div class="input-control col-2  align-self-end d-block">
+                                                                            <label for="civil_id_attach">
+                                                                                <i class="fa fa-upload"/>
+                                                                                <input type="file" id="civil_id_attach"
+                                                                                       name="civil_id_attach"
+                                                                                       placeholder="Civil ID Attach"/>
+                                                                            </label>
+                                                                            <div class="error"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-6" t-if="country.code != 'SA'">
+                                                                    <div class="row">
+                                                                        <div class="input-control col-10">
+                                                                            <label for="passport_id">Passport No</label>
+                                                                            <input type="text" t-att-value="appl.passport" id="passport_id"
+                                                                                   name="passport_id"
+                                                                                   placeholder="Passport No"/>
+                                                                            <div class="error"/>
+                                                                        </div>
+<!--                                                                        <div class="input-control col-2  align-self-end d-block">-->
+<!--                                                                            <label for="passport_attach">-->
+<!--                                                                                <i class="fa fa-upload"/>-->
+<!--                                                                                <input type="file" id="passport_attach"-->
+<!--                                                                                       name="passport_attach"-->
+<!--                                                                                       placeholder="Passport Attach"/>-->
+<!--                                                                            </label>-->
+<!--                                                                            <div class="error"/>-->
+<!--                                                                        </div>-->
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label class="marital">Marital Status</label>
+                                                                        <select id="marital" name="marital" placeholder="Marital Status"
+                                                                                class="form-control">
+                                                                            <option t-att-selected="appl.marital == 'single'"
+                                                                                    value="single">Single
+                                                                            </option>
+                                                                            <option t-att-selected="appl.marital == 'married'"
+                                                                                    value="married">Married
+                                                                            </option>
+                                                                            <option t-att-selected="appl.marital == 'widower'"
+                                                                                    value="widower">Widower
+                                                                            </option>
+                                                                            <option t-att-selected="appl.marital == 'divorced'"
+                                                                                    value="divorced">Divorced
+                                                                            </option>
+                                                                        </select>
+                                                                        <div class="error"/>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+
+                                                                        <label for="gender">Gender</label>
+                                                                        <select id="gender" name="gender" placeholder="Gender"
+                                                                                class="form-control">
+                                                                            <option t-att-selected="appl.gender == 'male'" value="male">
+                                                                                Male
+                                                                            </option>
+                                                                            <option t-att-selected="appl.gender == 'female'" value="female">
+                                                                                Female
+                                                                            </option>
+                                                                        </select>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="next btn btn-info pull-right">Next <i class="fa-solid fa-chevron-right"></i></button>
+
+                                                    <input type="button" id="personal_next_btn" name="next" class="next action-button"
+                                                           value="Next Step"/>
+                                                </fieldset>
+                                                <fieldset id="personal2_fieldset">
+                                                    <div class="form-card">
+                                                        <div class="card-header">
+                                                            <h4 class="fs-title">Personal Information</h4>
+
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+
+                                                                        <label for="national_address">National Address</label>
+                                                                        <input type="text" t-att-value="appl.national_address"
+                                                                               id="national_address" name="national_address"
+                                                                               placeholder="National Address"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label for="national_address_attach">National Address Attach
+                                                                        </label>
+
+                                                                        <input type="file" id="national_address_attach"
+                                                                               name="national_address_attach"
+                                                                               placeholder="National Address Attach"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+
+                                                                        <label class="email_from">Email</label>
+                                                                        <input type="text" id="email_from" name="email_from"
+                                                                               t-att-value="appl.email_from" placeholder="Email"
+                                                                               disabled="disabled"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label for="partner_mobile">Mobile</label>
+                                                                        <input type="text" t-att-value="appl.partner_mobile"
+                                                                               id="partner_mobile" name="partner_mobile"
+                                                                               placeholder="Mobile"
+                                                                               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                    <div class="input-control">
+                                                                        <label class="phone">Phone</label>
+                                                                        <input type="text" t-att-value="appl.partner_phone" id="phone"
+                                                                               name="phone" placeholder="Phone"
+                                                                               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+
+                                                                        <label class="country_of_birth">Country of Birth</label>
+                                                                        <select class="form-control" id="country_of_birth"
+                                                                                name="country_of_birth">
+                                                                            <t t-foreach="countries" t-as="country">
+                                                                                <option t-att-value="country.id" t-att-code="country.code"
+                                                                                        t-att-selected="country.id == appl.country_of_birth.id">
+                                                                                    <span t-esc="country.name"/>
+                                                                                </option>
+                                                                            </t>
+                                                                        </select>
+                                                                        <div class="error"/>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+
+                                                                        <label class="place_of_birth">Place of Birth</label>
+                                                                        <input type="text" t-att-value="appl.place_of_birth"
+                                                                               id="place_of_birth" name="place_of_birth"
+                                                                               placeholder="Place of Birth"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+
+                                                                        <label class="religion">Religion</label>
+                                                                        <select id="religion" name="religion" placeholder="Religion"
+                                                                                class="form-control">
+                                                                            <option t-att-selected="appl.religion == 'muslim'"
+                                                                                    value="muslim">Muslim
+                                                                            </option>
+                                                                            <option t-att-selected="appl.religion == 'non_muslim'"
+                                                                                    value="non_muslim">None Muslim
+                                                                            </option>
+                                                                        </select>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <input type="button" name="previous" class="previous action-button-previous"
+                                                           value="Previous"/>
+                                                    <input type="button" id="personal2_next_btn" name="next" class="next action-button"
+                                                           value="Next Step"/>
+                                                </fieldset>
+
+                                                <fieldset id="education_fieldset">
+                                                    <div class="form-card">
+                                                        <div class="card-header">
+                                                            <h4 class="fs-title">Education Information</h4>
+
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label for="graduate_date">Graduate Date</label>
+                                                                        <div class="input-group date">
+                                                                            <input type="text" t-att-value="appl.graduate_date"
+                                                                                   class="form-control date"
+                                                                                   placeholder="Graduate Date"
+                                                                                   id="graduate_date"
+                                                                                   name="graduate_date"/>
+                                                                            <div class="input-group-addon">
+                                                                                <span class="glyphicon glyphicon-th"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label class="certificate">Certificate Level</label>
+                                                                        <select id="certificate" name="certificate"
+                                                                                placeholder="Certificate Level" class="form-control">
+                                                                            <option t-att-selected="appl.certificate == 'graduate'"
+                                                                                    value="graduate">Graduate
+                                                                            </option>
+                                                                            <option t-att-selected="appl.certificate == 'bachelor'"
+                                                                                    value="bachelor">Bachelor
+                                                                            </option>
+                                                                            <option t-att-selected="appl.certificate == 'master'"
+                                                                                    value="master">Master
+                                                                            </option>
+                                                                            <option t-att-selected="appl.certificate == 'doctor'"
+                                                                                    value="doctor">Doctor
+                                                                            </option>
+                                                                            <option t-att-selected="appl.certificate == 'other'"
+                                                                                    value="other">Other
+                                                                            </option>
+                                                                        </select>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label class="study_field">Study Field</label>
+                                                                        <input type="text" t-att-value="appl.study_field" id="study_field"
+                                                                               name="study_field"
+                                                                               placeholder="Study Field"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label class="study_school">Study School</label>
+                                                                        <input type="text" t-att-value="appl.study_school" id="study_school"
+                                                                               name="study_school"
+                                                                               placeholder="Study School"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label class="certificate_attach">Certification Attachment</label>
+                                                                        <input type="file" id="certificate_attach" name="certificate_attach"
+                                                                               placeholder="Certification Attach"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <input type="button" name="previous" class="previous action-button-previous"
+                                                           value="Previous"/>
+                                                    <input type="button" id="education_next_btn" name="next" class="next action-button"
+                                                           value="Next Step"/>
+                                                </fieldset>
+
+                                                <fieldset id="gosi_fieldset">
+                                                    <div class="form-card">
+                                                        <div class="card-header">
+                                                            <h4 class="fs-title">GOSI Information</h4>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label for="gosi_number">GOSI Number</label>
+                                                                        <input type="text" min="9" t-att-value="appl.gosi_number"
+                                                                               id="gosi_number"
+                                                                               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                               name="gosi_number" placeholder="GOSI Number"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label for="gosi_start_date">GOSI Start Date</label>
+                                                                        <div class="input-group date">
+                                                                            <input type="text" t-att-value="appl.gosi_start_date"
+                                                                                   class="form-control date"
+                                                                                   placeholder="GOSI Start Date"
+                                                                                   id="gosi_start_date"
+                                                                                   name="gosi_start_date"/>
+                                                                            <div class="input-group-addon">
+                                                                                <span class="glyphicon glyphicon-th"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="error"/>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label for="gosi_attach">GOSI Attach</label>
+                                                                        <input type="file" id="gosi_attach" name="gosi_attach"
+                                                                               placeholder="GOSI Attach"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <input type="button" name="previous" class="previous action-button-previous"
+                                                           value="Previous"/>
+                                                    <input type="button" id="gosi_next_btn" name="next" class="next action-button"
+                                                           value="Next"/>
+                                                    <input type="button" id="gosi_skip_btn" name="next" class="next action-button"
+                                                           value="Skip"/>
+                                                </fieldset>
+
+                                                <fieldset id="sponsor_fieldset">
+                                                    <div class="form-card">
+                                                        <div class="card-header">
+                                                            <h4 class="fs-title">Sponsor Information</h4>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label class="sponsor_name">Sponsor Name</label>
+                                                                        <input type="text" t-att-value="appl.sponsor_name" id="sponsor_name"
+                                                                               name="sponsor_name"
+                                                                               placeholder="Sponsor Name"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label class="sponsor_phone">Sponsor Phone</label>
+                                                                        <input type="text" t-att-value="appl.sponsor_phone"
+                                                                               id="sponsor_phone" name="sponsor_phone"
+                                                                               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                               placeholder="Sponsor Phone"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label class="sponsor_address">Sponsor Address</label>
+                                                                        <input type="text" t-att-value="appl.sponsor_address"
+                                                                               id="sponsor_address" name="sponsor_address"
+                                                                               placeholder="Sponsor Address"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <input type="button" name="previous" class="previous action-button-previous"
+                                                           value="Previous"/>
+                                                    <input type="button" id="sponsor_next_btn" name="next" class="next action-button"
+                                                           value="Next Step"/>
+                                                </fieldset>
+
+                                                <fieldset id="residency_fieldset">
+                                                    <div class="form-card">
+                                                        <div class="card-header">
+                                                            <h4 class="fs-title">Residency Information</h4>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label class="residency_number">Residency Number</label>
+                                                                        <input type="text" t-att-value="appl.resid_number"
+                                                                               id="residency_number" name="residency_number"
+                                                                               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                               placeholder="Residency Number"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label class="serial_number">Serial Number</label>
+                                                                        <input type="text" t-att-value="appl.serial_number"
+                                                                               id="serial_number" name="serial_number"
+                                                                               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                               placeholder="Serial Number"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label class="resid_job_title">Job Title</label>
+                                                                        <input type="text" t-att-value="appl.resid_job_title"
+                                                                               id="resid_job_title" name="resid_job_title"
+                                                                               placeholder="Job Title"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label class="place_of_issuance">Issuance Place</label>
+                                                                        <input type="text" t-att-value="appl.place_of_issuance"
+                                                                               id="place_of_issuance" name="place_of_issuance"
+                                                                               placeholder="Issuance Place"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="row">
+
+                                                                <div class="col-6">
+
+                                                                    <div class="input-control">
+                                                                        <label for="expiration_date">Expiration Date</label>
+                                                                        <div class="input-group date">
+                                                                            <input type="text" class="form-control date"
+                                                                                   t-att-value="appl.resid_expiration_date"
+                                                                                   placeholder="Expiration Date"
+                                                                                   id="expiration_date"
+                                                                                   name="expiration_date"/>
+                                                                            <div class="input-group-addon">
+                                                                                <span class="glyphicon glyphicon-th"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+
+                                                                        <div class="input-control">
+                                                                            <label for="expiration_date_in_hijri">Expiration Date In Hijri
+                                                                            </label>
+                                                                            <div class="input-group date">
+                                                                                <input type="text" class="form-control date"
+                                                                                       t-att-value="appl.resid_expiration_date_in_hijri"
+                                                                                       placeholder="Expiration Date In Hijri"
+                                                                                       id="expiration_date_in_hijri"
+                                                                                       name="expiration_date_in_hijri"/>
+                                                                                <div class="input-group-addon">
+                                                                                    <span class="glyphicon glyphicon-th"></span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="error"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label for="arrival_date">Arrival Date</label>
+                                                                        <div class="input-group date">
+                                                                            <input type="text" class="form-control date"
+                                                                                   t-att-value="appl.arrival_date"
+                                                                                   placeholder="Arrival Date"
+                                                                                   id="arrival_date"
+                                                                                   name="arrival_date"/>
+                                                                            <div class="input-group-addon">
+                                                                                <span class="glyphicon glyphicon-th"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label for="arrival_date">Issuance Date</label>
+                                                                        <div class="input-group date">
+                                                                            <input type="text" class="form-control date"
+                                                                                   t-att-value="appl.resid_issuance_date"
+                                                                                   placeholder="Issuance Date"
+                                                                                   id="resid_issuance_date"
+                                                                                   name="resid_issuance_date"/>
+                                                                            <div class="input-group-addon">
+                                                                                <span class="glyphicon glyphicon-th"></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label class="residency_attach">Residency Attach</label>
+                                                                        <input type="file" id="residency_attach" name="residency_attach"
+                                                                               placeholder="Residency Attach"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <input type="button" name="previous" class="previous action-button-previous"
+                                                           value="Previous"/>
+                                                    <input type="button" id="residency_next_btn" name="next" class="next action-button"
+                                                           value="Next Step"/>
+                                                </fieldset>
+
+                                                <fieldset id="bank_fieldset">
+                                                    <div class="form-card">
+                                                        <div class="card-header">
+                                                            <h4 class="fs-title">Bank Information</h4>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+
+                                                                <div class="col-6">
+                                                                    <div class="row">
+                                                                        <label class="international_bank">International Bank</label>
+
+                                                                        <input type="checkbox" t-att-checked="appl.international_bank"
+                                                                               id="international_bank" name="international_bank"
+                                                                               onClick="internationalBankClick()"
+                                                                               placeholder="International Bank"/>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+
+                                                                <div class="col-6" id="local_bank_div">
+                                                                    <div class="input-control">
+                                                                        <label class="bank_id">Bank Name</label>
+                                                                        <select class="form-control" id="bank_id" name="bank_id"
+                                                                                placeholder="Bank Name">
+                                                                            <t t-foreach="banks" t-as="bank">
+                                                                                <option t-att-value="bank.id"
+                                                                                        t-att-selected="bank.id == appl.bank_id.id">
+                                                                                    <span t-esc="bank.bank_name"/>
+                                                                                </option>
+                                                                            </t>
+                                                                        </select>
+                                                                        <div class="error"/>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-6" id="international_bank_div" style="display:none">
+                                                                    <div class="input-control">
+                                                                        <label class="bank_country_id">Bank Country</label>
+                                                                        <select class="form-control" id="bank_country_id"
+                                                                                name="bank_country_id">
+                                                                            <t t-foreach="countries" t-as="country">
+                                                                                <option t-att-value="country.id"
+                                                                                        t-att-selected="country.id == appl.bank_country_id.id">
+                                                                                    <span t-esc="country.name"/>
+                                                                                </option>
+                                                                            </t>
+                                                                        </select>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                    <div class="input-control">
+                                                                        <label class="bank_name">Bank Name</label>
+                                                                        <input type="text" t-att-value="appl.bank_name" id="bank_name"
+                                                                               name="bank_name"
+                                                                               placeholder="Bank Name"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                    <div class="input-control">
+                                                                        <label class="branch_name_code">Branch Name/Code</label>
+                                                                        <input type="text" t-att-value="appl.branch_name_code"
+                                                                               id="branch_name_code" name="branch_name_code"
+                                                                               placeholder="Branch Name/Code"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-6">
+                                                                    <div class="input-control">
+                                                                        <label class="iban_no">IBAN</label>
+                                                                        <input type="text" t-att-value="appl.iban_no" id="iban_no"
+                                                                               name="iban_no" placeholder="IBAN"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                    <div class="input-control">
+                                                                        <label class="reconfirm_iban_no">Reconfirm IBAN</label>
+                                                                        <input type="text" id="reconfirm_iban_no" name="reconfirm_iban_no"
+                                                                               placeholder="Reconfirm IBAN"/>
+                                                                        <div class="error"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <input type="button" name="previous" class="previous action-button-previous"
+                                                           value="Previous"/>
+                                                    <input type="button" id="bank_next_btn" name="next" class="next action-button"
+                                                           value="Next Step"/>
+                                                </fieldset>
+
+                                                <fieldset id="family_fieldset">
+                                                    <div class="form-card">
+                                                        <div class="card-header">
+                                                            <h4 class="fs-title">Family Information</h4>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-12" id="parents_div">
+                                                                    <div class="row" id="father_div">
+                                                                        <div class="col-12">
+                                                                            <h6>Father Information</h6>
+                                                                            <div class="row">
+                                                                                <t t-set="father"
+                                                                                   t-value="appl.relative_ids.filtered(lambda rel: rel.relation == 'father')"/>
+                                                                                <div class="col-3">
+                                                                                    <div class="input-control">
+                                                                                        <label for="name">Name</label>
+                                                                                        <input type="text" t-att-value="father.name"
+                                                                                               class="form-control" id="father_name"
+                                                                                               placeholder="Father Name"
+                                                                                               name="father_name"/>
+                                                                                        <div class="error"/>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-2">
+                                                                                    <div class="input-control">
+                                                                                        <label for="name">Civil Id</label>
+                                                                                        <input type="text" class="form-control"
+                                                                                               placeholder="Father Civil ID"
+                                                                                               t-att-value="father.id_number"
+                                                                                               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                                               id="father_id_number"
+                                                                                               name="father_id_number"/>
+                                                                                        <div class="error"/>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-2">
+                                                                                    <div class="input-control">
+                                                                                        <label for="name">Father DoB</label>
+                                                                                        <div class="input-group date">
+                                                                                            <input type="text" class="form-control date"
+                                                                                                   placeholder="Father DoB"
+                                                                                                   t-att-value="father.birthdate"
+                                                                                                   id="father_birthdate"
+                                                                                                   name="father_birthdate"/>
+                                                                                            <div class="input-group-addon">
+                                                                                                <span class="glyphicon glyphicon-th"></span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="error"/>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-2">
+                                                                                    <div class="input-control">
+                                                                                        <label for="name">Phone</label>
+                                                                                        <input type="text" class="form-control"
+                                                                                               placeholder="Father Phone"
+                                                                                               t-att-value="father.phone"
+                                                                                               id="father_phone"
+                                                                                               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                                               name="father_phone"/>
+                                                                                        <div class="error"/>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-2">
+                                                                                    <div class="input-control">
+                                                                                        <label for="name">Birth Certificate</label>
+                                                                                        <input type="file" id="father_family_attach"
+                                                                                               name="father_family_attach"
+                                                                                               placeholder="Father Birth Certificate"/>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr/>
+                                                                    <div class="row" id="mother_div">
+                                                                        <div class="col-12">
+                                                                            <h6>Mother Information</h6>
+                                                                            <div class="row">
+                                                                                <t t-set="mother"
+                                                                                   t-value="appl.relative_ids.filtered(lambda rel: rel.relation == 'mother')"/>
+
+                                                                                <div class="col-3">
+                                                                                    <div class="input-control">
+                                                                                        <label for="name">Name</label>
+                                                                                        <input type="text" class="form-control"
+                                                                                               id="mother_name"
+                                                                                               t-att-value="mother.name"
+                                                                                               placeholder="Mother Name"
+                                                                                               name="mother_name"/>
+                                                                                        <div class="error"/>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-2">
+                                                                                    <div class="input-control">
+                                                                                        <label for="mother_id_number">Civil Id</label>
+                                                                                        <input type="text" class="form-control"
+                                                                                               t-att-value="mother.id_number"
+
+                                                                                               placeholder="Mother Civil ID"
+                                                                                               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                                               id="mother_id_number"
+                                                                                               name="mother_id_number"/>
+                                                                                        <div class="error"/>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-2">
+                                                                                    <div class="input-control">
+                                                                                        <label for="mother_birthdate">Mother DoB</label>
+                                                                                        <div class="input-group date">
+                                                                                            <input type="text" class="form-control date"
+                                                                                                   t-att-value="mother.birthdate"
+                                                                                                   placeholder="Mother DoB"
+                                                                                                   id="mother_birthdate"
+                                                                                                   name="mother_birthdate"/>
+                                                                                            <div class="input-group-addon">
+                                                                                                <span class="glyphicon glyphicon-th"></span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="error"/>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-2">
+                                                                                    <div class="input-control">
+                                                                                        <label for="mother_phone">Phone</label>
+                                                                                        <input type="text" class="form-control"
+                                                                                               t-att-value="mother.phone"
+                                                                                               placeholder="Mother Phone"
+                                                                                               id="mother_phone"
+                                                                                               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                                               name="mother_phone"/>
+                                                                                        <div class="error"/>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-2">
+                                                                                    <div class="input-control">
+                                                                                        <label for="name">Birth Certificate</label>
+                                                                                        <input type="file" id="mother_family_attach"
+                                                                                               name="mother_family_attach"
+                                                                                               placeholder="Mother Birth Certificate"/>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <hr/>
+                                                                <div class="col-12" id="spouse_div">
+                                                                    <h6>Spouse Information</h6>
+                                                                    <div class="row">
+                                                                        <t t-set="spouse"
+                                                                           t-value="appl.relative_ids.filtered(lambda rel: rel.relation == 'spouse')"/>
+
+                                                                        <div class="col-3">
+                                                                            <div class="input-control">
+                                                                                <label for="name">Name</label>
+                                                                                <input type="text" class="form-control" id="spouse_name"
+                                                                                       t-att-value="spouse.name"
+                                                                                       placeholder="Spouse Name"
+                                                                                       name="spouse_name"/>
+                                                                                <div class="error"/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-2">
+                                                                            <div class="input-control">
+                                                                                <label for="name">Civil Id</label>
+                                                                                <input type="text" class="form-control"
+                                                                                       t-att-value="spouse.id_number"
+                                                                                       placeholder="Spouse Civil ID"
+                                                                                       oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                                       id="spouse_id_number" name="spouse_id_number"/>
+                                                                                <div class="error"/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-2">
+                                                                            <div class="input-control">
+                                                                                <label for="spouse_birthdate">Spouse DoB</label>
+                                                                                <div class="input-group date">
+                                                                                    <input type="text" class="form-control date"
+                                                                                           t-att-value="spouse.birthdate"
+                                                                                           placeholder="Spouse DoB" id="spouse_birthdate"
+                                                                                           name="spouse_birthdate"/>
+                                                                                    <div class="input-group-addon">
+                                                                                        <span class="glyphicon glyphicon-th"></span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="error"/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-2">
+                                                                            <div class="input-control">
+                                                                                <label for="name">Phone</label>
+                                                                                <input type="text" class="form-control" id="spouse_phone"
+                                                                                       t-att-value="spouse.phone"
+                                                                                       placeholder="Spouse Phone"
+                                                                                       oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                                       name="spouse_phone"/>
+                                                                                <div class="error"/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-2">
+                                                                            <div class="input-control">
+                                                                                <label for="name">Birth Certificate</label>
+                                                                                <input type="file" id="spouse_family_attach"
+                                                                                       name="spouse_family_attach"
+                                                                                       placeholder="Spouse Birth Certificate"/>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <hr/>
+                                                            <div class="col-12">
+                                                                <div id="children_div">
+                                                                    <h6>Children Information</h6>
+                                                                    <table id="family_info_table" class="table table-responsive"
+                                                                           style="width=100%">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th scope="col">Name</th>
+                                                                                <th scope="col">ID Number</th>
+                                                                                <th scope="col">Gender</th>
+                                                                                <th scope="col">Date Of Birth</th>
+                                                                                <th scope="col">Phone</th>
+                                                                                <th scope="col">Attach</th>
+                                                                                <th scope="col"/>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <t t-set="children"
+                                                                               t-value="appl.relative_ids.filtered(lambda rel: rel.relation == 'child')"/>
+                                                                            <t t-foreach="children" t-as="child">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <div class="input-control">
+                                                                                            <input type="text" class="form-control"
+                                                                                                   id="name"
+                                                                                                   t-att-value="child.name"
+                                                                                                   name="name"/>
+                                                                                            <div class="error"/>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="input-control">
+                                                                                            <input type="text" class="form-control"
+                                                                                                   t-att-value="child.id_number"
+                                                                                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                                                                   id="id_number" name="id_number"/>
+                                                                                            <div class="error"/>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="input-control">
+                                                                                            <select class="form-control gender" id="gender"
+                                                                                                    name="gender">
+                                                                                                <option t-att-selected="child.gender == 'male'"
+                                                                                                        value="male">Male
+                                                                                                </option>
+                                                                                                <option t-att-selected="child.gender == 'female'"
+                                                                                                        value="female">Female
+                                                                                                </option>
+                                                                                            </select>
+                                                                                            <div class="error"/>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+
+                                                                                        <div class="input-control">
+                                                                                            <div class="input-group date">
+                                                                                                <input type="text" class="form-control date"
+                                                                                                       t-att-value="child.birthdate"
+                                                                                                       id="birthdate" name="birthdate"/>
+                                                                                                <div class="input-group-addon">
+                                                                                                    <span class="glyphicon glyphicon-th"></span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="error"/>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="input-control">
+                                                                                            <input type="text" class="form-control"
+                                                                                                   id="phone"
+                                                                                                   t-att-value="child.phone" name="phone"
+                                                                                                   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                                                                                            <div class="error"/>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="input-control">
+
+                                                                                            <div class="input-control">
+                                                                                                <input type="file"
+                                                                                                       name="family_attach"
+                                                                                                       placeholder="Birth Certificate"/>
+                                                                                                <div class="error"/>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <a type="button"
+                                                                                           class="btn btn-danger family_delete_btn"
+                                                                                        >delete
+                                                                                        </a>
+
+                                                                                    </td>
+
+                                                                                </tr>
+                                                                            </t>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <a class="btn btn-success" id='family_info_table_add_line'
+                                                                       onclick="addFamilyRelationNewRow()">
+                                                                        Add New Line
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <input type="button" name="previous" class="previous action-button-previous"
+                                                           value="Previous"/>
+                                                    <input type="button" id="family_next_btn" name="next" class="next action-button"
+                                                           value="Next Step"/>
+                                                </fieldset>
+                                                <fieldset id="experience_fieldset">
+                                                    <div class="form-card">
+                                                        <div class="card-header">
+                                                            <h4 class="fs-title">Experience Information</h4>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+
+                                                                <div class="col-12">
+                                                                    <table id="experience_table" class="table table-responsive d-table"
+                                                                           style="width:100%">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th scope="col">Job Name</th>
+                                                                                <th scope="col">Employer</th>
+                                                                                <th scope="col">From Date</th>
+                                                                                <th scope="col">To Date</th>
+                                                                                <th scope="col">Certificate File</th>
+                                                                                <th scope="col"/>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <t t-foreach="appl.experience_ids" t-as="exper">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <div class="input-control">
+                                                                                            <input type="text" class="form-control"
+                                                                                                   id="job_name"
+                                                                                                   t-att-value="exper.job_name"
+                                                                                                   name="job_name" placeholder="Job Name"/>
+                                                                                            <div class="error"/>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="input-control">
+                                                                                            <input type="text" class="form-control"
+                                                                                                   t-att-value="exper.employer_name"
+                                                                                                   id="employer_name" name="employer_name"
+                                                                                                   placeholder="Employer Name"/>
+                                                                                            <div class="error"/>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="input-control">
+                                                                                            <div class="input-group date">
+                                                                                                <input type="text" class="form-control date"
+                                                                                                       t-att-value="exper.date_from"
+                                                                                                       id="date_from" name="date_from"
+                                                                                                       placeholder="Date From"/>
+                                                                                                <div class="input-group-addon">
+                                                                                                    <span class="glyphicon glyphicon-th"></span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="error"/>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="input-control">
+                                                                                            <div class="input-group date">
+                                                                                                <input type="text" class="form-control date"
+                                                                                                       t-att-value="exper.date_to"
+
+                                                                                                       id="date_to" name="date_to"
+                                                                                                       placeholder="Date To"/>
+                                                                                                <div class="input-group-addon">
+                                                                                                    <span class="glyphicon glyphicon-th"></span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="error"/>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="input-control">
+                                                                                            <input type="file" name="service_certificate"
+                                                                                                   placeholder="Service Certificate"/>
+                                                                                            <div class="error"/>
+                                                                                        </div>
+
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <a type="button"
+                                                                                           class="btn btn-danger experience_delete_btn">
+                                                                                            delete
+                                                                                        </a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </t>
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <hr/>
+
+                                                                    <a class="btn btn-success" id='experience_table_add_line'
+                                                                       onclick="addExperienceNewRow()">
+                                                                        Add New Line
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <input type="button" name="previous" class="previous action-button-previous"
+                                                           value="Previous"/>
+                                                    <input type="button" id="experience_next_btn" name="next" class="next action-button"
+                                                           value="Next Step"/>
+                                                </fieldset>
+
+                                                <fieldset id="success_fieldset">
+
+                                                    <div class="form-card">
+                                                        <div class="card-body">
+                                                            <div class="row justify-content-center">
+                                                                <div class="col-3">
+                                                                    <img src="https://img.icons8.com/color/96/000000/ok--v2.png"
+                                                                         class="fit-image"/>
+                                                                </div>
+                                                            </div>
+                                                            <b/>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                                <!--                                            <a id="export_next_btn">EXPORT</a>-->
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="mt-5"/>
+                    <div class="alert alert-info text-center" role="alert">
+                        Your Application in Revision Status
+                    </div>
+                </t>
+
+            </div>
+            <div class="m-5 p-5" style=""/>
+            <br class=" m-5 p-5"/>
+        </div>
+
+    </template>
+</odoo>

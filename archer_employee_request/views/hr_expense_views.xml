@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_expense_form_view_inherit_request" model="ir.ui.view">
+        <field name="name">hr.expense.form.inherit.request</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='analytic_account_id']" position="after">
+                <field name="expense_type" required="1"/>
+                <field name="project_id" required="1"/>
+                <field name="approver_name"/>
+                <field name="approval_date"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

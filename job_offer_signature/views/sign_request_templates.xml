@@ -1,0 +1,32 @@
+<odoo>
+
+
+    <template id="reject_sign" name="reject sign" inherit_id="sign._doc_sign">
+        <xpath expr="//div[hasclass('container-fluid')]" position="inside">
+            <div class="row o_sign_reject">
+                <button type="button" class="btn btn-primary o_validate_button"
+                        style="margin-left: 19px;width: 130px;height: 50px;">
+                    <span style="font-size:17px;">Reject Offer</span>
+                </button>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="sign_rejected_template">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Thank You !</t>
+            <form>
+                <h4 class="text-center">Your Response has been Saved</h4>
+                <br/>
+                <t t-if="message">
+                    <div class="text-center alert alert-success" role="alert">
+                        <t class="text-center" t-esc="message"/>
+                    </div>
+                </t>
+                <div class="row o_portal_details">
+
+                </div>
+            </form>
+        </t>
+    </template>
+</odoo>

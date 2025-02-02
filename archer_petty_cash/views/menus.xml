@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <menuitem
+                id="archer_petty_cash.menu_petty_cash_root"
+                name="Petty Cash"
+                web_icon="archer_petty_cash,static/description/icon.png"
+                sequence="105"
+                groups="base.group_user"
+
+        />
+
+        <menuitem name="Petty Cash Request" id="archer_petty_cash.item_archer_petty_cash_request_menu" parent="archer_petty_cash.menu_petty_cash_root" action="archer_petty_cash.act_archer_petty_cash_request_action"/>
+        <menuitem name="Petty Cash Settlement" id="archer_petty_cash.item_archer_petty_cash_settlement_menu" parent="archer_petty_cash.menu_petty_cash_root" action="archer_petty_cash.action_archer_petty_cash_settlement_windows"/>
+        <menuitem name="Configration" id="archer_petty_cash.item_archer_petty_cash_config_root_menu" parent="archer_petty_cash.menu_petty_cash_root" />
+        <menuitem name="Groups" id="archer_petty_cash.item_archer_petty_cash_group_menu" parent="archer_petty_cash.item_archer_petty_cash_config_root_menu" action="archer_petty_cash.action_archer_petty_cash_group_windows"/>
+
+    </data>
+</odoo>

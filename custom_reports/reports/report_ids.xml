@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="moc_detailed_report_xlsx" model="ir.actions.report">
+            <field name="name">MOC Detailed Report</field>
+            <field name="model">moc.detailed.report</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">custom_reports.moc_detailed_report_xlsx</field>
+            <field name="report_file">custom_reports.moc_detailed_report_xlsx</field>
+
+        </record>
+
+        <record id="bank_stmt_xlsx" model="ir.actions.report">
+            <field name="name">Bank Statement Report</field>
+            <field name="model">bank.statement.report</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">custom_reports.bank_statement_report_xlsx</field>
+            <field name="report_file">custom_reports.bank_statement_report_xlsx</field>
+        </record>
+
+        <record id="final_settlement_xlsx" model="ir.actions.report">
+            <field name="name">Final Settlement</field>
+            <field name="model">final.settlement.report</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">custom_reports.final_settlement</field>
+            <field name="report_file">custom_reports.final_settlement</field>
+        </record>
+        <record id="wps_raghi_report_xlsx" model="ir.actions.report">
+            <field name="name">WPS Raghi</field>
+            <field name="model">wps.raghi.report</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">custom_reports.wps_raghi</field>
+            <field name="report_file">custom_reports.wps_raghi_report</field>
+        </record>
+
+    </data>
+</odoo>

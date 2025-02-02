@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_project_custom.project_forecast_report_action" model="ir.actions.report">
+            <field name="name">Project Forested Report</field>
+            <field name="model">project.project</field>
+            <field name="report_type">qweb-html</field>
+            <field name="binding_type">report</field>
+            <field name="report_name">archer_project_custom.report_project_forcast</field>
+            <field name="report_file">archer_project_custom.report_project_forcast</field>
+            <field name="print_report_name">'Project %s Forecasted' % (object.name)</field>
+            <field name="binding_model_id" ref="project.model_project_project"/>
+        </record>
+
+        <template id="archer_project_custom.report_project_forcast">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="page">
+                            <div class="col12">
+                            <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-dark text-center" role="alert">
+                                    <span class="h3" t-esc="o.name"/> Forecasted Report
+                                </div>
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="col-12">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Item</th>
+                                            <th scope="col">Current Forecast</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">Salaries</th>
+                                            <td><span t-esc="current_salaries"/></td>
+
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Offers</th>
+                                            <td><span t-esc="current_offers"/></td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Provisions</th>
+                                            <td><span t-esc="current_provisions"/></td>
+
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Employee Expenses</th>
+                                            <td><span t-esc="current_employee_expenses"/></td>
+
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Other Expenses</th>
+                                            <td>0.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Logistics Costs</th>
+                                            <td><span t-esc="current_logistics"/></td>
+
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Headhunting Costs</th>
+                                            <td><span t-esc="current_headhunts"/></td>
+
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th scope="col">Total</th>
+                                            <th scope="col">Current Forecast</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

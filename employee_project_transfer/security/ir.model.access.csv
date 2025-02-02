@@ -1,0 +1,3 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_employee_project_transfer_user,employee_project_transfer.user,model_employee_project_transfer,,1,1,1,1
+access_hr_employee_project_transfer_batch_user,employee_project_transfer_batch.user,model_employee_project_transfer_batch,,1,1,1,1

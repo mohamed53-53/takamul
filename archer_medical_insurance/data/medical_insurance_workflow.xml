@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="archer_medical_employee_submit" model="approval.config" >
+        <field name="model_id" ref="model_archer_medical_employee"/>
+        <field name="state">submit</field>
+        <field name="name">Submit</field>
+        <field name="sequence">1</field>
+        <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
+        <field name="condition">True</field>
+        <field name="schedule_activity" eval="True" />
+    </record>
+
+    <record id="archer_medical_employee_approve" model="approval.config" >
+        <field name="model_id" ref="model_archer_medical_employee"/>
+        <field name="state">approve</field>
+        <field name="name">Approve</field>
+        <field name="sequence">2</field>
+        <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
+        <field name="condition">True</field>
+        <field name="schedule_activity" eval="True" />
+    </record>
+
+
+</odoo>

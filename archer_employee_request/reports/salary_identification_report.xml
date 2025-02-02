@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="action_report_salary_identification" model="ir.actions.report">
+            <field name="name">Salar Identification</field>
+            <field name="model">salary.identification</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">archer_employee_request.salary_identification_report</field>
+            <field name="report_file">archer_employee_request.salary_identification_report</field>
+            <field name="print_report_name">'Salary Identification - %s ' % object.sequence )</field>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="salary_identification_report">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="archer_employee_request.salary_identification_document"/>
+            </t>
+        </template>
+
+        <template id="salary_identification_document">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table" style="width:100%">
+                                    <thead/>
+                                    <tbody>
+
+                                        <tr>
+                                            <td class="text-left"><span>Reference No : <span t-esc="o.sequence"/></span></td>
+                                            <td class="text-center" colspan="3"><span>تعريف بالراتب</span></td>
+                                            <td class="text-right"><span><span t-esc="o.sequence"/>  : المرجع </span></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="text-left"><span>Data : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/></span></td>
+                                            <td class="text-center" colspan="3"><span>Employment Certificate</span></td>
+                                            <td class="text-right"><span><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/>  : التاريخ </span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">To : Whom it May Concern</td>
+                                            <td class=" " colspan="3"/>
+                                            <td class="text-right">إلى : إلى من يهمه الأمر</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left" colspan="2">Employee Information</td>
+                                            <td class=" "/>
+                                            <td class="text-right" colspan="2">بيانات الموظف</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">Employee No</td>
+                                            <td class="text-center"><span t-esc="o.employee_id.id"/></td>
+                                            <td class=" "/>
+                                            <td class="text-center"><span t-esc="o.employee_id.id"/></td>
+                                            <td class="text-right">الرقم الوظيفي</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left bg-dark">Employee Name</td>
+                                            <td class="text-center"><span t-esc="o.employee_id.sudo().name"/></td>
+                                            <td class=" "/>
+                                            <td class="text-center"><span t-esc="o.employee_id.sudo().arabic_name"/></td>
+                                            <td class="text-right">الاسم</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">ID No</td>
+                                            <td class="text-center"><span t-esc="o.employee_id.sudo().identification_id"/></td>
+                                            <td class=" "/>
+                                            <td class="text-center"><span t-esc="o.employee_id.sudo().identification_id"/></td>
+                                            <td class="text-right">رقم الهوية</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">Nationality</td>
+                                            <td class="text-center"><span t-esc="o.employee_id.sudo().country_id.name"/></td>
+                                            <td class=" "/>
+                                            <td class="text-center"><span t-esc="o.employee_id.sudo().country_id.name"/></td>
+                                            <td class="text-right">الجنسية</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">Position</td>
+                                            <td class="text-center"><span t-esc="o.employee_id.sudo().job_id.name"/></td>
+                                            <td class=" "/>
+                                            <td class="text-center"><span t-esc="o.employee_id.sudo().job_id.name"/></td>
+                                            <td class="text-right">مسمى الوظيفة</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">Joining Date</td>
+                                            <td class="text-center"><span t-esc="o.employee_id.sudo().contract_id.date_start"/></td>
+                                            <td class=" "/>
+                                            <td class="text-center"><span t-esc="o.employee_id.sudo().contract_id.date_start"/></td>
+                                            <td class="text-right">بداية الخدمة</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">Basic Salary</td>
+                                            <td class="text-center"><span t-esc="o.employee_id.sudo().contract_id.wage"/></td>
+                                            <td class=" "/>
+                                            <td class="text-center"><span t-esc="o.employee_id.sudo().contract_id.wage"/></td>
+                                            <td class="text-right">الراتب اﻷساسي</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left">Total Salary</td>
+                                            <td class="text-center"><span t-esc="o.employee_id.sudo().contract_id.wage"/></td>
+                                            <td class=" "/>
+                                            <td class="text-center"><span t-esc="o.employee_id.sudo().contract_id.wage"/></td>
+                                            <td class="text-right">الراتب الاجمالي</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left" colspan="2">Takamol Business Solutions , certifies
+                                                that the mentioned above is one of its<br/>employees as per the details
+                                                given and he was Provided this certificate per his<br/>request without
+                                                any liabilities on the company.
+                                                <br/>
+                                            </td>
+                                            <td class=""/>
+                                            <td class="text-right" colspan="2">تشهد شركة تكامل لحلول الأعمال أن المذكور
+                                                أعلاه أحد منسوبي الشركة حسب البيانات المذكورة .
+                                                <br/>
+                                                وقد اعطي هذه الشهادة بناءا على طلبه دون ادنى مسئولية على الشركة
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

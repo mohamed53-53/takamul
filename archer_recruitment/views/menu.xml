@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem name="New Hire" id="archer_recruitment.view_new_hire_root" parent="hr_recruitment.menu_hr_recruitment_root" sequence="1"/>
+
+        <menuitem name="Offers" id="archer_recruitment.view_new_application_menuitem" parent="archer_recruitment.view_new_hire_root"
+                  sequence="1"
+                  action="archer_recruitment.view_application_action"/>
+
+
+        <menuitem name="Customer Request" id="archer_recruitment.view_customer_application_menuitem" parent="archer_recruitment.view_new_hire_root"
+                  sequence="2"
+                  action="archer_recruitment.view_customer_application_action"/>
+
+
+        <menuitem name="Pending Contracts" id="archer_recruitment.item_hr_contract_wait_menu" parent="hr.menu_hr_employee_payroll"
+                  action="archer_recruitment.act_hr_contract_wait_action"/>
+
+        <menuitem name="Offer Applications" id="archer_recruitment.view_application_menuitem"
+                  parent="hr_recruitment.menu_crm_case_categ0_act_job" sequence="1"
+                  action="archer_recruitment.act_accepted_application"/>
+
+        <menuitem name="Application By HR" parent="hr_recruitment.menu_crm_case_categ0_act_job"
+                  id="archer_recruitment.direct_apps_menuitem" action="archer_recruitment.action_direct_with_data_window" sequence="2"/>
+
+        <menuitem name="Application By Employee" parent="hr_recruitment.menu_crm_case_categ0_act_job"
+                  id="archer_recruitment.direct_with_data_app_menuitem" action="archer_recruitment.action_direct_apps_window"
+                  sequence="3"/>
+        <record model="ir.ui.menu" id="hr_recruitment.menu_crm_case_categ_all_app">
+            <field name="active" eval="False"/>
+        </record>
+<!--        <record model="ir.ui.menu" id="hr_recruitment.menu_hr_job_position">-->
+<!--            <field name="active" eval="False"/>-->
+<!--        </record>-->
+
+    </data>
+</odoo>

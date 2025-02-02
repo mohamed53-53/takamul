@@ -1,0 +1,90 @@
+<odoo>
+    <data>
+        <record id="employee_contract_renewal_form" model="ir.ui.view">
+            <field name="name">employee.contract.renewal.form</field>
+            <field name="model">employee.contract.renewal</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <field name="user_can_approve" invisible="1"/>
+                        <field name="workflow_states" invisible="1"/>
+                        <field name="button_approve_enabled" invisible="1"/>
+                        <field name="button_forward_enabled" invisible="1"/>
+                        <field name="button_return_enabled" invisible="1"/>
+                        <field name="approve_button_name" invisible="1"/>
+                        <field name="approve_confirm_msg" invisible="1"/>
+                        <field name="reject_button_wizard" invisible="1"/>
+                        <field name="reject_button_name" invisible="1"/>
+                        <field name="reject_confirm_msg" invisible="1"/>
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_approve" type="object" string="Draft Approve" states="draft"/>
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve"
+                                attrs="{'invisible' : [('user_can_approve','=', False)]}"/>
+                        <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}"/>
+                        <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|','|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}"/>
+                        <button name="action_forward" type="object" string="Forward"
+                                attrs="{'invisible' : [('button_forward_enabled','=', False)]}"/>
+                        <button name="action_return" type="object" string="Return"
+                                attrs="{'invisible' : [('button_return_enabled','=', False)]}"/>
+
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id"  attrs="{'readonly':[('state', 'in',['approved'])]}"/>
+                                <field name="project_id"  />
+                            </group>
+                            <group>
+                                <field name="no_of_month" attrs="{'readonly':[('state', 'in',['approved'])]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="contract_id" attrs="{'readonly':[('state', 'in',['approved'])]}"/>
+                                <field name="date_start" attrs="{'readonly':[('state', 'in',['approved'])]}"/>
+                            </group>
+                            <group>
+                                <field name="date_end" attrs="{'readonly':[('state', 'in',['approved'])]}"/>
+                                <field name="new_date_end" attrs="{'readonly':[('state', 'in',['approved'])]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow this project to automatically track the events associated to tasks and issues of this project." groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="employee_contract_renewal_tree" model="ir.ui.view">
+            <field name="name">employee.contract.renewal.tree</field>
+            <field name="model">employee.contract.renewal</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="employee_id"/>
+                    <field name="contract_id"/>
+                    <field name="no_of_month"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="employee_contract_renewal_action" model="ir.actions.act_window">
+            <field name="name">Extend Contract</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.contract.renewal</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="employee_contract_renewal_menu" name="Extend  Contract" parent="hr.menu_hr_root" action="employee_contract_renewal_action" sequence="5"/>
+    </data>
+</odoo>

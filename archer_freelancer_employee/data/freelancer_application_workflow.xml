@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+
+        <record id="freelancer_application_hr_operation" model="approval.config" forcecreate="0">
+            <field name="model_id" ref="model_archer_freelance_application"/>
+            <field name="state">hr_op_approve</field>
+            <field name="name">HR Operation Approve</field>
+            <field name="sequence">1</field>
+            <field name="group_ids" eval="[(4, ref('base.group_system'))]"/>
+            <field name="condition">True</field>
+            <field name="schedule_activity" eval="True"/>
+        </record>
+
+
+        <record id="freelancer_application_hr_director" model="approval.config" forcecreate="0">
+            <field name="model_id" ref="model_archer_freelance_application"/>
+            <field name="state">hr_dir_approve</field>
+            <field name="name">HR Director Approve</field>
+            <field name="sequence">2</field>
+            <field name="group_ids" eval="[(4, ref('base.group_system'))]"/>
+            <field name="condition">True</field>
+            <field name="schedule_activity" eval="True"/>
+        </record>
+
+
+    </data>
+</odoo>

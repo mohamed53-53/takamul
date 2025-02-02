@@ -1,0 +1,313 @@
+<odoo>
+    <data noupdate="1">
+        <record id="hr_payroll_salary_structure_type_eg_emp" model="hr.payroll.structure.type">
+            <field name="name">Salary Structure Type</field>
+            <field name="country_id" ref="base.eg"/>
+        </record>
+        <record id="hr_payroll_salary_structure_eg_emp" model="hr.payroll.structure">
+            <field name="name">Salary Structure</field>
+            <field name="country_id" ref="base.eg"/>
+            <field name="type_id" ref="hr_payroll_salary_structure_type_eg_emp"/>
+        </record>
+          <record id="hr_rule_basic_salary" model="hr.salary.rule">
+            <field name="name">Basic Salary</field>
+            <field name="sequence" eval="1"/>
+            <field name="code">BASIC</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = rules.NET > categories.NET * 0.10</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="True"/>
+            <field name="is_amendment" eval="False"/>
+              <field name="amount_python_compute">result = contract.get_employee_rule_amount(employee, contract,"BASIC", payslip.date_from, payslip.date_to)
+              </field>
+        </record>
+          <record id="hr_rule_housing_allowance" model="hr.salary.rule">
+            <field name="name">Housing Allowance</field>
+            <field name="sequence" eval="2"/>
+            <field name="code">HOUALLOW</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = rules.NET > categories.NET * 0.10</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="True"/>
+            <field name="is_amendment" eval="False"/>
+              <field name="amount_python_compute">result = contract.get_employee_rule_amount(employee, contract,"HOUALLOW", payslip.date_from, payslip.date_to)
+              </field>
+
+          </record>
+          <record id="hr_rule_transportation_allowance" model="hr.salary.rule">
+            <field name="name">Transportation Allowance</field>
+            <field name="sequence" eval="3"/>
+            <field name="code">TRAALLOW</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = rules.NET > categories.NET * 0.10</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="True"/>
+            <field name="is_amendment" eval="False"/>
+              <field name="amount_python_compute">result = contract.get_employee_rule_amount(employee, contract,"TRAALLOW", payslip.date_from, payslip.date_to)
+              </field>
+        </record>
+          <record id="hr_rule_visa_exit" model="hr.salary.rule">
+            <field name="name">Visa Exit</field>
+            <field name="sequence" eval="5"/>
+            <field name="code">02</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = rules.NET > categories.NET * 0.10</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="False"/>
+              <field name="is_amendment" eval="False"/>
+
+              <field name="amount_python_compute">result = 0
+              if payslip.other_deduction_ids:
+              for rec in payslip.other_deduction_ids:
+              if rec.type_code == 'DD':
+              result = - ( rec.deduction_amount)
+            </field>
+        </record>
+
+          <record id="hr_rule_visa_re_entry" model="hr.salary.rule">
+            <field name="name">Visa Re-Entry</field>
+            <field name="sequence" eval="5"/>
+            <field name="code">02</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = rules.NET > categories.NET * 0.10</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="False"/>
+              <field name="is_amendment" eval="False"/>
+
+              <field name="amount_python_compute">	result = 0
+              if payslip.other_deduction_ids:
+              for rec in payslip.other_deduction_ids:
+              if rec.type_code == 'VR':
+              result = - ( rec.deduction_amount)
+            </field>
+        </record>
+      <record id="hr_rule_travel" model="hr.salary.rule">
+            <field name="name">Travel</field>
+            <field name="sequence" eval="5"/>
+            <field name="code">02</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = rules.NET > categories.NET * 0.10</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="False"/>
+          <field name="is_amendment" eval="False"/>
+
+          <field name="amount_python_compute">result = 0
+              if payslip.other_deduction_ids:
+              for rec in payslip.other_deduction_ids:
+              if rec.type_code == 'TR':
+              result = - ( rec.deduction_amount)
+            </field>
+        </record>
+      <record id="hr_rule_gross" model="hr.salary.rule">
+            <field name="name">Gross</field>
+            <field name="sequence" eval="25"/>
+            <field name="code">GROSS</field>
+            <field name="category_id" ref="hr_payroll.GROSS"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = rules.NET > categories.NET * 0.10</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="False"/>
+          <field name="is_amendment" eval="False"/>
+
+          <field name="amount_python_compute">result = categories.BASIC + categories.ALW</field>
+        </record>
+
+      <record id="hr_rule_gosi_employee_share" model="hr.salary.rule">
+            <field name="name">GOSI Employee Share</field>
+            <field name="sequence" eval="40"/>
+            <field name="code">GE</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = rules.NET > categories.NET * 0.10</field>
+            <field name="amount_select">fix</field>
+          <field name="quantity">1</field>
+          <field name="amount_fix">0.0</field>
+          <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="False"/>
+          <field name="is_amendment" eval="False"/>
+
+      </record>
+
+        <record id="hr_rule_gosi_company_share" model="hr.salary.rule">
+            <field name="name">GOSI Company Share</field>
+            <field name="sequence" eval="40"/>
+            <field name="code">GC</field>
+            <field name="category_id" ref="hr_payroll.COMP"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = rules.NET > categories.NET * 0.10</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="False"/>
+            <field name="is_amendment" eval="False"/>
+            <field name="amount_python_compute">result = contract.company_share_basic</field>
+        </record>
+
+        <record id="hr_rule_loan_amendment" model="hr.salary.rule">
+            <field name="name">Loan Amendment</field>
+            <field name="sequence" eval="90"/>
+            <field name="code">bas_am</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = rules.NET > categories.NET * 0.10</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="False"/>
+            <field name="is_amendment" eval="True"/>
+        </record>
+
+        <record id="hr_rule_attachment_of_salary" model="hr.salary.rule">
+            <field name="name">Attachment of Salary</field>
+            <field name="sequence" eval="174"/>
+            <field name="code">ATTACH_SALARY</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = inputs.ATTACH_SALARY</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="False"/>
+            <field name="is_amendment" eval="False"/>
+            <field name="amount_python_compute">	result = -inputs.ATTACH_SALARY.amount
+                result_name = inputs.ATTACH_SALARY.name</field>
+
+        </record>
+        <record id="hr_rule_assignment_of_salary" model="hr.salary.rule">
+            <field name="name">Assignment of Salary</field>
+            <field name="sequence" eval="174"/>
+            <field name="code">ASSIG_SALARY</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = inputs.ASSIG_SALARY</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="False"/>
+            <field name="is_amendment" eval="False"/>
+            <field name="amount_python_compute">	result = -inputs.ASSIG_SALARY.amount
+                result_name = inputs.ASSIG_SALARY.name</field>
+
+        </record>
+
+        <record id="hr_rule_child_support" model="hr.salary.rule">
+            <field name="name">Child Support</field>
+            <field name="sequence" eval="174"/>
+            <field name="code">CHILD_SUPPORT</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">	result = inputs.CHILD_SUPPORT</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="True"/>
+            <field name="is_amendment" eval="False"/>
+
+        </record>
+        <record id="hr_rule_deduction" model="hr.salary.rule">
+            <field name="name">Deduction</field>
+            <field name="sequence" eval="198"/>
+            <field name="code">DEDUCTION</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = inputs.DEDUCTION</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="False"/>
+            <field name="is_amendment" eval="False"/>
+            <field name="amount_python_compute">	result = -inputs.DEDUCTION.amount
+                result_name = inputs.DEDUCTION.name</field>
+
+        </record>
+
+        <record id="hr_rule_reimbursement" model="hr.salary.rule">
+            <field name="name">Reimbursement</field>
+            <field name="sequence" eval="199"/>
+            <field name="code">REIMBURSEMENT</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = inputs.REIMBURSEMENT</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="False"/>
+            <field name="is_amendment" eval="False"/>
+            <field name="amount_python_compute">	result = -inputs.REIMBURSEMENT.amount
+                result_name = inputs.REIMBURSEMENT.name</field>
+
+        </record>
+
+        <record id="hr_rule_total_earning" model="hr.salary.rule">
+            <field name="name">Total Earnings</field>
+            <field name="sequence" eval="998"/>
+            <field name="code">TOT_EARN</field>
+            <field name="category_id" ref="hr_payroll.GROSS"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = rules.NET > categories.NET * 0.10</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="False"/>
+            <field name="is_amendment" eval="False"/>
+            <field name="amount_python_compute">	result = categories.BASIC + categories.ALW</field>
+
+        </record>
+
+
+        <record id="hr_rule_total_cost" model="hr.salary.rule">
+            <field name="name">Total Cost</field>
+            <field name="sequence" eval="999"/>
+            <field name="code">TOT_COST</field>
+            <field name="category_id" ref="hr_payroll.GROSS"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = rules.NET > categories.NET * 0.10</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="False"/>
+            <field name="is_amendment" eval="False"/>
+            <field name="amount_python_compute">	result = TOT_EARN + GC</field>
+
+        </record>
+
+        <record id="hr_rule_net_salary" model="hr.salary.rule">
+            <field name="name">Net Salary</field>
+            <field name="sequence" eval="999"/>
+            <field name="code">Net</field>
+            <field name="category_id" ref="hr_payroll.NET"/>
+            <field name="struct_id" ref="archer_payroll.hr_payroll_salary_structure_eg_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = rules.NET > categories.NET * 0.10</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="is_dynamic" eval="False"/>
+            <field name="is_amendment" eval="False"/>
+            <field name="amount_python_compute">result = categories.BASIC + categories.ALW + categories.DED</field>
+
+        </record>
+
+
+    </data>
+</odoo>

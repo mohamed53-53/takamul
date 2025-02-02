@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_account_coc_form" model="ir.ui.view">
+		<field name="name">account.coc.form</field>
+		<field name="model">account.coc</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<field name="state" widget="statusbar" />
+					<field name="workflow_states" invisible="1" />
+					<field name="user_can_approve" invisible="1" />
+					<field name="button_approve_enabled" invisible="1" />
+					<field name="button_forward_enabled" invisible="1" />
+					<field name="button_return_enabled" invisible="1" />
+					<field name="button_transfer_enabled" invisible="1" />
+					<field name="approve_button_wizard" invisible="1" />
+					<field name="approve_button_name" invisible="1" />
+					<field name="approve_confirm_msg" invisible="1" />
+					<field name="reject_button_wizard" invisible="1" />
+					<field name="reject_button_name" invisible="1" />
+					<field name="reject_confirm_msg" invisible="1" />
+					<button name="action_approve" type="object" string="Confirm" class="oe_highlight" states="draft" />
+					<button name="action_approve_wizard" type="object" string="Approve" class="oe_highlight"
+						attrs="{'invisible' : ['|', '|',('user_can_approve','=', False), ('approve_button_name', '=', False), ('approve_button_wizard', '=', False)]}" />
+					<button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve"
+						attrs="{'invisible' : ['|','|',('user_can_approve','=', False), ('approve_button_name', '=', False), ('approve_button_wizard', '=', True)]}" />
+					<button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject"
+						attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}" />
+					<button name="action_reject" type="object" string="Reject" class="oe_workflow_reject"
+						attrs="{'invisible' : ['|','|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}" />
+					<button name="action_draft" type="object" confirm="Reset to draft ?" string="Reset to draft" states="rejected" />
+					<button name="action_forward" type="object" string="Forward" attrs="{'invisible' : [('button_forward_enabled','=', False)]}" />
+					<button name="action_return" type="object" string="Return" attrs="{'invisible' : [('button_return_enabled','=', False)]}" />
+					<button name="action_transfer" type="object" string="Transfer" attrs="{'invisible' : [('button_transfer_enabled','=', False)]}" />
+					<button name="action_create_invoice" type="object" string="Create Bill"  class="oe_highlight" attrs="{'invisible' : ['|', ('state','!=', 'approved'), ('invoice_id','!=', False)]}" />
+				</header>
+				<sheet>
+					<div class="oe_title">
+						<h1>
+							<field name="name" />
+						</h1>
+					</div>
+					<group>
+						<group>
+							<field name="purchase_order_id" options="{'no_create' : 1}" domain="[('state','=', 'purchase'), ('coc_ok', '=', True)]" />
+							<field name="partner_id" widget="res_partner_many2one" context="{'res_partner_search_mode': 'supplier', 'show_vat': True}"
+								placeholder="Name, TIN, Email, or Reference" />
+
+							<field name="currency_id" groups="base.group_multi_currency" force_save="1" options="{'no_create': True}" />
+						</group>
+						<group>
+							<field name="company_id" groups="base.group_multi_company" force_save="1" options="{'no_create': True}" />
+							<field name="date" />
+							<field name="user_id" options="{'no_create': True}" />
+							<field name="department_id"  options="{'no_create': True}"/>
+							<field name="account_analytic_id" groups="analytic.group_analytic_accounting" />
+							<field name="invoice_id" attrs="{'invisible' : [('invoice_id','=', False)]}" />
+						</group>
+					</group>
+					<notebook>
+						<page name="lines" string="Products">
+							<field name="line_ids" widget="section_and_note_one2many" mode="tree,kanban"
+								context="{'default_state': 'draft', 'default_account_analytic_id' : account_analytic_id, 'default_received_date' : date}" nolabel="1">
+								<tree editable="bottom">
+									<control>
+										<create name="add_product_control" string="Add a product" />
+										<create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}" />
+										<create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}" />
+									</control>
+									<field name="display_type" invisible="1" />
+									<field name="currency_id" invisible="1" />
+									<field name="state" invisible="1" readonly="1" />
+									<field name="product_uom_category_id" invisible="1" />
+									<field name="purchase_line_id" invisible="1" />
+									<field name="sequence" widget="handle" />
+									<field name="product_id" attrs="{'required': [('display_type', '=', False)]}"
+										context="{'partner_id': parent.partner_id, 'quantity':product_qty,'uom':product_uom, 'company_id': parent.company_id}" force_save="1"
+										domain="[('purchase_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" />
+									<field name="name" widget="section_and_note_text" />
+									<field name="account_analytic_id" optional="hide" context="{'default_partner_id':parent.partner_id}"
+										groups="analytic.group_analytic_accounting" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" />
+									<field name="analytic_tag_ids" optional="hide" groups="analytic.group_analytic_tags" widget="many2many_tags"
+										options="{'color_field': 'color'}" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" />
+									
+									<field name="po_product_qty" attrs="{'column_invisible' : [('parent.purchase_order_id','=', False)]}" optional="show" />	
+									<field name="po_price_unit" attrs="{'column_invisible' : [('parent.purchase_order_id','=', False)]}" optional="hide"/>	
+									<field name="po_price_subtotal" attrs="{'column_invisible' : [('parent.purchase_order_id','=', False)]}" optional="hide"/>	
+									
+									<field name="processed_quantity" attrs="{'column_invisible' : [('parent.purchase_order_id','=', False)]}" optional="show"/>	
+									<field name="processed_price_subtotal" attrs="{'column_invisible' : [('parent.purchase_order_id','=', False)]}" optional="show"/>										
+									
+									<field name="product_qty" />
+									<field name="product_uom" string="UoM" groups="uom.group_uom" attrs="{'required': [('display_type', '=', False)]}" force_save="1"
+										optional="show" />
+									<field name="price_unit" />
+									<field name="taxes_id" widget="many2many_tags" domain="[('type_tax_use','=','purchase'), ('company_id', '=', parent.company_id)]"
+										context="{'default_type_tax_use': 'purchase', 'search_view_ref': 'account.account_tax_view_search'}" options="{'no_create': True}"
+										optional="show" />
+									<field name="price_subtotal" widget="monetary" optional="show" />
+									<field name="price_total" widget="monetary" optional="hide" />
+									<field name="received_date" optional="show" /> 
+								</tree>
+							</field>
+							<group class="oe_subtotal_footer oe_right">
+								<field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}" />
+								<field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}" />
+								<div class="oe_subtotal_footer_separator oe_inline">
+									<label for="amount_total" />
+								</div>
+								<field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"
+									options="{'currency_field': 'currency_id'}" />
+							</group>
+							<field name="notes" class="oe_inline" placeholder="Define your terms and conditions ..." />
+							<div class="oe_clear" />
+						</page>
+					</notebook>
+				</sheet>
+				<div class="oe_chatter">
+					<field name="message_follower_ids" widget="mail_followers" />
+					<field name="activity_ids" widget="mail_activity" />
+					<field name="message_ids" widget="mail_thread" />
+				</div>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_account_coc_tree" model="ir.ui.view">
+		<field name="name">account.coc.tree</field>
+		<field name="model">account.coc</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name" />
+				<field name="partner_id" />
+				<field name="purchase_order_id" optional="show" />
+				<field name="department_id" optional="show" />
+				<field name="account_analytic_id" optional="show"/>
+				<field name="date" optional="show" />
+				<field name="amount_untaxed" optional="hide" />
+				<field name="amount_tax" optional="hide" />
+				<field name="amount_total" optional="show" />
+				<field name="currency_id" optional="hide" />
+				<field name="state" />
+				<field name="company_id" groups="base.group_multi_company" />			
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_account_coc_search" model="ir.ui.view">
+		<field name="name">account.coc.search</field>
+		<field name="model">account.coc</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name" />
+				<field name="partner_id" />
+				<field name="purchase_order_id" />
+				<field name="date" />
+				<separator />
+				<filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" />
+				<filter name="to_approve" string="To Approve" domain="[('state', 'not in', ['draft','approved','rejected'])]" />
+				<filter name="approved" string="Approved" domain="[('state', '=', 'approved')]" />
+				<filter name="rejected" string="Rejected" domain="[('state', '=', 'rejected')]" />
+				<separator />
+				<group expand="0" string="Group By">
+					<filter string="Vendor" name="vendor" domain="[]" context="{'group_by': 'partner_id'}" />
+					<filter string="Purchase Representative" name="representative" domain="[]" context="{'group_by': 'user_id'}" />
+					<filter string="Date" name="date" domain="[]" context="{'group_by': 'date'}" />
+				</group>			
+			</search>
+		</field>
+	</record>
+
+</odoo>

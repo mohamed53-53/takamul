@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_employee_evaluation.hr_contract_form_view" model="ir.ui.view">
+            <field name="name">archer_employee_evaluation.hr.contract.form.view</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='state']" position="after">
+                    <button string="Evaluate" name="open_evalation_wizard" type="object" class="oe_highlight" attrs="{'invisible':['|',('state','!=', 'open'),('eval_state','in', ['approve']),'|',('trial_date_end','=',False)]}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='date_end']" position="after">
+                    <field name="eval_state" force_save="1" readonly="1"/>
+                    <field name="trial_date_end" force_save="1" readonly="1"/>
+                </xpath>
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Evaluation">
+                    <field name="evaluation_ids" readonly="1" force_save="1">
+                        <tree>
+                            <field name="employee_id"/>
+                            <field name="contract_id"/>
+                            <field name="eval_state"/>
+                            <field name="first_evaluate_date"/>
+                            <field name="second_evaluate_date"/>
+                            <field name="approve_date"/>
+                            <field name="reject_date"/>
+                            <field name="extend_date"/>
+                            <field name="extend_period"/>
+                        </tree>
+                    </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_petty_cash.view_account_journal_form_inherit" model="ir.ui.view">
+            <field name="name">archer_petty_cash.view_account_journal_form_inherit</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="for_petty_cash"/>
+                    <field name="petty_cash_responsible_id" attrs="{'invisible':[('for_petty_cash','=',False)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

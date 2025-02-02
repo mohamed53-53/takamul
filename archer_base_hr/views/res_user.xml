@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_base_hr.view_users_form_inherit" model="ir.ui.view">
+            <field name="name">archer_base_hr.view.users.form.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_title')]/group/field[@name='partner_id']" position="after">
+                    <field name="user_type"/>
+                </xpath>
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Extra">
+
+                        <group>
+                            <group>
+                                <field name="login_status" readonly="1"/>
+                                <field name="web_login" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="fmc_key" readonly="1"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

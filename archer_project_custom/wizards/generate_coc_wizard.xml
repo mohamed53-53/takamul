@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="generate_coc_wizard_form_view">
+            <field name="name">generate.coc.wizard.form</field>
+            <field name="model">generate.coc.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Generate COC">
+                    <group>
+                        <field name="year"/>
+                        <field name="month"/>
+                        <field name="project_ids" widget="many2many_tags" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button string="Confirm" name="action_confirm" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_generate_coc_wizard" model="ir.actions.act_window">
+            <field name="name">Generate COC Action</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">generate.coc.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="generate_coc_wizard_form_view"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

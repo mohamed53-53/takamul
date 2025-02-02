@@ -1,0 +1,36 @@
+<odoo>
+    <record id="edit_holiday_status_form_inherit" model="ir.ui.view">
+        <field name="name">edit_holiday_status_form_inherit</field>
+        <field name="model">hr.leave.type</field>
+        <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='support_document']" position="after">
+                                    <field name="check_leave"/>
+
+            </xpath>
+            <xpath expr="//group[@name='allocation_validation']" position="after">
+                <group string="TimeOff Entry" name="time_off_entry">
+                    <field name="create_entry"/>
+                    <field name="journal_id" attrs="{'invisible':[('create_entry','=',False)],'required':[('create_entry','=',True)]}"/>
+                    <field name="source_account_id" attrs="{'invisible':[('create_entry','=',False)],'required':[('create_entry','=',True)]}"/>
+                    <field name="destination_account_id" attrs="{'invisible':[('create_entry','=',False)],'required':[('create_entry','=',True)]}"/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+    <record id="edit_hr_leave_view_form_manager_inherit" model="ir.ui.view">
+        <field name="name">hr.leave.view.form.manager_inherit</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form_manager"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='department_id']" position="after">
+                <group>
+                    <field name="TimeOffAmount" />
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

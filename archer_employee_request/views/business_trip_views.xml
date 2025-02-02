@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="business_trip_list_view" model="ir.ui.view">
+            <field name="name">business.trip.tree</field>
+            <field name="model">business.trip</field>
+            <field name="arch" type="xml">
+                <tree string="Business Trip">
+                    <field name="employee_id"/>
+                    <field name="project_id"/>
+                    <field name="destination_country_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="number_of_days"/>
+                    <field name="occasion_or_purpose" optional="hide"/>
+                    <field name="method_of_payment"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="business_trip_form_view" model="ir.ui.view">
+            <field name="name">business.trip.form</field>
+            <field name="model">business.trip</field>
+            <field name="arch" type="xml">
+                <form delete="0" string="Business Trip">
+                    <header>
+                        <field name="user_can_approve" invisible="1" />
+                        <field name="workflow_states" invisible="1" />
+                        <field name="button_approve_enabled" invisible="1" />
+                        <field name="button_forward_enabled" invisible="1" />
+                        <field name="button_return_enabled" invisible="1" />
+                        <field name="approve_button_name" invisible="1" />
+                        <field name="approve_confirm_msg" invisible="1" />
+                        <field name="reject_button_wizard" invisible="1" />
+                        <field name="reject_button_name" invisible="1" />
+                        <field name="reject_confirm_msg" invisible="1" />
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_approve" type="object" string="Draft Approve"  states="draft"/>
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve"
+                                attrs="{'invisible' : [('user_can_approve','=', False)]}"/>
+                        <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}"/>
+                        <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}"/>
+                        <button name="action_forward" type="object" string="Forward"
+                                attrs="{'invisible' : [('button_forward_enabled','=', False)]}"/>
+                        <button name="action_return" type="object" string="Return"
+                                attrs="{'invisible' : [('button_return_enabled','=', False)]}"/>
+                    </header>
+                    <sheet>
+                         <div class="oe_title">
+                            <h1>
+                                <field name="sequence" readonly="1" force_save="1"/>
+                            </h1>
+                         </div>
+                        <group>
+                            <group name="employee">
+                                <field name="employee_id"  attrs="{'readonly':[('state','!=','draft')]}" domain="[('residency_number', '!=', False)]"/>
+                                <field name="project_id" readonly="1" force_save="1"/>
+                                <field name="destination_country_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="destination_city_id" attrs="{'readonly':[('state','!=','draft')]}" domain="[('country_id', '=',  destination_country_id)]"/>
+                                <field name="purpose" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="occasion_or_purpose" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="method_of_payment" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="travel_tickets" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="supportive_document" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                            <group>
+                                <label for="date_from" string="Trip Duration"/>
+                                <div name="dates" class="o_row">
+                                    <field name="date_from" attrs="{'readonly':[('state','!=','draft')]}"  required="1"/>
+                                    <field name="date_to" attrs="{'readonly':[('state','!=','draft')]}"  required="1"/>
+                                </div>
+                                <field name="number_of_days" readonly="1" force_save="1"/>
+                                <field name="amount" attrs="{'readonly':[('state','in',['draft','submit', 'approved', 'rejected'])], 'required':[('state','not in',['draft','submit'])]}"/>
+                                <field name="expense_revision_id" readonly="1" attrs="{'invisible':[('expense_revision_id','=',False)]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="rejection_reason" readonly="1" attrs="{'invisible': [('state', 'not in', ['rejected'])]}"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow this project to automatically track the events associated to tasks and issues of this project." groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="business_trip_search_view">
+            <field name="name">business.trip.search</field>
+            <field name="model">business.trip</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="employee_id" />
+                    <field name="project_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="purpose"/>
+                    <field name="method_of_payment"/>
+                    <field name="travel_tickets"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Employee" name="employee" context="{'group_by': 'employee_id'}"/>
+                        <filter string="Project" name="project" context="{'group_by': 'project_id'}"/>
+                        <filter string="Purpose" name="purpose" context="{'group_by': 'purpose'}"/>
+                        <filter string="Method Payment" name="method_of_payment" context="{'group_by': 'method_of_payment'}"/>
+                        <filter string="Travel Tickets" name="travel_tickets" context="{'group_by': 'travel_tickets'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_business_trip" model="ir.actions.act_window">
+            <field name="name">Business Trip</field>
+            <field name="res_model">business.trip</field>
+             <field name="search_view_id" ref="business_trip_search_view" />
+            <field name="view_id" ref="business_trip_list_view"/>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+    </data>
+</odoo>

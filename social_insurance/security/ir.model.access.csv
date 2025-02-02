@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_social_insurance,social.insurance,social_insurance.model_social_insurance,base.group_user,1,1,1,1
+access_gosi_hire,gosi.hire,social_insurance.model_gosi_hire,base.group_user,1,0,0,0
+access_gosi_hire,gosi.hire,social_insurance.model_gosi_hire,hr.group_hr_manager,1,1,1,1
+access_gosi_eos_user,gosi.eos,model_gosi_eos,base.group_user,1,0,0,0
+access_gosi_eos,gosi.hire,model_gosi_eos,hr.group_hr_manager,1,1,1,1
+

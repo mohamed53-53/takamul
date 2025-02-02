@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="coc_template_list_view" model="ir.ui.view">
+            <field name="name">coc.template.tree</field>
+            <field name="model">coc.template</field>
+            <field name="arch" type="xml">
+                <tree string="COC Template">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="coc_template_form_view" model="ir.ui.view">
+            <field name="name">coc.template.form</field>
+            <field name="model">coc.template</field>
+            <field name="arch" type="xml">
+                <form delete="0" string="COC Template">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1 >
+                                <field name="name" />
+                            </h1>
+                        </div>
+                        <notebook>
+                            <page name="coc_template_items" string="COC Template Items">
+                                <field name="coc_template_item_ids">
+                                    <tree editable="bottom">
+                                        <field name="item_name" required="1"/>
+                                        <field name="item_arabic_name" required="1"/>
+                                        <field name="tab_number" required="1"/>
+                                        <field name="account_id" widget="many2many_tags" context="{'account_account': True}" required="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="coc_template_search_view">
+            <field name="name">coc.template.search</field>
+            <field name="model">coc.template</field>
+                <field name="arch" type="xml">
+                    <search>
+                        <field name="name"/>
+                    </search>
+                </field>
+        </record>
+        <record id="action_coc_template" model="ir.actions.act_window">
+            <field name="name">COC Template</field>
+            <field name="res_model">coc.template</field>
+             <field name="search_view_id" ref="coc_template_search_view" />
+            <field name="view_id" ref="coc_template_list_view"/>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

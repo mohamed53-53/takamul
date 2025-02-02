@@ -1,0 +1,50 @@
+<odoo>
+
+    <record id="view_employee_form_inherit" model="ir.ui.view">
+        <field name="name">view_employee_form_inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="country_id" position="move"/>
+                <field name="gosi_id" readonly="1"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Social Insurance" name="insurance" attrs ="{'invisible':['|',('country_id','=',False),('country_code', '!=', 'SA')]}">
+                    <group>
+                        <group>
+                            <field name="is_insured"/>
+
+                            <field name="social_insurance_number"
+                                   attrs="{'invisible':[('is_insured', '=', False)]}"/>
+
+                            <field name="status" attrs="{'invisible':[('is_insured', '=', False)]}"/>
+                        </group>
+                        <group>
+                            <field name="insurance_start_date" attrs="{'invisible':[('is_insured', '=', False)]}"/>
+                            <field name="insurance_end_date" attrs="{'invisible':[('is_insured', '=', False)]}" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Provision">
+                    <group>
+                        <group>
+                            <field name="flight_ticket"/>
+                            <field name="join_date"/>
+                            <field name="date_of_leave"/>
+                        </group>
+                        <group string="Time Off" name="employee_time_off">
+                            <field name="time_off_days" required="1"/>
+                            <field name="time_off_months" required="1"/>
+                            <field name="monthly_balance"/>
+                            <field name="monthly_balance_value" invisible="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,120 @@
+.o_widget_kpi_report {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+.kpi_report_view {
+    display: flex;
+    height: 100%;
+}
+.kpi_report_navigation {
+    flex: 0 0 320px;
+    background-color: #212529;
+    color: white;
+}
+.kpi_report_screen {
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: column;
+    overflow-y: auto !important;
+}
+.kpi_report_item {
+    padding-bottom: 8px;
+}
+.kpi_report_item_normal {
+    display: flex;
+    flex-flow: column;
+}
+.kpi_report_item_normal .kpi_canvas_container {
+    flex: 1 1 auto;
+    height: 200px;
+}
+.kpi_report_item_full_screen {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;    
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+.kpi_report_item_full_screen .kpi_canvas_container {
+    height: 80%;
+    
+}
+.kpi_canvas_header {
+    padding: 8px 0px 4px 4px;
+    background-color: #212529;
+}
+.kpi_canvas_header h4 {
+    color: white !important;
+}
+.kpi_report_chart_icon:hover {
+    color: grey;
+    cursor: pointer;
+}
+.kpi_icon_not_active {
+    color: white !important;
+    cursor: default !important;
+    box-shadow: 0 0 0 0.2rem rgb(218 219 222 / 50%);
+    background-color: grey;
+}
+.kpi_history_dialog .kpi_icon_not_active {
+    color: inherit !important;
+    background-color: transparent;    
+}
+.kpi_canvas {
+    width: 100%; 
+    height: 100%;
+}
+
+/* Slider for checkboxes (based on https://www.w3schools.com/howto/howto_css_switch.asp) */
+.kpi_report_switch {
+    position: relative;
+    display: inline-block;
+    width: 32px;
+    height: 18px;
+}
+.kpi_report_switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.kpi_report_slider_round {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #2E2E2E;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 17px;
+}
+.kpi_report_slider_round:before {
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .kpi_report_slider_round {
+    background-color: rgb(0, 136, 24);
+}
+input:focus + .kpi_report_slider_round {
+    box-shadow: 0 0 1px rgb(0, 136, 24);
+}
+input:checked + .kpi_report_slider_round:before {
+    -webkit-transform: translateX(13px);
+    -ms-transform: translateX(13px);
+    transform: translateX(13px);
+}
+

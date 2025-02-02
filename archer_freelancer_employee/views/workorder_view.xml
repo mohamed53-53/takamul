@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="archer_freelancer_employee.view_archer_freelance_workorder_form" model="ir.ui.view">
+            <field name="name">archer_freelancer_employee.view_archer_freelance_workorder_form</field>
+            <field name="model">archer.freelance.workorder</field>
+            <field name="arch" type="xml">
+                <form string="Freelance Application">
+                    <header>
+                        <field name="user_can_approve" invisible="1"/>
+                        <field name="workflow_states" invisible="1"/>
+                        <field name="button_approve_enabled" invisible="1"/>
+                        <field name="button_forward_enabled" invisible="1"/>
+                        <field name="button_return_enabled" invisible="1"/>
+                        <field name="approve_button_name" invisible="1"/>
+                        <field name="approve_confirm_msg" invisible="1"/>
+                        <field name="reject_button_wizard" invisible="1"/>
+                        <field name="reject_button_name" invisible="1"/>
+                        <field name="reject_confirm_msg" invisible="1"/>
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_approve" type="object" string="Draft Approve" states="draft"/>
+                        <button name="action_approve" type="object" string="Approve" class="oe_highlight oe_workflow_approve"
+                                attrs="{'invisible' : [('user_can_approve','=', False)]}"/>
+                        <button name="action_reject_wizard" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|', '|', ('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', False)]}"/>
+                        <button name="action_reject" type="object" string="Reject" class="oe_workflow_reject"
+                                attrs="{'invisible' : ['|','|',('user_can_approve','=', False), ('reject_button_name', '=', False), ('reject_button_wizard', '=', True)]}"/>
+                        <button name="action_forward" type="object" string="Forward"
+                                attrs="{'invisible' : [('button_forward_enabled','=', False)]}"/>
+                        <button name="action_return" type="object" string="Return"
+                                attrs="{'invisible' : [('button_return_enabled','=', False)]}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="sequence"/>
+                            <h4>
+                                <field name="sequence" readonly="1" save_force="1"/>
+                            </h4>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="project_id" options="{'no_create':True,'no_open':True}"  attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                                <field name="from_date"  attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                                <field name="to_date" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="freelancer_id" options="{'no_create':True,'no_open':True}"  attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                                <field name="description" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                                <field name="amount" attrs="{'readonly':[('state','!=', 'draft')]}"/>
+                                <field name="expense_id" readonly="1" save_force="1" attrs="{'invisible':[('expense_id','=', False)]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="archer_freelancer_employee.view_archer_freelance_workorder_tree" model="ir.ui.view">
+            <field name="name">archer_freelancer_employee.view_archer_freelance_workorder_tree</field>
+            <field name="model">archer.freelance.workorder</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sequence"/>
+                    <field name="project_id"/>
+                    <field name="freelancer_id"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="description"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="archer_freelancer_employee.action_archer_freelance_workorder_window" model="ir.actions.act_window">
+            <field name="name">Freelancer Application</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">archer.freelance.workorder</field>
+            <field name="view_mode">tree,form</field>
+
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_recruitment.view_hr_employee_document_tree_inherit" model="ir.ui.view">
+            <field name="name">archer_hr_custom.view.hr.employee.document.tree.inherit</field>
+            <field name="model">hr.employee.document</field>
+            <field name="inherit_id" ref="archer_hr_custom.view_hr_employee_document_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field" posotion="before">
+                    <field name="offer_id" readonly="1" force_save="1"/>
+                    <field name="application_id" readonly="1" force_save="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="archer_recruitment.view_application_form" model="ir.ui.view">
+            <field name="name">archer_recruitment.view.application.form</field>
+            <field name="model">archer.recruitment.application</field>
+            <field name="arch" type="xml">
+                <form string="Application">
+                    <header>
+                        <button name="action_send_applicant_invitation" type="object" class="oe_highlight" string="Send Offer TO Applicant"
+                                states="draft"/>
+                        <button name="action_applicant_approve" type="object" class="oe_highlight" string="Approve" states="sent"/>
+                        <button name="action_applicant_reject" type="object" class="oe_highlight" string="Reject" states="sent"/>
+                        <button name="action_create_applicant_app" type="object" class="oe_highlight" string="To Data Entry"
+                                states="approve"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <field name="company_id" invisible="1"/>
+                        <field name="currency_id" invisible="1"/>
+                        <div class="oe_title">
+                            <label for="sequence"/>
+                            <h1>
+                                <field name="sequence" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="project_id" options="{'no_create':True,'no_open':True}"
+                                       attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                <field name="apply_grade" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="partner_id" options="{'no_create':True,'no_open':True}" readonly="1"/>
+                                <field name="owner_id"/>
+                                <field name="user_id"/>
+                            </group>
+                        </group>
+                        <div class="oe_title">
+                            <label for="applicant_ar_name"/>
+                            <h1>
+                                <field name="applicant_ar_name" placeholder="Arabic Name"
+                                       attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                            </h1>
+                        </div>
+                        <div class="oe_title">
+                            <label for="applicant_en_name"/>
+                            <h1>
+                                <field name="applicant_en_name" placeholder="English Name"
+                                       attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="applicant_email" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                <field name="applicant_country_id" attrs="{'readonly':[('state','not in',['draft'])]}"
+                                       options="{'no_create':True,'no_open':True}"/>
+                            </group>
+                            <group>
+                                <field name="applicant_mobile" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                <field name="empl_type" string="Employee" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="job_id" attrs="{'readonly':[('state','not in',['draft'])]}"
+                                       options="{'no_create':True,'no_open':True}"/>
+                                <field name="date_start" required="1" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                <field name="contract_duration" force_save="1" required="1" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                <field name="date_end" required="1" readonly="1" force_save="1"/>
+                                <field name="date_expiry" required="1" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                <field name="notes" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                                <field name="application_id" readonly="1" force_save="1" />
+                            </group>
+                            <group>
+                                <field name="grade_id" options="{'no_open':True}"
+                                       attrs="{'required':[('apply_grade','=',True)],'readonly':['|',('project_id', '=', False),('state','not in',['draft'])]}"/>
+                                <label for="basic_salary_min" string="Salary Range"/>
+                                <div>
+                                    <field name="basic_salary_min" class="oe_inline" force_save="1" readonly="1"/>
+                                    <i class="fa fa-long-arrow-left mx-2 " aria-label="Arrow icon" title="Arrow"/>
+                                    <i class="fa fa-long-arrow-right mx-2 " aria-label="Arrow icon" title="Arrow"/>
+                                    <field name="basic_salary_max" class="oe_inline" force_save="1" readonly="1"/>
+                                </div>
+                                <field name="salary_constraint_ids" invisible="1"/>
+
+                            </group>
+                            <field name="application_token" readonly="1"/>
+                        </group>
+                        <notebook string="Salary Rule">
+                            <page string="Salary Rule">
+                                <group>
+                                    <group>
+                                        <field name="structure_type_id" required="1" options="{'no_create':True}"
+                                               attrs="{'readonly':['|',('project_id', '=', False),('state','not in',['draft'])]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="salary_total" readonly="1" force_save="1"/>
+                                    </group>
+                                </group>
+                                <field name="rule_ids"
+                                       context="{'rule_ids': rule_ids,'default_offer_ids':active_id, 'default_structure_type_id':structure_type_id}"
+                                       attrs="{'readonly':['|',('project_id', '=', False),('state','not in',['draft'])]}">
+                                    <tree editable="bottom">
+                                        <field name="offer_id" invisible="1"/>
+                                        <field name="employee_id" invisible="1"/>
+                                        <field name="contract_id" invisible="1"/>
+                                        <field name="structure_type_id" invisible="1"/>
+                                        <field name="default_struct_id" invisible="1"/>
+                                        <field name="rule_id" force_save="1" options="{'no_create':True}"
+                                               attrs="{'readonly':[('rule_code','=', 'BASIC')]}"/>
+                                        <field name="rule_code" readonly="1" force_save="1" invisible="0"/>
+                                        <field name="value_type" attrs="{'readonly':[('rule_code','=', 'BASIC')]}"/>
+                                        <field name="value"/>
+                                        <field name="total_value" string="Total Value"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+                            <page string="Documents">
+                                <field name="offer_documents_ids" context="{'default_offer_id':active_id}">
+                                    <tree editable="bottom">
+                                        <field name="employee_id" invisible="1"/>
+                                        <field name="offer_id" invisible="1"/>
+                                        <field name="contract_id" invisible="1"/>
+                                        <field name="application_id" invisible="1"/>
+                                        <field name="doc_type"  invisible="1"/>
+                                        <field name="document_id"/>
+                                        <field name="is_required"/>
+                                        <field name="in_portal"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="archer_recruitment.view_application_tree" model="ir.ui.view">
+            <field name="name">archer_recruitment.view.application.tree</field>
+            <field name="model">archer.recruitment.application</field>
+            <field name="arch" type="xml">
+                <tree string="Application">
+                    <field name="company_id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="project_id"/>
+                    <field name="partner_id"/>
+                    <field name="owner_id" optional="hide"/>
+                    <field name="user_id" optional="hide"/>
+                    <field name="applicant_ar_name" optional="hide"/>
+                    <field name="applicant_en_name"/>
+                    <field name="applicant_email"/>
+                    <field name="applicant_mobile"/>
+                    <field name="applicant_country_id"/>
+                    <field name="job_id"/>
+                    <field name="salary_total"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="archer_recruitment.view_application_action" model="ir.actions.act_window">
+            <field name="name">Applications</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">archer.recruitment.application</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

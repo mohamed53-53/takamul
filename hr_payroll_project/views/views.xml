@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record id="view_hr_payslip_by_employees" model="ir.ui.view">
+            <field name="name">hr_payroll_payslip_employees</field>
+            <field name="model">hr.payslip.employees</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_by_employees"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/group[2]" position="after">
+                    <group colspan="2">
+                        <separator string="Project" colspan="2"/>
+                        <newline/>
+                        <span class="text-muted">Set a specific project if you wish to select all the employees from this project at once.</span>
+                        <field name="project_id" nolabel="1"/>
+                    </group>
+                    <group colspan="2">
+                        <separator string="Employee Type" colspan="2"/>
+                        <newline/>
+                        <span class="text-muted">Set a specific employee type if you wish to select all the employees from this type at once.</span>
+                        <field name="empl_type" nolabel="1"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

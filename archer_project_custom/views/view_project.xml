@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_server_create_project_coc" model="ir.actions.server">
+            <field name="name">Create COC</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_project_project"/>
+            <field name="binding_model_id" ref="model_project_project"/>
+            <field name="state">code</field>
+            <field name="code">action = records.action_create_coc()</field>
+        </record>
+
+        <record id="edit_project_inherit_form_view" model="ir.ui.view">
+            <field name="name">project.project.inherit.form.view</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//form" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="duplicate">false</attribute>
+                    <attribute name="delete">false</attribute>
+                </xpath>
+                <xpath expr="//form/header" position="replace">
+                    <header invisible="not context.get('project_project_viewer',False)">
+                        <field name="is_project_manager" invisible="1"/>
+                        <field name="cost_count" invisible="1"/>
+                        <button name="generate_cost" string="Generate Cost" type="object"
+                                class="oe_highlight" attrs="{'invisible':['|',('project_state','!=','active'),('cost_count','!=', 0)]}"/>
+                        <button name="open_project_change_request" string="Update Project Info" type="object"
+                                class="oe_highlight" groups="project.group_project_manager"/>
+                        <button name="action_generate_coc"
+                                string="Generate COC"
+                                type="object" class="oe_highlight"
+                                attrs="{'invisible': ['|',('project_state', '=', 'close'),('is_project_manager', '=', False)]}"
+                                groups="project.group_project_manager"/>
+
+                        <button name="action_confirm_close_date"
+                                string="Confirm Colse Date"
+                                type="object" class="oe_highlight"
+                                attrs="{'invisible': [('project_state', 'in', ['in_close','close']),]}"
+                                groups="project.group_project_manager"/>
+
+                        <button name="action_close_project"
+                                string="Confirm Colse Date"
+                                type="object" class="btn-danger"
+                                attrs="{'invisible': [('project_state', '!=', 'in_close')]}"
+                                groups="project.group_project_manager"/>
+                    </header>
+                </xpath>
+                <xpath expr="//sheet/div" position="attributes">
+                    <attribute name="invisible">not context.get('project_project_viewer',False)</attribute>
+                </xpath>
+                <xpath expr="//sheet/div/button" position="before">
+                    <button class="oe_stat_button" type="object" string="Forecasted"
+                            name="get_project_forecast_report" icon="fa-cubes">
+                    </button>
+                </xpath>
+                <xpath expr="//sheet/div" position="inside">
+                    <button class="oe_stat_button" type="object"
+                            name="get_headhunting_request" icon="fa-bars">
+                        <field string="Headhunting" name="headhunt_count" widget="statinfo"/>
+                    </button>
+                    <button class="oe_stat_button" type="object"
+                            name="get_logistic_request" icon="fa-book">
+                        <field string="Logistic" name="logistic_count" widget="statinfo"/>
+                    </button>
+                    <button class="oe_stat_button" type="object"
+                            name="action_view_project_change_request_ids" icon="fa-puzzle-piece">
+                        <field string="Change Request" name="project_change_request_count" widget="statinfo"/>
+                    </button>
+                    <button class="oe_stat_button" type="object"
+                            name="get_project_cost" icon="fa-tasks">
+                        <field string="Cost/Service" name="cost_total" widget="statinfo"/>
+                    </button>
+                </xpath>
+                <xpath expr="//field[@name='label_tasks']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="before">
+                    <field name="project_state"  widget="badge"
+                           decoration-primary="project_state == 'active'"
+                           decoration-danger="project_state == 'in_close'"
+                           decoration-success="project_state == 'close'"/>
+                    <field name="close_id" attrs="{'invisible':[('project_state','!=','in_close')]}"/>
+                    <field name="close_date" attrs="{'invisible':[('project_state','!=','close')]}"/>
+                    <field name="close_uid" attrs="{'invisible':[('project_state','!=','close')]}"/>
+
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="contract_value" readonly="1" invisible="context.get('hr_project_viewer',False)"/>
+                    <field name="vat_included" invisible="context.get('hr_project_viewer',False)"/>
+                    <field name="actual_value" invisible="context.get('hr_project_viewer',False)"/>
+                    <field name="markup" readonly="1" invisible="context.get('hr_project_viewer',False)"/>
+                    <field name="budget" invisible="context.get('hr_project_viewer',False)"/>
+                    <field name="top_cost_limit" readonly="1" invisible="context.get('hr_project_viewer',False)"/>
+                    <field name="bottom_cost_limit" readonly="1" invisible="context.get('hr_project_viewer',False)"/>
+                    <field name="apply_salary_rule" />
+                    <field name="apply_grade" />
+                </xpath>
+                <field name="user_id" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </field>
+                <field name="date_start" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+                <xpath expr="//div[@name='dates']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <field name="partner_id" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </field>
+                <field name="date" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </field>
+                <xpath expr="//field[@name='tag_ids']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//label[@for='date_start']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <label for="date_start" string="Dates"/>
+                    <div name="dates_new" class="o_row">
+                        <field name="date_start" widget="daterange" position="move"
+                               options="{&quot;related_end_date&quot;: &quot;date&quot;}"/>
+                        <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon" title="Arrow"/>
+                        <i class="fa fa-long-arrow-right mx-2 oe_read_only" aria-label="Arrow icon" title="Arrow"
+                           attrs="{'invisible': [('date_start', '=', False), ('date', '=', False)]}"/>
+                        <field name="date" widget="daterange"
+                               options="{&quot;related_start_date&quot;: &quot;date_start&quot;}"/>
+                    </div>
+                    <field name="user_id" position="move"/>
+                    <field name="owner_id" string="Project Owner"/>
+                    <field name="coc_template_id" string="COC Template"
+                           invisible="context.get('hr_project_viewer',False)"/>
+
+                    <field name="categ_id" readonly="1" invisible="context.get('hr_project_viewer',False)"/>
+                    <field name="analytic_account_id" readonly="1" invisible="context.get('hr_project_viewer',False)"/>
+                    <field name="project_request_id" readonly="1"
+                           invisible="not context.get('project_project_viewer',False)"/>
+                    <field name="petty_cash_allowed" readonly="1"/>
+                    <field name="petty_cash_responsible_id" readonly="1"
+                           invisible="context.get('account_project_viewer',False)"/>
+
+                </xpath>
+                <xpath expr="//page[@name='settings']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//page[@name='description']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//page[@name='description']" position="after">
+                    <page name="margin" string="Margin" invisible="context.get('hr_project_viewer',False)">
+                        <field name="coc_template_item_ids" context="{'project_id':active_id}">
+                            <tree editable="bottom">
+                                <field name="project_id" invisible="1"/>
+                                <field name="coc_template_item_id" readonly="1"/>
+                                <field name="margin" readonly="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="services" string="Services">
+                        <field name="service_ids" readonly="1" domain="[('provide_service', '=', True)]">
+                            <tree editable="false">
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                    </page>
+
+                    <page name="salary" string="Salary Constraints"
+                          invisible="context.get('account_project_viewer',False)">
+                        <field name="salary_constraint_ids">
+                            <tree editable="bottom">
+                                <field name="grade_id" readonly="1" context="{'project_request_grade': True}"/>
+                                <field name="basic_salary_min" readonly="1"/>
+                                <field name="basic_salary_max" readonly="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="constraints" string="Service Constraints">
+                        <field name="constraint_ids" readonly="1">
+                            <tree string="Hr Expense Constraint" editable="bottom">
+                                <field name="product_id" domain="[('provide_service', '=', True)]"/>
+                                <field name="grade_id"/>
+                                <field name="max_amount"/>
+                                <field name="period"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="salary_rules" string="Salary Rules">
+                        <group>
+                            <group>
+                                <field name="structure_type_id" required="1" readonly="1" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="structure_id" readonly="1" force_save="1"/>
+                            </group>
+                        </group>
+                        <field name="salary_rule_ids" readonly="1" force_save="1"
+                               options="{'no_create': True,'no_create_edit': True}"
+                               domain="[('struct_id','=',structure_id)]">
+                        </field>
+                    </page>
+                    <page name="loan_config" string="Loan Configuration">
+                        <group>
+                            <group>
+                                <field name="max_loan_percentage"/>
+                            </group>
+                            <group>
+                                <field name="max_loan_installments"/>
+                            </group>
+                        </group>
+                    </page>
+
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_project_inherit" model="ir.ui.view">
+            <field name="name">project.project.tree.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="duplicate">false</attribute>
+                    <attribute name="delete">false</attribute>
+                </xpath>
+                <field name="sequence" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="privacy_visibility" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="tag_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="action_project_active_list" model="ir.actions.act_window">
+            <field name="name">Active Projects</field>
+            <field name="res_model">project.project</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('project_state', '=', 'active')]</field>
+            <field name="context">{'project_project_viewer': True,'create': False, 'edit': False}</field>
+
+        </record>
+        <record id="action_project_active_list_hr" model="ir.actions.act_window">
+            <field name="name">Projects</field>
+            <field name="res_model">project.project</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('project_state', '=', 'active')]</field>
+            <field name="context">{'hr_project_viewer': True,'create': False, 'edit': False}</field>
+        </record>
+        <record id="action_project_active_list_account" model="ir.actions.act_window">
+            <field name="name">Projects</field>
+            <field name="res_model">project.project</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('project_state', '=', 'active')]</field>
+            <field name="context">{'account_project_viewer': True,'create': False, 'edit': False}</field>
+        </record>
+
+        <record id="archer_project_custom.view_project_close_form" model="ir.ui.view">
+            <field name="name">archer_project_custom.view_project_close_form</field>
+            <field name="model">project.close</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" readonly="1" force_save="1"/>
+                        <button name="action_submit" type="object" string="Confirm Close Date" class="oe_highlight" states="draft"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="project_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="project_start_date"/>
+                                <field name="project_end_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow this project to automatically track the events associated to tasks and issues of this project." groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="archer_project_custom.view_project_project_category_tree" model="ir.ui.view">
+        <field name="name">archer_project_custom.project.project.category.tree</field>
+        <field name="model">project.project.category</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="ar_name"/>
+                <field name="en_name"/>
+                <field name="description"/>
+            </tree>
+        </field>
+        </record>
+
+        <record id="archer_project_custom.view_project_project_category_form" model="ir.ui.view">
+        <field name="name">archer_project_custom.project.project.category.form</field>
+        <field name="model">project.project.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="ar_name"/>
+                        <h1>
+                            <field name="ar_name"/>
+                        </h1>
+                    </div>
+                    <div class="oe_title">
+                        <label for="en_name"/>
+                        <h1>
+                            <field name="en_name"/>
+                        </h1>
+                    </div>
+                    <group>
+                    <field name="description"/>
+                        <field name="project_ids"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+        </record>
+        <record id="archer_project_custom.action_project_project_category_window" model="ir.actions.act_window">
+            <field name="name">Project Category</field>
+            <field name="res_model">project.project.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

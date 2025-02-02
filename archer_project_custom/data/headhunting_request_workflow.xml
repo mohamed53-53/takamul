@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+
+    <record id="archer_headhunt_request_workflow_submit" model="approval.config" >
+        <field name="model_id" ref="model_archer_headhunt_request"/>
+        <field name="state">submit</field>
+        <field name="name">Submit</field>
+        <field name="sequence">1</field>
+        <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
+        <field name="condition">True</field>
+        <field name="schedule_activity" eval="True" />
+    </record>
+
+    <record id="archer_headhunt_request_workflow_fin_approve" model="approval.config" >
+        <field name="model_id" ref="model_archer_headhunt_request"/>
+        <field name="state">fin_approve</field>
+        <field name="name">Finance Approve</field>
+        <field name="sequence">2</field>
+        <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
+        <field name="condition">True</field>
+        <field name="schedule_activity" eval="True" />
+    </record>
+
+
+
+</data>
+</odoo>

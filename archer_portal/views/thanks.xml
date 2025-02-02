@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="job_offer_thank_page" name="job_offer">
+        <t t-call="archer_portal.main_template">
+            <div id="wrap" class="oe_structure">
+                <section class="p-2 mb-5">
+                    <div class="container offer-card-body px-3">
+                        <div class="col-12">
+                            <div class="row head-row p-2 justify-content-between align-items-center">
+                                <div class="head-row-txt mx-5"/>
+                                <div class="head-row-img mx-5">
+                                    <img src="/archer_portal/static/images/takamol-logo.png" width="250" height="50" />
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        Thank You
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

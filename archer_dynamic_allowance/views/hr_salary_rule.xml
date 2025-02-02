@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_dynamic_allowance.hr_salary_rule_form_inherit" model="ir.ui.view">
+            <field name="name">archer_dynamic_allowance.hr.salary.rule.form.inherit</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='appears_on_payslip']" position="after">
+                    <field name="is_dynamic"/>
+                </xpath>
+                <xpath expr="//field[@name='amount_select']" position="attributes">
+                    <attribute name="force_save">1</attribute>
+
+                    <attribute name="attrs">{'readonly':[('is_dynamic','=',True)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='amount_python_compute']" position="attributes">
+                    <attribute name="force_save">1</attribute>
+                    <attribute name="attrs">{'readonly':[('is_dynamic','=',True)],'invisible':[('amount_select','!=','code')], 'required':[('amount_select','=','code')]}</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

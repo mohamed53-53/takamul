@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="kpi.scorecard.report">
+        <div class="o_widget_kpi_report">
+            <div class="kpi_report_view">
+                <div class="kpi_report_navigation">
+                    <div class="kpi-kanban-navigation-panel pb0" id="kpi_periods"/>
+                    <div class="kpi-kanban-navigation-panel pt0" >
+                        <div class="kpi-kanban-selection-div">
+                            <select id="kpi_graph_type" class="kpi-kanban-selection-input">
+                                <option value="line" selected="1">Line graph</option>
+                                <option value="bar">Bar graph</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="kpi-kanban-navigation-panel pt0">
+                        <div>
+                            <label class="kpi_report_switch">
+                                <input type="checkbox" id="kpi_show_targets" checked="1"/>
+                                <span class="kpi_report_slider_round"></span>
+
+                            </label> 
+                            <span class="ml8">show targets</span>
+                        </div>
+                        <div>
+                            <label class="kpi_report_switch">
+                                <input type="checkbox" id="kpi_show_actual" checked="1"/>
+                                <span class="kpi_report_slider_round"></span>
+
+                            </label> 
+                            <span class="ml8">show actual</span>
+                        </div>
+                    </div>
+                    <hr class="kpi-kanban-hr"/>
+                    <div class="kpi-kanban-navigation-header">
+                        <span>
+                            Categories <i id="clear_kpi_categories" class="fa fa-ban kpi-kanban-button kpi-kanban-clear-icon"></i>
+                        </span>
+                    </div>
+                    <div class="kpi-kanban-navigation-panel">
+                        <div id="kpi_report_categories"/>
+                    </div>          
+                </div>
+                <div class="kpi_report_screen"/>
+            </div>
+        </div>
+    </t>
+    <t t-name="kpi.report.screen">
+        <div t-if="kpiTargets"
+             t-foreach="kpiTargets" 
+             t-as="kpi_target" 
+             class="kpi_report_item kpi_report_item_normal" 
+             t-attf-id="kpi_{{kpi_target.kpi_id}}"
+        >
+            <div class="kpi_canvas_header">
+                <h4>
+                    <t t-out="kpi_target.kpi_name"/> 
+                    <i class="fa fa-expand kpi_expand_graph kpi_report_chart_icon ml16" t-attf-id="kpi_{{kpi_target.kpi_id}}"></i>
+                    <i t-attf-class="fa fa-area-chart kpi_change_graph_type kpi_change_graph_type_to_line kpi_report_chart_icon {{kpiChartType == 'line' and 'kpi_icon_not_active' or ''}} ml32" t-attf-id="kpi_{{kpi_target.kpi_id}}"></i>
+                    <i t-attf-class="fa fa-bar-chart-o kpi_change_graph_type kpi_change_graph_type_to_bar kpi_report_chart_icon {{kpiChartType == 'bar' and 'kpi_icon_not_active' or ''}}" t-attf-id="kpi_{{kpi_target.kpi_id}}"></i>
+                </h4>
+            </div>
+            <div class="kpi_canvas_container">
+                <canvas t-attf-id="kpi_{{kpi_target.kpi_id}}" class="kpi_canvas"/>
+            </div>
+        </div>
+        <!-- to show empty space at the end -->
+        <div class="kpi_report_item kpi_report_item_normal">
+            <div class="" style="height:150px"/>
+        </div>
+    </t>
+    <t t-name="kpi.report.navigation.periods">
+        <div class="kpi-kanban-selection-div">
+            <t t-if="all_periods">
+                <select id="kpi_period" class="kpi-kanban-selection-input">
+                    <option value="0">All period types</option>
+                    <t t-foreach="all_periods" t-as="period_choice">
+                        <option t-attf-value="#{period_choice[0]}" t-attf-selected="#{period_choice[0] == this_period and 'selected' or null}">
+                            <t t-esc="period_choice[1]" />
+                        </option>
+                    </t>
+                </select>
+            </t>
+        </div>
+    </t>
+
+</templates>

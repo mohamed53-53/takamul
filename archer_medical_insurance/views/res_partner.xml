@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="archer_medical_insurance.view_partner_form_inherit" model="ir.ui.view">
+            <field name="name">archer_medical_insurance.view_partner_form_inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_type']" position="after">
+                    <br/>
+                    <div attrs="{'invisible':[('company_type','!=','company')]}">
+                    <field name="is_med_ins_comp"/>
+                    <label for="is_med_ins_comp"/>
+                    </div>
+                </xpath>
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Medical Group" attrs="{'invisible':[('company_type','!=','company')]}">
+                        <field name="med_group_ids" context="{'default_provider_id':active_id}">
+                            <tree editable="bottom">
+                                <field name="provider_id" invisible="1"/>
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
